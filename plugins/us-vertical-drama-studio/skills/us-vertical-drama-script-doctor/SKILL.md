@@ -1,6 +1,5 @@
 ---
 name: us-vertical-drama-script-doctor
-title: Script Doctor
 description: Independently score a US vertical-drama screenplay against its approved beat sheet and issue a binding PASS, REWRITE, or REJECT gate.
 ---
 # Script Doctor
@@ -29,6 +28,7 @@ Required: Screenplay Draft, APPROVED Beat Sheet, APPROVED Story Bible, and curre
 - This role is independent from writing. Diagnose; do not covertly author a replacement.
 - Default gate: >=85 PASS; 75-84 REWRITE; <75 REJECT.
 - Mandatory-fail conditions override numeric score: missing required handoff artifact; unapproved core-beat redesign; EP01 missing or materially weak Hook, Conflict, Escalation, Reversal, Payoff, or Cliffhanger; material canon/continuity break; no comprehensible early objective/obstacle in EP01; absent local payoff; or absent concrete next-episode question.
+- Check the script-language standard: Chinese scene/action/production text, with English restricted to quoted in-world dialogue unless the user approved another format.
 - A non-PASS script must not hand off to storyboard.
 
 ## Output contract
@@ -42,4 +42,3 @@ PASS goes to Continuity Editor, then existing Storyboard Writer. REWRITE goes to
 ## Failure and rewrite conditions
 
 REWRITE when score is 75-84 without a mandatory fail. REJECT when score is <75 or a mandatory fail exposes a structural/canon failure. EP01 retention-structure failures return REWRITE when the approved series architecture remains valid, and REJECT when the defect requires changing the Story Bible or approved episode architecture. Do not issue PASS until all mandatory-fail conditions are clear.
-
