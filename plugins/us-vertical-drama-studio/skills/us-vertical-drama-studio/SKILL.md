@@ -22,6 +22,14 @@ Collect or infer only the minimum missing information:
 
 If a missing choice materially changes the story, ask one focused question before proceeding. Otherwise state a reversible assumption.
 
+## Script language standard
+
+Unless the user explicitly requests otherwise, write production scripts for Chinese review with English dialogue for video generation:
+
+- Write scene headings, action, performance direction, on-screen notes, beat traces, and production notes in Chinese.
+- Put English only in character dialogue or diegetic spoken/written dialogue that must be generated or shown in the final video.
+- Keep each spoken English line in quotation marks. Do not duplicate every line in Chinese and English.
+
 ## Route the work
 
 Run the smallest complete sequence that satisfies the request:
