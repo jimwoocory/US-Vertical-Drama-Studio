@@ -27,7 +27,7 @@ Required: APPROVED Beat Sheet, APPROVED Story Bible, episode number/duration, an
 
 - Write from an APPROVED beat sheet and may not silently redesign the core beats.
 - Write scene headings, action, performance direction, on-screen notes, and all production-facing material in Chinese.
-- Use native English only for character dialogue or diegetic spoken/written dialogue required in the final video. Put every spoken line in quotation marks; do not provide a line-by-line Chinese translation unless the user asks.
+- Use native English only for character names, character dialogue, or diegetic spoken/written dialogue required in the final video. Format every spoken line as `ENGLISH CHARACTER NAME: “English dialogue.”`; do not provide a line-by-line Chinese translation unless the user asks.
 - Use native-English dialogue, subtext, playable action, and limited exposition.
 - Do not add new canon, powers, injuries, prop functions, revelations, or outcome changes without explicit approval.
 - Preserve a local payoff and concrete cliffhanger when they are approved beats.
