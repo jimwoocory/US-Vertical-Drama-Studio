@@ -1,6 +1,6 @@
 # US Vertical Drama Studio
 
-A six-skill production workflow for US-facing vertical microdrama development.
+A single-entry, seven-skill production workflow for US-facing vertical microdrama development. The Studio orchestrator routes work through six specialist skills and enforces approval gates between phases.
 
 ## ChatGPT / Codex Marketplace
 
@@ -13,6 +13,8 @@ This repository is directly importable as a workspace plugin marketplace.
 In an eligible ChatGPT workspace, open **Workspace settings → Plugins → Add → Import marketplace** and use this repository URL with branch `main` and no subpath.
 
 ## Included skills
+
+- US Vertical Drama Studio (single-entry orchestrator)
 
 - US Adaptation
 - US Vertical Drama Showrunner
