@@ -27,8 +27,8 @@ If a missing choice materially changes the story, ask one focused question befor
 Unless the user explicitly requests otherwise, write production scripts for Chinese review with English dialogue for video generation:
 
 - Write scene headings, action, performance direction, on-screen notes, beat traces, and production notes in Chinese.
-- Put English only in character dialogue or diegetic spoken/written dialogue that must be generated or shown in the final video.
-- Keep each spoken English line in quotation marks. Do not duplicate every line in Chinese and English.
+- Put English only in character names, character dialogue, or diegetic spoken/written dialogue that must be generated or shown in the final video.
+- Format speech as an English character name followed by an English line in quotation marks (for example, `ETHAN: “I made a promise.”`). Do not duplicate every line in Chinese and English.
 
 ## Route the work
 
