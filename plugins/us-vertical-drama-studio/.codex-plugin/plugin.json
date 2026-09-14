@@ -1,0 +1,25 @@
+{
+  "author": {
+    "name": "MediaGo Drama"
+  },
+  "description": "US vertical microdrama workflow skill suite.",
+  "interface": {
+    "capabilities": [
+      "Creative Writing",
+      "Analysis"
+    ],
+    "category": "Creative",
+    "defaultPrompt": [
+      "Turn this premise into an approved US vertical drama Story Bible.",
+      "Architect EP01 with hook, payoff, and cliffhanger gates.",
+      "Audit this episode with the Script Doctor rubric."
+    ],
+    "developerName": "MediaGo Drama",
+    "displayName": "US Vertical Drama Studio",
+    "longDescription": "A production workflow for US-facing vertical drama adaptation, series architecture, episode beats, screenplay drafting, independent script review, and continuity control.",
+    "shortDescription": "Six gated skills for US-facing vertical drama production."
+  },
+  "name": "us-vertical-drama-studio",
+  "skills": "./skills/",
+  "version": "1.0.0"
+}

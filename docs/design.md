@@ -1,0 +1,42 @@
+# US Vertical Drama Studio Skill Pack v1.0 Design and Acceptance Plan
+
+## Decision
+
+The canonical source is `packages/instructions/packs/us-vertical-drama-studio`. It is an independent MediaGo-compatible pack and does not alter the embedded `builtin` pack. It contains six flat `skills/*.skill.md` entries that the existing parser discovers, plus shared references and a process-only regression fixture.
+
+`packages/instructions/pkg/pack/usvertical.Export` is the deterministic adapter. It validates the canonical pack first, then emits MediaGo, an OpenAI ChatGPT/Codex marketplace plugin, ChatGPT direct-upload folders, and Claude direct-upload folders plus one ZIP per skill. The adapters copy canonical skill text verbatim and create only packaging metadata; business rules never live in a second prompt copy. Every target skill receives the exact `references/...` files it names, so runtime-relative links resolve from the individual skill directory. The command `go run ./cmd/us-vertical-drama-export <source> <output>` is the reproducible build interface.
+
+The marketplace uses `.agents/plugins/marketplace.json` and `plugins/us-vertical-drama-studio/.codex-plugin/plugin.json`. Its six skills live under the plugin, while each ChatGPT direct package is independently uploadable and each Claude ZIP contains exactly one skill folder with `skill.md` at its root. These are deliberately separate distribution surfaces.
+
+## Workflow boundary
+
+```text
+US Adaptation → Showrunner → Episode Architect → Screenwriter → Script Doctor → Continuity Editor → existing Storyboard Writer
+```
+
+The approval boundary is intentionally strict: only an APPROVED Story Bible reaches Episode Architect, only an APPROVED Beat Sheet reaches Screenwriter, only Script Doctor PASS reaches Continuity Editor, and only Continuity CLEAR reaches the existing Storyboard Writer. Existing generic screenplay-writer and storyboard-writer assets remain untouched.
+
+## Acceptance matrix
+
+| Requirement | Evidence |
+|---|---|
+| Six named skills with uniform contracts | `pkg/pack/usvertical/export_test.go:TestCanonicalPackHasSixGatedSkillsAndSharedReferences` |
+| US plausibility rather than literal Chinese-trope transfer | Adapter skill and `us-cultural-plausibility-checklist.md` |
+| 40-100 episode showrunning engine | Showrunner skill, story bible and season arc templates |
+| EP01 retention anchors and explicit beat fields | Episode Architect skill and beat template |
+| Screenwriter preserves approved beats | Screenwriter hard rules and handoff contract |
+| Independent 100-point doctor gate | Script Doctor skill and rubric |
+| Continuity state tracking | Continuity Editor skill and ledger template |
+| Existing storyboard behavior isolated | New independent pack; no builtin asset changes |
+| Official OpenAI marketplace manifest, no legacy `.cod` | `TestExportCreatesOfficialMarketplaceAndDirectUploadStructures` |
+| Per-skill resource resolution and Claude ZIP root | `TestEveryExportedSkillResolvesItsOwnReferencedResources` |
+| One source, deterministic multi-distribution export | `usvertical.Export` and `TestExportIsDeterministicAndDoesNotModifyBuiltInWritingSkills` |
+| Norse 80x90s process regression | `fixtures/norse-royal-revenge-ep01.workflow.md` and structural test |
+| Parser/discovery compatibility | Canonical source parsed with `pack.ParseDir` in structural test |
+
+## Verification plan
+
+1. Run `go test ./pkg/pack/usvertical` to validate source content, parser compatibility, official marketplace metadata, resource resolution, Claude ZIP roots, fixtures, and deterministic exports.
+2. Run `go test ./cmd/us-vertical-drama-export` to validate build-command argument handling.
+3. Run `go run ./cmd/us-vertical-drama-export ./packs/us-vertical-drama-studio ../../distribution/export` to regenerate tracked distributions.
+4. Because `task` is unavailable, run direct Taskfile equivalents with `GOTMPDIR`, `GOCACHE`, `GOMODCACHE`, and `GOPATH` outside `packages/instructions`; run formatting only over repository source files so an ignored legacy `.tmp` cache cannot be scanned.
