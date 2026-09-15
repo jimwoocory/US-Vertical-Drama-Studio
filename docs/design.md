@@ -1,8 +1,8 @@
-# US Vertical Drama Studio Skill Pack v1.1 Design and Acceptance Plan
+# US Vertical Drama Studio Skill Pack v1.2 Design and Acceptance Plan
 
 ## Decision
 
-The canonical runtime source is `plugins/us-vertical-drama-studio`. It is an independent eight-skill pack (one orchestrator plus seven specialists) and does not alter any embedded built-in pack. It includes shared references, a process fixture, asset-creation rules, and a structured Seedance/MediaGo storyboard handoff.
+The canonical runtime source is `plugins/us-vertical-drama-studio`. It is an independent eight-skill pack (one orchestrator plus seven specialists) and does not alter any embedded built-in pack. It includes shared references, process fixtures, asset-creation rules, and a structured Seedance/MediaGo storyboard handoff. Version 1.2 integrates a V8-inspired director execution contract as a production layer: independently generatable video packages, visible shot grammar, voice instructions, source coverage, and traceable export rows remain bound to the existing asset ledger.
 
 `packages/instructions/pkg/pack/usvertical.Export` is the deterministic adapter. It validates the canonical pack first, then emits MediaGo, an OpenAI ChatGPT/Codex marketplace plugin, ChatGPT direct-upload folders, and Claude direct-upload folders plus one ZIP per skill. The adapters copy canonical skill text verbatim and create only packaging metadata; business rules never live in a second prompt copy. Every target skill receives the exact `references/...` files it names, so runtime-relative links resolve from the individual skill directory. The command `go run ./cmd/us-vertical-drama-export <source> <output>` is the reproducible build interface.
 
@@ -14,7 +14,7 @@ The marketplace uses `.agents/plugins/marketplace.json` and `plugins/us-vertical
 US Adaptation → Showrunner → Episode Architect → Screenwriter → Script Doctor → Continuity Editor → Storyboard Director → Seedance/MediaGo handoff
 ```
 
-The approval boundary is intentionally strict: only an APPROVED Story Bible reaches Episode Architect, only an APPROVED Beat Sheet reaches Screenwriter, only Script Doctor PASS reaches Continuity Editor, and only Continuity CLEAR reaches Storyboard Director. Storyboard Director then emits an asset-creation package, shot package, and selected-model handoff without changing dramatic canon.
+The approval boundary is intentionally strict: only an APPROVED Story Bible reaches Episode Architect, only an APPROVED Beat Sheet reaches Screenwriter, only Script Doctor PASS reaches Continuity Editor, and only Continuity CLEAR reaches Storyboard Director. Storyboard Director then emits an asset-creation package, V8-style video packages, shot package, and selected-model handoff without changing dramatic canon. The project specification is the source of truth, so legacy defaults such as 16:9 animation cannot silently override an approved 9:16 live-action US project.
 
 ## Acceptance matrix
 
