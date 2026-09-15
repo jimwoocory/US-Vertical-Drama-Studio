@@ -2,7 +2,7 @@
   "author": {
     "name": "MediaGo Drama"
   },
-  "description": "Single-entry US vertical microdrama production workflow with six specialist skills.",
+  "description": "Single-entry US vertical microdrama production workflow with seven specialist skills.",
   "interface": {
     "capabilities": [
       "Creative Writing",
@@ -16,10 +16,10 @@
     ],
     "developerName": "MediaGo Drama",
     "displayName": "US Vertical Drama Studio",
-    "longDescription": "A production workflow for US-facing vertical drama adaptation, series architecture, episode beats, screenplay drafting, independent script review, and continuity control.",
-    "shortDescription": "One entry point coordinating six gated drama-production skills."
+    "longDescription": "A production workflow for US-facing vertical drama adaptation, series architecture, episode beats, screenplay drafting, independent script review, continuity control, asset locking, and video-generation storyboards.",
+    "shortDescription": "One entry point coordinating seven gated drama-production skills."
   },
   "name": "us-vertical-drama-studio",
   "skills": "./skills/",
-  "version": "1.0.0"
+  "version": "1.1.0"
 }
