@@ -1,17 +1,16 @@
 ---
 name: us-vertical-drama-continuity-editor
-title: Continuity Editor
 description: Maintain a gated canon ledger for US vertical-drama episodes before storyboard handoff.
 ---
 # US Vertical Drama Continuity Editor
 
 ## Trigger and scope
 
-Use after Script Doctor PASS and before the existing Storyboard Writer. Reconcile the script with the Story Bible and update the canonical episode-to-episode ledger.
+Use after Script Doctor PASS and before `us-vertical-drama-storyboard-director`. Reconcile the script with the Story Bible and update the canonical episode-to-episode ledger.
 
 ## Non-goals
 
-Do not cure a non-PASS doctor gate, rewrite dramatic beats, create new canon, or replace the existing Storyboard Writer.
+Do not cure a non-PASS doctor gate, rewrite dramatic beats, create new canon, or create the storyboard/generation prompts.
 
 ## Inputs
 
@@ -22,7 +21,7 @@ Required: Script Doctor PASS report, screenplay, APPROVED Beat Sheet, Story Bibl
 1. Verify the Script Doctor PASS authorization.
 2. Compare stated and implied changes against prior canon.
 3. Update `references/continuity-ledger-template.md` for canon, knowledge states, injuries/powers/props/look state where relevant, planted/payoff ledger, relationship state, repetition signatures, and unresolved promises.
-4. Issue a storyboard packet containing the screenplay, current approved continuity ledger, Story Bible constraint extract, active reveal windows, power/knowledge state, locked facts, and explicit state deltas.
+4. Issue a storyboard packet containing the screenplay, current approved continuity ledger, Story Bible constraint extract, active reveal windows, power/knowledge state, locked facts, explicit state deltas, and the active character/costume/scene/prop asset states.
 
 ## Hard rules
 
@@ -38,9 +37,8 @@ Return `Continuity status: CLEAR|BLOCKED`, the full updated continuity ledger, S
 
 ## Handoff contract
 
-Only CLEAR with Script Doctor PASS may hand off to the existing Storyboard Writer. The storyboard receives the screenplay plus the full current approved ledger, Story Bible/reveal constraints, power/knowledge baseline, and the episode delta. It retains its existing behavior and must not be overwritten by this pack.
+Only CLEAR with Script Doctor PASS may hand off to `us-vertical-drama-storyboard-director`. The director receives the screenplay plus the full current approved ledger, Story Bible/reveal constraints, power/knowledge baseline, episode delta, and active asset states.
 
 ## Failure and rewrite conditions
 
 Block and return upstream when a Script Doctor PASS is absent, a fact conflicts with the Bible/ledger, a material state change is untracked, a promised payoff disappears, or the script repeats a flagged signature without an approved escalation change.
-

@@ -1,6 +1,5 @@
 ---
 name: us-vertical-drama-adapter
-title: US Adaptation
 description: Adapt a source premise, synopsis, or episode material for a US-facing vertical microdrama while preserving its audience promise and chosen world.
 ---
 # US Adaptation

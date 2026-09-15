@@ -2,6 +2,8 @@
 
 ## Character voice differentiation
 
+Use English character names as dialogue labels. In the screenplay, write each spoken line as `ENGLISH CHARACTER NAME: “English dialogue.”`; keep Chinese only in the surrounding scene and production material.
+
 Give each recurring speaker a playable voice profile: objective under pressure, default tactic, sentence length/rhythm, vocabulary range, taboo, status relationship, and what they avoid naming. Read adjacent lines without tags: if they could be swapped between speakers, revise the tactic or register.
 
 ## Contractions and register
@@ -23,4 +25,3 @@ Watch for ceremonial declarations with no social reason, redundant emotional sum
 ## Dialogue-to-action balance
 
 Every scene needs visible behavior that can carry status, threat, tenderness, refusal, or reversal. Use dialogue to change the action; use action to make dialogue costly. In a ~90-second episode, do not let explanation crowd out the hook, conflict, reversal, payoff, or cliffhanger.
-

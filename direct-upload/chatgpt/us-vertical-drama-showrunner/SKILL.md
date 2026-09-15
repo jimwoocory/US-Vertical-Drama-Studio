@@ -1,6 +1,5 @@
 ---
 name: us-vertical-drama-showrunner
-title: US Vertical Drama Showrunner
 description: Build the canon and serial engine for a 40-100 episode US-facing vertical microdrama from an adaptation brief or original premise.
 ---
 # US Vertical Drama Showrunner
