@@ -19,16 +19,17 @@ Required: APPROVED Beat Sheet, APPROVED Story Bible, episode number/duration, an
 ## Workflow
 
 1. Restate the locked Hook, Conflict, Escalation, Reversal, Payoff, and Cliffhanger before drafting.
-2. Draft only the scenes needed to play those beats; use `references/native-dialogue-guide.md` for English dialogue.
+2. Split the approved beats into numbered, production-meaningful scenes before drafting. Use `references/native-dialogue-guide.md` for English dialogue.
 3. Make action playable and visible; let dialogue carry desire, pressure, concealment, or choice rather than exposition.
 4. Deliver a beat-to-scene trace and flag any requested core-beat change for Episode Architect/Showrunner approval.
 
 ## Hard rules
 
 - Write from an APPROVED beat sheet and may not silently redesign the core beats.
+- For each scene, include the visible labels `【场景】`, `【人物】`, `【动作】`, `【情绪/内心】`, and `【台词】`. `【场景】` must include time/place and immediate dramatic objective; `【动作】` must be visible and shootable; `【情绪/内心】` must give a playable emotional state or concealed intent.
 - Write scene headings, action, performance direction, on-screen notes, and all production-facing material in Chinese.
 - Use native English only for character names, character dialogue, or diegetic spoken/written dialogue required in the final video. Format every spoken line as `ENGLISH CHARACTER NAME: “English dialogue.”`; do not provide a line-by-line Chinese translation unless the user asks.
-- Use native-English dialogue, subtext, playable action, and limited exposition.
+- Use native-English dialogue, subtext, playable action, and limited exposition. Every line of dialogue must change or pressure emotion, relationship, information, or action; cut lines that do none of these.
 - Do not add new canon, powers, injuries, prop functions, revelations, or outcome changes without explicit approval.
 - Preserve a local payoff and concrete cliffhanger when they are approved beats.
 
@@ -42,4 +43,4 @@ Handoff only to Script Doctor with the locked beat sheet and current ledger. A S
 
 ## Failure and rewrite conditions
 
-Rewrite when the draft changes a locked beat, relies on explanatory dialogue where action can play it, lacks native-English subtext, breaches canon, violates the Chinese-script/English-dialogue standard, or cannot identify the approved payoff/cliffhanger in the pages.
+Rewrite when the draft changes a locked beat, omits required scene annotations, relies on explanatory dialogue where action can play it, lacks native-English subtext, breaches canon, violates the Chinese-script/English-dialogue standard, or cannot identify the approved payoff/cliffhanger in the pages.
