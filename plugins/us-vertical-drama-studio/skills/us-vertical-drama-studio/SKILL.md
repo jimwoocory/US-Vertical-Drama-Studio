@@ -30,6 +30,18 @@ Unless the user explicitly requests otherwise, write production scripts for Chin
 - Put English only in character names, character dialogue, or diegetic spoken/written dialogue that must be generated or shown in the final video.
 - Format speech as an English character name followed by an English line in quotation marks (for example, `ETHAN: “I made a promise.”`). Do not duplicate every line in Chinese and English.
 
+## Screenplay annotation standard
+
+Unless the user asks for a treatment or outline only, every screenplay scene must visibly label its production inputs. Use Chinese labels: `【场景】`, `【人物】`, `【动作】`, `【情绪/内心】`, and `【台词】`.
+
+- `【场景】` names the precise dramatic location, time, and scene objective.
+- `【人物】` names the characters present; character names in speech are English.
+- `【动作】` describes only visible, shootable behavior and changes in the scene.
+- `【情绪/内心】` states the playable emotional state or concealed intention that directs performance; do not use it as unfilmable exposition.
+- `【台词】` contains only the relevant English dialogue in `ENGLISH CHARACTER NAME: “English dialogue.”` format.
+
+For storyboard-ready work, split the screenplay into numbered scene units before shot design. Do not substitute unlabelled prose for these fields.
+
 ## Route the work
 
 Run the smallest complete sequence that satisfies the request:
