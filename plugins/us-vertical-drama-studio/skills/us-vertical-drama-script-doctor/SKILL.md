@@ -29,6 +29,7 @@ Required: Screenplay Draft, APPROVED Beat Sheet, APPROVED Story Bible, and curre
 - Default gate: >=85 PASS; 75-84 REWRITE; <75 REJECT.
 - Mandatory-fail conditions override numeric score: missing required handoff artifact; unapproved core-beat redesign; EP01 missing or materially weak Hook, Conflict, Escalation, Reversal, Payoff, or Cliffhanger; material canon/continuity break; no comprehensible early objective/obstacle in EP01; absent local payoff; or absent concrete next-episode question.
 - Check the script-language standard: Chinese scene/action/production text, with English restricted to English character names and quoted in-world dialogue unless the user approved another format. Each spoken line must use `ENGLISH CHARACTER NAME: “English dialogue.”`.
+- Mandatory check for screenplay annotations: every scene must label `【场景】`, `【人物】`, `【动作】`, `【情绪/内心】`, and `【台词】`; reject unlabelled prose as storyboard-ready. Check that dialogue earns its place by changing or pressuring emotion, relationship, information, or action.
 - A non-PASS script must not hand off to storyboard.
 
 ## Output contract
