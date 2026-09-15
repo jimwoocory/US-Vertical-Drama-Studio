@@ -52,6 +52,7 @@ Run the smallest complete sequence that satisfies the request:
 4. **Screenplay** — use `us-vertical-drama-screenwriter` only from an approved Beat Sheet. Draft native, shootable vertical-drama scenes within the requested runtime.
 5. **Independent review** — use `us-vertical-drama-script-doctor` to score the draft against the rubric. Do not call it ready unless the result is `PASS`; route failed items back to the responsible phase.
 6. **Continuity** — use `us-vertical-drama-continuity-editor` to update the continuity ledger and verify names, rules, props, injuries, time, reveals, and handoffs. Require `CLEAR` before final delivery.
+7. **Storyboard and generation packet** — use `us-vertical-drama-storyboard-director` only after `SCRIPT DOCTOR PASS` and `CONTINUITY CLEAR`. It locks character, costume, scene, and prop assets, then creates per-shot video-generation prompts.
 
 For a full-series request, plan the series first, then expand episodes in batches sized to the user's requested review cadence. Do not fabricate all episodes when the user asked for a plan or sample.
 
@@ -59,7 +60,7 @@ For a full-series request, plan the series first, then expand episodes in batche
 
 Maintain these statuses explicitly:
 
-`BRIEF` → `BIBLE APPROVED` → `BEATS APPROVED` → `SCRIPT DRAFT` → `SCRIPT DOCTOR PASS` → `CONTINUITY CLEAR`.
+`BRIEF` → `BIBLE APPROVED` → `BEATS APPROVED` → `SCRIPT DRAFT` → `SCRIPT DOCTOR PASS` → `CONTINUITY CLEAR` → `STORYBOARD PACKAGE APPROVED`.
 
 Every handoff includes:
 
