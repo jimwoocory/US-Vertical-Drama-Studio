@@ -1,0 +1,27 @@
+{
+  "schema_version": "us-vertical-drama-workbench/v1",
+  "episode_id": "EP-001",
+  "assets": [
+    { "id": "CHAR-EVE", "kind": "character", "status": "approved" },
+    { "id": "LOOK-EVE-NIGHT", "kind": "look", "status": "approved" },
+    { "id": "SET-AUCTION", "kind": "set", "status": "approved" },
+    { "id": "PROP-BOTTLE", "kind": "prop", "status": "approved" }
+  ],
+  "shots": [
+    {
+      "shot_id": "SHOT-001",
+      "video_id": "VIDEO-001",
+      "prompt_id": "PROMPT-001",
+      "source_scene_id": "EP01-SC01",
+      "duration_seconds": 8,
+      "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"],
+      "asset_lock_prompt": "CHAR-EVE, LOOK-EVE-NIGHT, SET-AUCTION, PROP-BOTTLE; identity, wardrobe, location and prop are locked.",
+      "shot_delta_prompt": "Eve turns toward the entrance as the chandelier sparks above the auction room.",
+      "negative_prompt": "No wardrobe change, duplicate prop, geography jump, or unapproved character.",
+      "status": "ready_to_generate"
+    }
+  ],
+  "tasks": [
+    { "id": "TASK-001", "status": "todo", "targets": ["SHOT-001"] }
+  ]
+}

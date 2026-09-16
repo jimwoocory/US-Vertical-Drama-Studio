@@ -26,7 +26,8 @@ Required: continuity-cleared screenplay, approved Beat Sheet and Story Bible, cu
 5. Apply the relevant sections of `references/director-execution-contract.md`: visual-action clarity, temporal/physical continuity, per-video source coverage, dialogue/voice execution, and the V8-style shot grammar. Do not treat optional camera-style suggestions as mandatory aesthetics.
 6. Fill `references/seedance-mediago-output-schema.md` for every shot. It contains the model, aspect ratio, duration, asset reference IDs, dialogue/lip-sync timing, camera, start/end frame references when used, seed when used, and import row. Seedance and MediaGo fields must remain empty-and-marked-optional when the selected model does not support them; never invent model support.
 7. Provide a `Prompt Placement Map` that links every prompt to `Scene ID → SHOT ID → time range → prompt ID → asset IDs → export row`. Prompts never appear as an unlinked appendix. Include `continuity in/out`, screen direction, character entry/exit, and prop handoff when relevant.
-8. Verify `sum(SHOT duration)` against each scene range and the episode runtime within the user's stated tolerance. If spoken dialogue is present, check it can be performed within the shot duration and supply `dialogue_audio` / lip-sync timing. Check costume, prop possession/damage, wounds, time/weather, scene geography, and transition state between adjacent shots. Flag any conflict rather than silently correcting the screenplay.
+8. Emit `production-workbench.json` according to `references/production-workbench-manifest.md`. It must trace each approved asset, `VIDEO-*`, `SHOT-*`, `PROMPT-*`, generation state, and production task. This is the DSH/MediaGo status source, not an optional appendix.
+9. Verify `sum(SHOT duration)` against each scene range and the episode runtime within the user's stated tolerance. If spoken dialogue is present, check it can be performed within the shot duration and supply `dialogue_audio` / lip-sync timing. Check costume, prop possession/damage, wounds, time/weather, scene geography, and transition state between adjacent shots. Flag any conflict rather than silently correcting the screenplay.
 
 ## Hard rules
 
@@ -43,7 +44,7 @@ Required: continuity-cleared screenplay, approved Beat Sheet and Story Bible, cu
 
 ## Output contract
 
-Return these six sections in order:
+Return these seven sections in order:
 
 1. `Asset Creation Pack` — asset image-generation prompt, negative prompt, reference/seed/model/aspect-ratio data, and approval state for every asset that needs creation.
 2. `Asset Ledger` — `CHAR-*`, `LOOK-*`, `SET-*`, and `PROP-*` definitions plus current state.
@@ -51,7 +52,8 @@ Return these six sections in order:
 4. `Prompt Placement Map` — `Scene → Video → Shot → time range → prompt ID → asset IDs → export row`.
 5. `Seedance / MediaGo Import Rows` — one structured row per shot using the required schema; include JSON or CSV only when the target system accepts it.
 6. `Continuity warnings and approval requests` — only unresolved visual conflicts or required upstream decisions.
+7. `production-workbench.json` — machine-readable asset, shot, task and review status; follow `references/production-workbench-manifest.md` exactly.
 
 ## Failure and rewrite conditions
 
-Rewrite the package when an asset requiring creation lacks a creation prompt or approval state; when a shot lacks a source scene, time range, active character/look/set/prop state, model-ready layered generation prompt, negative constraint, import row, or prompt placement; when scene/episode durations do not reconcile; when dialogue cannot fit its shot; when a costume or prop changes without an approved transition; when shot geography contradicts the screenplay; or when a prompt invents an unapproved visual fact.
+Rewrite the package when an asset requiring creation lacks a creation prompt or approval state; when a shot lacks a source scene, time range, active character/look/set/prop state, model-ready layered generation prompt, negative constraint, import row, prompt placement, or production-workbench record; when scene/episode durations do not reconcile; when dialogue cannot fit its shot; when a costume or prop changes without an approved transition; when shot geography contradicts the screenplay; or when a prompt invents an unapproved visual fact.

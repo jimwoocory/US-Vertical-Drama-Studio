@@ -19,12 +19,13 @@
   "files": [
     "dsh-plugin",
     "plugins/us-vertical-drama-studio/skills",
+    "fixtures",
     "cordis.patch.yml",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --test dsh-plugin/test/index.test.mjs"
+    "test": "node --test dsh-plugin/test/*.test.mjs"
   },
   "keywords": [
     "dsh-plugin",
