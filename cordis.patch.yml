@@ -1,0 +1,5 @@
+# Register the US Vertical Drama Studio skill provider in a DSH profile.
+- insert:
+    - id: us-vertical-drama-studio
+      name: '@jimwoocory/dsh-us-vertical-drama-studio'
+      inject: [skills]

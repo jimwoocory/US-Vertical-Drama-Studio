@@ -31,8 +31,20 @@ The workflow gates screenplay and storyboard handoff through approved Story Bibl
 - `direct-upload/chatgpt/` — eight per-skill ChatGPT direct-upload packages.
 - `direct-upload/claude/` — per-skill Claude folders and ZIP files.
 - `mediago/US-Vertical-Drama-Studio-v1.0.0.mgpack` — legacy MediaGo v1.0 artifact; do not release it as v1.1.
-- `plugins/us-vertical-drama-studio/` — canonical v1.1 runtime source.
-- `source/us-vertical-drama-studio/` — legacy v1.0 source retained for traceability; do not package it for v1.1.
+- `plugins/us-vertical-drama-studio/` — canonical v1.2 runtime source.
+- `source/us-vertical-drama-studio/` — legacy v1.0 source retained for traceability; do not package it for v1.2.
+
+## DeepSeek Harness (DSH)
+
+This repository is also an installable DeepSeek Harness plugin. It registers the same eight canonical skills through DSH's native `ctx.skills` service, including their linked references. It does not duplicate prompt text or add a separate agent loop.
+
+Install it into a DSH profile after DSH itself is configured:
+
+```bash
+dsh plugin --profile web add github:jimwoocory/US-Vertical-Drama-Studio
+```
+
+Restart the selected DSH profile. The normal DSH skill catalog will then expose the eight `us-vertical-drama-*` skills. The plugin is pinned to the current DSH pre-1.0 skill-service range; because DeepSeek Harness is in developer preview, run `npm test` after upgrading DSH before using it for production work.
 
 ## Golden regression case
 
