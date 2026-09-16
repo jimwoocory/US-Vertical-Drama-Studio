@@ -12,6 +12,7 @@ Each independently generatable video package contains:
 
 - `【项目规格】` — approved project specification.
 - `【视频编号】` — stable `VIDEO-*` ID, Chinese display name, total duration, and source coverage.
+- Human-readable headings use `【视频编号】` and `【镜头编号】`; `VIDEO-*` and `SHOT-*` remain the value-level stable IDs used only for tracing, JSON, and exports.
 - `【场景与连续状态】` — location, screen geography, positions, orientation, eye line, inherited pose, active assets, and carry-over effects.
 - `【光线】` and `【出场人物】` — the active set state and bound `CHAR-*` / `LOOK-*` IDs.
 - `【视频生成总提示词】` — one complete Chinese `VIDEO-PROMPT-*` that can be submitted to the selected video model as-is. It sequences the package from first frame to last frame, names every planned cut, binds all active assets, camera/light/audio progression, continuity in/out, and ending state.

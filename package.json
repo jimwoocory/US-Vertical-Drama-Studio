@@ -1,6 +1,6 @@
 {
   "name": "@jimwoocory/dsh-us-vertical-drama-studio",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "DeepSeek Harness plugin for the US Vertical Drama Studio eight-skill workflow.",
   "type": "module",
   "license": "MIT",
