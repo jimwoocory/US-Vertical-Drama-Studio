@@ -29,9 +29,6 @@ var import_react = require("react");
 // dsh-plugin/compatibility.js
 var P1_DSH_VERSION = "0.1.5-rc.1";
 function assertP1Compatibility(context) {
-  let declared = context?.dshVersion ?? context?.version ?? context?.runtimeVersion;
-  if (declared !== void 0 && declared !== P1_DSH_VERSION)
-    throw new Error(`US Vertical Drama P1 Workbench requires DeepSeek Harness ${P1_DSH_VERSION}; detected ${String(declared)}. Keep P0 installed and launch P1 with the pinned command in README.`);
   if (context?.slots === void 0 || typeof context.slots.inject != "function" || typeof context.slots.register != "function")
     throw new Error(`US Vertical Drama P1 Workbench requires the DSH ${P1_DSH_VERSION} slot service. P0 skills remain available without this optional browser panel.`);
 }

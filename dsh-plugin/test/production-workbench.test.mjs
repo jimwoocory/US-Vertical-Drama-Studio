@@ -35,13 +35,14 @@ test('blocks video work when an asset is not approved or a shot exceeds 15 secon
   assert.ok(snapshot.diagnostics.some(item => item.code === 'duration_over_15s'))
 })
 
-test('P1 accepts the pinned DSH slot service and rejects an exposed incompatible host version', () => {
+test('P1 uses only its declared slot-service injection surface', () => {
   const slots = { inject() {}, register() {} }
-  assert.doesNotThrow(() => assertP1Compatibility({ slots, dshVersion: P1_DSH_VERSION }))
-  assert.throws(
-    () => assertP1Compatibility({ slots, dshVersion: '0.1.6-alpha.1' }),
-    /requires DeepSeek Harness 0\.1\.5-rc\.1/,
-  )
+  const guardedContext = new Proxy({ slots }, { get(target, key) {
+    if (key === 'slots') return target.slots
+    throw new Error(`unexpected undeclared injection: ${String(key)}`)
+  } })
+  assert.doesNotThrow(() => assertP1Compatibility(guardedContext))
+  assert.throws(() => assertP1Compatibility({}), /slot service/)
 })
 
 test('P1 declares exact rc.1 peers and ships a DSH module-loader bundle', () => {
