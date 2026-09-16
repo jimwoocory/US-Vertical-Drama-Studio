@@ -6,7 +6,8 @@
   "license": "MIT",
   "main": "./dsh-plugin/index.js",
   "exports": {
-    ".": "./dsh-plugin/index.js"
+    ".": "./dsh-plugin/index.js",
+    "./client": "./dsh-plugin/client.bundle.cjs"
   },
   "engines": {
     "node": ">=24"
@@ -14,7 +15,20 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-slots"
+      ],
+      "platform": "web"
     }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "4.0.2",
+    "@deepseek-ai/dsh": "0.1.5-rc.1",
+    "@deepseek-ai/dsh-client-ui-slots": "0.1.5-rc.1",
+    "@deepseek-ai/dsh-skill": "0.1.5-rc.1",
+    "react": "18.3.1"
   },
   "files": [
     "dsh-plugin",
@@ -25,7 +39,11 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --test dsh-plugin/test/*.test.mjs"
+    "build:client": "node scripts/build-dsh-client.mjs",
+    "test": "node --test dsh-plugin/test/*.test.mjs && node --check dsh-plugin/client.bundle.cjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
   },
   "keywords": [
     "dsh-plugin",
