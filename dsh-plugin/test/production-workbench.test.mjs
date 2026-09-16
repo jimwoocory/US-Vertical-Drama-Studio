@@ -35,6 +35,31 @@ test('blocks video work when an asset is not approved or a shot exceeds 15 secon
   assert.ok(snapshot.diagnostics.some(item => item.code === 'duration_over_15s'))
 })
 
+test('validates a V8-style video package made from contiguous micro-shots', () => {
+  const manifest = structuredClone(ready)
+  manifest.videos = [{ video_id: 'VIDEO-001', display_name_zh: '伊芙发现入口异动', source_scene_id: 'EP01-SC01', duration_seconds: 4, status: 'ready_to_generate' }]
+  manifest.shots = [
+    { ...manifest.shots[0], shot_id: 'SHOT-001-01', display_name_zh: '伊芙手指停在酒杯上', duration_seconds: 1, timeline_in_seconds: 0, timeline_out_seconds: 1, shot_type: '特写插入', generation_mode: 'independent' },
+    { ...manifest.shots[0], shot_id: 'SHOT-001-02', display_name_zh: '伊芙抬眼看向入口', duration_seconds: 1.5, timeline_in_seconds: 1, timeline_out_seconds: 2.5, shot_type: '反应', generation_mode: 'independent' },
+    { ...manifest.shots[0], shot_id: 'SHOT-001-03', display_name_zh: '吊灯闪烁照亮入口', duration_seconds: 1.5, timeline_in_seconds: 2.5, timeline_out_seconds: 4, shot_type: '信息揭示', generation_mode: 'independent' },
+  ]
+  const snapshot = buildProductionSnapshot(manifest)
+  assert.equal(snapshot.summary.videos, 1)
+  assert.equal(snapshot.summary.micro_shots, 3)
+  assert.equal(snapshot.summary.total_seconds, 4)
+  assert.equal(snapshot.summary.errors, 0)
+})
+
+test('blocks a non-contiguous or unjustifiably long micro-shot', () => {
+  const manifest = structuredClone(ready)
+  manifest.videos = [{ video_id: 'VIDEO-001', display_name_zh: '测试视频包', duration_seconds: 5, status: 'draft' }]
+  manifest.shots[0] = { ...manifest.shots[0], display_name_zh: '过长切片', duration_seconds: 4, timeline_in_seconds: 0, timeline_out_seconds: 4 }
+  const snapshot = buildProductionSnapshot(manifest)
+  assert.equal(snapshot.shots[0].status, 'blocked')
+  assert.ok(snapshot.diagnostics.some(item => item.code === 'long_micro_shot_without_reason'))
+  assert.ok(snapshot.diagnostics.some(item => item.code === 'micro_shot_timeline_not_full_coverage'))
+})
+
 test('P1 uses only its declared slot-service injection surface', () => {
   const slots = { inject() {}, register() {} }
   const guardedContext = new Proxy({ slots }, { get(target, key) {
