@@ -29,30 +29,71 @@ const skillFolders = [
 ]
 
 /**
- * Register all canonical skills as DSH runtime skills.
+ * Register a native DSH skill provider.
  *
- * DSH's standard profile already supplies the `skill` consumer/tool. This
- * plugin only adds the domain instructions and supplies their directory as a
- * resource base, allowing linked references to resolve at runtime.
+ * `registerProvider()` is deliberately used instead of pushing opaque runtime
+ * entries into the registry. It lets DSH enumerate and retrieve the bundled
+ * Skills through its normal provider lifecycle, including slash invocation
+ * and resource resolution.
  *
  * @param {import('@deepseek-ai/cordis').Context} ctx
  * @returns {() => void}
  */
 export function apply(ctx) {
-  const disposers = skillFolders.map(folder => {
+  return ctx.skills.registerProvider(() => createProvider())
+}
+
+/**
+ * Build a provider object without importing DSH implementation packages.
+ * This keeps the plugin tied to DSH's public `ctx.skills` contract rather
+ * than to an internal copy of the skill service.
+ */
+export function createProvider() {
+  const catalog = new Map(skillFolders.map(folder => {
     const skillDirectory = join(skillsDirectory, folder)
-    const parsed = parseSkill(readFileSync(join(skillDirectory, 'SKILL.md'), 'utf8'), folder)
-    return ctx.skills.register({
-      name: parsed.name,
-      description: parsed.description,
-      content: parsed.content,
-      provider: 'us-vertical-drama-studio',
-      source: 'bundled',
-      resourceBase: { kind: 'directory', path: skillDirectory },
-      invocation: { modelInvocable: true, userInvocable: true },
-    })
-  })
-  return () => disposers.reverse().forEach(dispose => dispose())
+    const parsed = readCanonicalSkill(folder)
+    return [parsed.name, { folder, skillDirectory, ...parsed }]
+  }))
+
+  return {
+    name: 'us-vertical-drama-studio-bundled',
+    async list() {
+      return [...catalog.values()].map(toCandidate)
+    },
+    async get(candidate) {
+      const entry = catalog.get(candidate?.name)
+      if (entry === undefined) return undefined
+
+      // Reload only a catalogued file. A candidate must never be able to make
+      // this provider read an arbitrary path from the local filesystem.
+      const parsed = readCanonicalSkill(entry.folder)
+      if (parsed.name !== candidate.name) {
+        throw new Error(`Bundled skill name changed unexpectedly: ${entry.folder}`)
+      }
+      return {
+        ...toCandidate({ ...entry, ...parsed }),
+        content: parsed.content,
+      }
+    },
+  }
+}
+
+function readCanonicalSkill(folder) {
+  return parseSkill(readFileSync(join(skillsDirectory, folder, 'SKILL.md'), 'utf8'), folder)
+}
+
+function toCandidate(entry) {
+  return {
+    name: entry.name,
+    description: entry.description,
+    provider: 'us-vertical-drama-studio-bundled',
+    source: 'bundled',
+    rank: 600,
+    path: join(entry.skillDirectory, 'SKILL.md'),
+    locator: { relativePath: `${entry.folder}/SKILL.md` },
+    resourceBase: { kind: 'directory', path: entry.skillDirectory },
+    invocation: { modelInvocable: true, userInvocable: true },
+  }
 }
 
 /**

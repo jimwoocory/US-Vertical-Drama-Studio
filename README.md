@@ -36,15 +36,15 @@ The workflow gates screenplay and storyboard handoff through approved Story Bibl
 
 ## DeepSeek Harness (DSH)
 
-This repository is also an installable DeepSeek Harness plugin. It registers the same eight canonical skills through DSH's native `ctx.skills` service, including their linked references. It does not duplicate prompt text or add a separate agent loop.
+This repository is also an installable DeepSeek Harness plugin. It registers the same eight canonical skills through DSH's native skill-provider lifecycle, including their linked references. It does not duplicate prompt text or add a separate agent loop.
 
 Install it into a DSH profile after DSH itself is configured:
 
 ```bash
-dsh plugin --profile web add github:jimwoocory/US-Vertical-Drama-Studio
+npx -y --package pnpm@11.7.0 --package @deepseek-ai/dsh@0.1.5-rc.1 dsh plugin --profile us-drama add github:jimwoocory/US-Vertical-Drama-Studio
 ```
 
-Restart the selected DSH profile. The normal DSH skill catalog will then expose the eight `us-vertical-drama-*` skills. The plugin is pinned to the current DSH pre-1.0 skill-service range; because DeepSeek Harness is in developer preview, run `npm test` after upgrading DSH before using it for production work.
+Launch the same profile with `npx -y @deepseek-ai/dsh@0.1.5-rc.1 --profile us-drama web`. The normal DSH skill catalog will then expose the eight `us-vertical-drama-*` skills. The adapter is verified against DSH `0.1.5-rc.1`; because DeepSeek Harness is in developer preview, run `npm test` after upgrading DSH before using it for production work.
 
 ## Golden regression case
 
