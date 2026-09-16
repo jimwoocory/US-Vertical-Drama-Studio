@@ -9,7 +9,7 @@
     { "id": "PROP-BOTTLE", "display_name_zh": "裂纹香槟杯", "kind": "prop", "status": "approved" }
   ],
   "videos": [
-    { "video_id": "VIDEO-001", "display_name_zh": "伊芙发现入口异动", "source_scene_id": "EP01-SC01", "duration_seconds": 8, "status": "ready_to_generate" }
+    { "video_id": "VIDEO-001", "display_name_zh": "伊芙发现入口异动", "source_scene_id": "EP01-SC01", "duration_seconds": 8, "video_prompt_id": "VIDEO-PROMPT-001", "video_master_prompt": "8 秒竖屏视频。深夜拍卖厅内，伊芙察觉入口异动，镜头依次展示她停在酒杯上的手、抬眼的反应、闪烁的吊灯和她握紧裂纹酒杯的近景。人物、深蓝晚礼服、拍卖厅和裂纹香槟杯全程一致；冷白吊灯光，紧张克制。", "video_negative_prompt": "不改变角色身份、深蓝晚礼服、裂纹香槟杯、拍卖厅方位或持杯的手；不新增人物；不跳切到其他地点。", "status": "ready_to_generate" }
   ],
   "shots": [
     {

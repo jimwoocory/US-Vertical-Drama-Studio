@@ -37,7 +37,10 @@ test('blocks video work when an asset is not approved or a shot exceeds 15 secon
 
 test('validates a V8-style video package made from contiguous micro-shots', () => {
   const manifest = structuredClone(ready)
-  manifest.videos = [{ video_id: 'VIDEO-001', display_name_zh: '伊芙发现入口异动', source_scene_id: 'EP01-SC01', duration_seconds: 4, status: 'ready_to_generate' }]
+ manifest.videos = [{ video_id: 'VIDEO-001', display_name_zh: '伊芙发现入口异动', source_scene_id: 'EP01-SC01', duration_seconds: 4, status: 'ready_to_generate' }]
+  manifest.videos[0].video_prompt_id = 'VIDEO-PROMPT-001'
+  manifest.videos[0].video_master_prompt = '4 秒视频总提示词：伊芙发现拍卖厅入口异动，依次展示手部、抬眼和吊灯冷光。'
+  manifest.videos[0].video_negative_prompt = '不改变角色、服装、场景和道具。'
   manifest.shots = [
     { ...manifest.shots[0], shot_id: 'SHOT-001-01', display_name_zh: '伊芙手指停在酒杯上', duration_seconds: 1, timeline_in_seconds: 0, timeline_out_seconds: 1, shot_type: '特写插入', generation_mode: 'independent' },
     { ...manifest.shots[0], shot_id: 'SHOT-001-02', display_name_zh: '伊芙抬眼看向入口', duration_seconds: 1.5, timeline_in_seconds: 1, timeline_out_seconds: 2.5, shot_type: '反应', generation_mode: 'independent' },
@@ -52,12 +55,25 @@ test('validates a V8-style video package made from contiguous micro-shots', () =
 
 test('blocks a non-contiguous or unjustifiably long micro-shot', () => {
   const manifest = structuredClone(ready)
-  manifest.videos = [{ video_id: 'VIDEO-001', display_name_zh: '测试视频包', duration_seconds: 5, status: 'draft' }]
+ manifest.videos = [{ video_id: 'VIDEO-001', display_name_zh: '测试视频包', duration_seconds: 5, status: 'draft' }]
+  manifest.videos[0].video_prompt_id = 'VIDEO-PROMPT-001'
+  manifest.videos[0].video_master_prompt = '5 秒视频总提示词。'
+  manifest.videos[0].video_negative_prompt = '不改变角色。'
   manifest.shots[0] = { ...manifest.shots[0], display_name_zh: '过长切片', duration_seconds: 4, timeline_in_seconds: 0, timeline_out_seconds: 4 }
   const snapshot = buildProductionSnapshot(manifest)
   assert.equal(snapshot.shots[0].status, 'blocked')
   assert.ok(snapshot.diagnostics.some(item => item.code === 'long_micro_shot_without_reason'))
   assert.ok(snapshot.diagnostics.some(item => item.code === 'micro_shot_timeline_not_full_coverage'))
+})
+
+test('blocks micro-shots when their VIDEO master prompt is absent', () => {
+  const manifest = structuredClone(ready)
+  manifest.videos = [{ video_id: 'VIDEO-001', display_name_zh: '缺少视频提示词的包', duration_seconds: 8, status: 'draft' }]
+  manifest.shots[0] = { ...manifest.shots[0], display_name_zh: '测试微镜头', duration_seconds: 2, timeline_in_seconds: 0, timeline_out_seconds: 2 }
+  const snapshot = buildProductionSnapshot(manifest)
+  assert.equal(snapshot.videos[0].status, 'blocked')
+  assert.equal(snapshot.shots[0].status, 'blocked')
+  assert.ok(snapshot.diagnostics.some(item => item.code === 'missing_video_prompt_layers'))
 })
 
 test('P1 uses only its declared slot-service injection surface', () => {
