@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import test from 'node:test'
-import { buildProductionSnapshot, PRODUCTION_WORKBENCH_SCHEMA } from '../production-workbench.js'
+import { buildProductionSnapshot, parseStoryboardText, PRODUCTION_WORKBENCH_SCHEMA } from '../production-workbench.js'
 import { assertP1Compatibility, P1_DSH_VERSION } from '../compatibility.js'
 
 const ready = {
@@ -74,6 +74,46 @@ test('blocks micro-shots when their VIDEO master prompt is absent', () => {
   assert.equal(snapshot.videos[0].status, 'blocked')
   assert.equal(snapshot.shots[0].status, 'blocked')
   assert.ok(snapshot.diagnostics.some(item => item.code === 'missing_video_prompt_layers'))
+})
+
+test('automatically maps readable storyboard text into video and micro-shot records', () => {
+  const source = `【视频编号】VIDEO-001
+【中文显示名】伊芙发现入口异动
+【总时长】4秒
+【视频生成总提示词】4 秒竖屏视频：伊芙先停住手，再抬眼看向入口；服装、拍卖厅与酒杯连续。
+【视频级负面约束】不改变角色、服装、地点或酒杯。
+【镜头编号】SHOT-001-01
+【包内时间】0–1.5秒
+【时长】1.5秒
+【视频生成提示词】伊芙的手停在酒杯旁，手部特写。
+【负面约束】不改变晚礼服。
+【镜头编号】SHOT-001-02
+【包内时间】1.5–4秒
+【时长】2.5秒
+【视频生成提示词】伊芙抬眼看向入口，近景，冷白吊灯光。
+【负面约束】不新增人物。`
+  const manifest = parseStoryboardText(source, '第 1 集.md')
+  const snapshot = buildProductionSnapshot(manifest)
+  assert.equal(snapshot.videos[0].video_id, 'VIDEO-001')
+  assert.equal(snapshot.videos[0].video_master_prompt.includes('伊芙先停住手'), true)
+  assert.equal(snapshot.shots[1].video_id, 'VIDEO-001')
+  assert.equal(snapshot.shots[1].timeline_in_seconds, 1.5)
+  assert.equal(snapshot.summary.errors, 0)
+})
+
+test('accepts the V8-style compact video and shot headings', () => {
+  const source = `【视频编号05】
+总时长：3.0秒
+【场景与连续状态】深夜拍卖厅，伊芙握着酒杯。
+【镜头01】 1.0s｜特写
+【画面】伊芙手指停在酒杯边。
+【镜头02】 2.0s｜近景
+【画面】伊芙抬眼看向入口。`
+  const snapshot = buildProductionSnapshot(parseStoryboardText(source, 'V8 分镜.txt'))
+  assert.equal(snapshot.videos.length, 1)
+  assert.equal(snapshot.shots.length, 2)
+  assert.equal(snapshot.shots[1].timeline_in_seconds, 1)
+  assert.match(snapshot.videos[0].video_master_prompt, /伊芙抬眼/)
 })
 
 test('P1 uses only its declared slot-service injection surface', () => {

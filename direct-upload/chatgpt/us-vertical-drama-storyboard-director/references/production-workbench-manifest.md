@@ -2,6 +2,8 @@
 
 For every storyboard delivery, emit `production-workbench.json` beside the readable review package. It is the status source for the DSH production workbench and MediaGo handoff; it never replaces the human-readable screenplay, asset ledger, or shot package. Keep the `/v1` schema identifier for backward compatibility, but use the additive `videos` and time-coded micro-shot fields below for the visual workbench.
 
+The readable Markdown/TXT package can now be imported directly as well. Keep the visible labels `【视频编号】`, `【镜头编号】`, `【包内时间】`, `【时长】`, `【视频生成总提示词】`, `【视频级负面约束】`, `【视频生成提示词】`, and `【负面约束】` unchanged. The workbench automatically matches the text beneath a video heading to that video and its child shot headings. JSON remains the exact interchange format for assets, statuses and task queues.
+
 ```json
 {
   "schema_version": "us-vertical-drama-workbench/v1",

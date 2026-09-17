@@ -40,6 +40,7 @@ export function buildProductionSnapshot(manifest) {
   const normalizedShots = shots.map(shot => normalizeShot(shot, assetById, suppliedVideoById, diagnostics))
   const videos = normalizeVideos(suppliedVideos, normalizedShots, diagnostics)
   const videoById = new Map(videos.map(video => [video.video_id, video]))
+  applyVideoBlocks(normalizedShots, videoById, diagnostics)
   validateMicroShotTimelines(normalizedShots, videoById, diagnostics, suppliedVideos.length > 0)
   applyTimelineBlocks(normalizedShots, diagnostics)
   for (const task of tasks) validateTask(task, assetById, shotById, taskById, videoById, diagnostics)
@@ -69,6 +70,87 @@ export function buildProductionSnapshot(manifest) {
       errors: diagnostics.filter(item => item.severity === 'error').length,
       warnings: diagnostics.filter(item => item.severity === 'warning').length,
     },
+  }
+}
+
+/**
+ * Convert a readable storyboard package into the same manifest consumed by
+ * the workbench.  This deliberately recognises the Chinese delivery labels
+ * used by the storyboard skill, so production never has to hand-author JSON
+ * just to open a generated Markdown/TXT file in the three-column workspace.
+ */
+export function parseStoryboardText(source, filename = '导入分镜文本') {
+  const lines = String(source ?? '').replace(/\r\n?/g, '\n').split('\n')
+  const videoStarts = lines.map((line, index) => isLabel(line, '视频编号') ? index : -1).filter(index => index >= 0)
+  if (videoStarts.length === 0) throw new Error('未找到【视频编号】。请导入分镜导演生成的 Markdown/TXT，或导入 production-workbench.json。')
+
+  const videos = []
+  const shots = []
+  videoStarts.forEach((start, videoIndex) => {
+    const end = videoStarts[videoIndex + 1] ?? lines.length
+    const block = lines.slice(start, end)
+    const rawVideoId = labelValue(block[0], '视频编号')
+    const videoId = stableId(rawVideoId, 'VIDEO', videoIndex + 1)
+    const shotStarts = block.map((line, index) => isShotLabel(line) ? index : -1).filter(index => index >= 0)
+    const context = [section(block, '场景与连续状态'), section(block, '光线'), section(block, '出场人物'), section(block, '声音与台词')].filter(Boolean).join('；')
+    const explicitVideoMaster = section(block, '视频生成总提示词') || section(block, '视频总提示词')
+    const videoMaster = explicitVideoMaster || (`根据以下分镜连续生成完整视频：${context || '保持角色、服装、场景与道具连续。'}；镜头按时间顺序推进，动作、构图、光线和声音以各镜头说明为准。`)
+    const videoNegative = section(block, '视频级负面约束') || section(block, '视频负面约束') || '保持角色身份、服装、场景、道具和空间方位连续；不新增未批准的人物、物品或地点。'
+    let cursor = 0
+    const videoShots = []
+    shotStarts.forEach((shotStart, shotIndex) => {
+      const shotEnd = shotStarts[shotIndex + 1] ?? block.length
+      const shotBlock = block.slice(shotStart, shotEnd)
+      const rawShotId = labelValue(shotBlock[0], '镜头编号') || labelValue(shotBlock[0], '镜头')
+      const shotId = stableId(rawShotId, `SHOT-${pad(videoIndex + 1)}`, shotIndex + 1)
+      const range = parseRange(section(shotBlock, '包内时间'))
+      const headerDuration = parseSeconds(shotBlock[0])
+      const declaredDuration = parseSeconds(section(shotBlock, '时长')) ?? headerDuration
+      const inTime = range?.[0] ?? cursor
+      const duration = declaredDuration ?? (range ? range[1] - range[0] : 1)
+      const outTime = range?.[1] ?? inTime + duration
+      cursor = outTime
+      const detail = [section(shotBlock, '画面/构图'), section(shotBlock, '画面'), section(shotBlock, '动作与情绪'), section(shotBlock, '镜头运动')].filter(Boolean).join('；')
+      videoShots.push({
+        shot_id: shotId,
+        video_id: videoId,
+        display_name_zh: section(shotBlock, '中文显示名') || `镜头 ${videoIndex + 1}-${shotIndex + 1}`,
+        prompt_id: `PROMPT-${pad(videoIndex + 1)}-${pad(shotIndex + 1)}`,
+        source_scene_id: section(shotBlock, '关联场景') || section(block, '关联场景') || `TEXT-SC-${pad(videoIndex + 1)}`,
+        timeline_in_seconds: round(inTime),
+        timeline_out_seconds: round(outTime),
+        duration_seconds: round(outTime - inTime),
+        shot_type: section(shotBlock, '镜头类型') || '微镜头',
+        generation_mode: 'independent',
+        asset_ids: [],
+        asset_lock_prompt: section(shotBlock, '资产锁定提示词') || '沿用父视频已经锁定的角色、服装、场景、道具与空间方位。',
+        shot_delta_prompt: section(shotBlock, '视频生成提示词') || section(shotBlock, '镜头提示词') || detail || '按该镜头原始分镜生成，不改变已锁定资产。',
+        negative_prompt: section(shotBlock, '负面约束') || '不改变角色身份、服装、场景、道具或空间方位。',
+        status: 'ready_to_generate',
+        ...(outTime - inTime > 3 ? { duration_exception_reason_zh: '从旧版分镜文本自动匹配，保留原始时长。' } : {}),
+        ...(outTime - inTime < 0.5 ? { short_duration_reason_zh: '从旧版分镜文本自动匹配，保留原始时长。' } : {}),
+      })
+    })
+    const duration = parseSeconds(section(block, '总时长')) ?? Math.max(cursor, ...videoShots.map(item => item.timeline_out_seconds), 1)
+    videos.push({
+      video_id: videoId,
+      display_name_zh: section(block, '中文显示名') || `视频 ${videoIndex + 1}`,
+      source_scene_id: section(block, '关联场景') || `TEXT-SC-${pad(videoIndex + 1)}`,
+      duration_seconds: round(duration),
+      video_prompt_id: `VIDEO-PROMPT-${pad(videoIndex + 1)}`,
+      video_master_prompt: explicitVideoMaster || `${videoMaster}\n${videoShots.map(item => item.shot_delta_prompt).join('；')}`,
+      video_negative_prompt: videoNegative,
+      status: 'ready_to_generate',
+      imported_from_text: true,
+    })
+    shots.push(...videoShots)
+  })
+  return {
+    schema_version: PRODUCTION_WORKBENCH_SCHEMA,
+    episode_id: filename.replace(/\.[^.]+$/, '') || 'TEXT-EPISODE',
+    episode_display_name_zh: filename.replace(/\.[^.]+$/, '') || '导入分镜文本',
+    assets: [], videos, shots, tasks: [],
+    imported_from_text: true,
   }
 }
 
@@ -114,8 +196,20 @@ function normalizeVideos(suppliedVideos, shots, diagnostics) {
     if (duration === undefined || duration <= 0) diagnostics.push(issue('error', 'invalid_video_duration', `${id ?? 'video'} 的视频包时长必须大于 0`, id))
     if (duration !== undefined && duration > 15) diagnostics.push(issue('error', 'video_duration_over_15s', `${id ?? 'video'} 超过 V8 兼容的 15 秒上限`, id))
     if (video.status !== undefined && !shotStatuses.has(video.status)) diagnostics.push(issue('error', 'invalid_video_status', `${id ?? 'video'} 的视频包状态无效`, id))
+    if (!video.derived && (!string(video?.video_prompt_id) || !string(video?.video_master_prompt) || !string(video?.video_negative_prompt))) {
+      diagnostics.push(issue('error', 'missing_video_prompt_layers', String(id ?? 'video') + ' 缺少视频总提示词、视频提示词编号或视频级负面约束', id))
+      video.blocked = true
+      video.status = 'blocked'
+    }
   }
   return videos
+}
+
+function applyVideoBlocks(shots, videoById, diagnostics) {
+  for (const shot of shots) {
+    const video = videoById.get(shot.video_id)
+    if (video?.blocked) markBlocked(shot, diagnostics, 'parent_video_not_generation_ready', String(shot.shot_id ?? 'shot') + ' 的父视频包尚未具备可生成的视频总提示词', shot.shot_id)
+  }
 }
 
 function validateMicroShotTimelines(shots, videoById, diagnostics, requireTimelines) {
@@ -177,3 +271,34 @@ function countStates(shots) { return shots.reduce((counts, shot) => ({ ...counts
 function issue(severity, code, message, target_id) { return { severity, code, message, ...(target_id === undefined ? {} : { target_id }) } }
 function string(value) { return typeof value === 'string' && value.trim() !== '' }
 function number(value) { return typeof value === 'number' && Number.isFinite(value) ? value : undefined }
+function pad(value) { return String(value).padStart(3, '0') }
+function round(value) { return Math.round(Number(value) * 1000) / 1000 }
+function stableId(value, prefix, index) {
+  const cleaned = String(value ?? '').trim().replace(/\s+/g, '-')
+  if (/^[A-Za-z][A-Za-z0-9_-]*$/.test(cleaned)) return cleaned
+  return `${prefix}-${pad(index)}`
+}
+function isLabel(line, label) { return new RegExp(`^\\s*[【[]${label}`).test(line) }
+function isShotLabel(line) { return isLabel(line, '镜头编号') || /^\s*[【[]镜头\s*\d*[】\]]/.test(line) }
+function labelValue(line, label) {
+  const match = String(line ?? '').match(new RegExp(`^\\s*[【[]${label}([^】\\]]*)[】\\]]\\s*(.*)$`))
+  return match ? `${match[1]} ${match[2]}`.trim() : ''
+}
+function section(lines, label) {
+  const start = lines.findIndex(line => isLabel(line, label))
+  if (start < 0) return ''
+  const values = [labelValue(lines[start], label)]
+  for (let index = start + 1; index < lines.length; index += 1) {
+    if (/^\s*[【[][^】\]]+[】\]]/.test(lines[index])) break
+    values.push(lines[index].trim())
+  }
+  return values.join('\n').trim()
+}
+function parseSeconds(value) {
+  const match = String(value ?? '').match(/(\d+(?:\.\d+)?)\s*(?:秒|s\b)/i)
+  return match ? Number(match[1]) : undefined
+}
+function parseRange(value) {
+  const match = String(value ?? '').match(/(\d+(?:\.\d+)?)\s*(?:秒|s)?\s*(?:–|—|-|~|至|到)\s*(\d+(?:\.\d+)?)\s*(?:秒|s)?/i)
+  return match ? [Number(match[1]), Number(match[2])] : undefined
+}
