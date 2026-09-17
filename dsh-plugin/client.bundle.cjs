@@ -24,7 +24,7 @@ __export(client_exports, {
   p1Compatibility: () => p1Compatibility
 });
 module.exports = __toCommonJS(client_exports);
-var import_react = require("react");
+var import_react = require("react"), import_react_dom = require("react-dom");
 
 // dsh-plugin/compatibility.js
 var P1_DSH_VERSION = "0.1.5-rc.1";
@@ -81,7 +81,7 @@ function parseStoryboardText(source, filename = "\u5BFC\u5165\u5206\u955C\u6587\
     shotStarts.forEach((shotStart, shotIndex) => {
       let shotEnd = shotStarts[shotIndex + 1] ?? block.length, shotBlock = block.slice(shotStart, shotEnd), rawShotId = labelValue(shotBlock[0], "\u955C\u5934\u7F16\u53F7") || labelValue(shotBlock[0], "\u955C\u5934"), shotId = stableId(rawShotId, `SHOT-${pad(videoIndex + 1)}`, shotIndex + 1), range = parseRange(section(shotBlock, "\u5305\u5185\u65F6\u95F4")), headerDuration = parseSeconds(shotBlock[0]), declaredDuration = parseSeconds(section(shotBlock, "\u65F6\u957F")) ?? headerDuration, inTime = range?.[0] ?? cursor, duration2 = declaredDuration ?? (range ? range[1] - range[0] : 1), outTime = range?.[1] ?? inTime + duration2;
       cursor = outTime;
-      let detail2 = [section(shotBlock, "\u753B\u9762/\u6784\u56FE"), section(shotBlock, "\u753B\u9762"), section(shotBlock, "\u52A8\u4F5C\u4E0E\u60C5\u7EEA"), section(shotBlock, "\u955C\u5934\u8FD0\u52A8")].filter(Boolean).join("\uFF1B");
+      let detail = [section(shotBlock, "\u753B\u9762/\u6784\u56FE"), section(shotBlock, "\u753B\u9762"), section(shotBlock, "\u52A8\u4F5C\u4E0E\u60C5\u7EEA"), section(shotBlock, "\u955C\u5934\u8FD0\u52A8")].filter(Boolean).join("\uFF1B");
       videoShots.push({
         shot_id: shotId,
         video_id: videoId,
@@ -95,7 +95,7 @@ function parseStoryboardText(source, filename = "\u5BFC\u5165\u5206\u955C\u6587\
         generation_mode: "independent",
         asset_ids: [],
         asset_lock_prompt: section(shotBlock, "\u8D44\u4EA7\u9501\u5B9A\u63D0\u793A\u8BCD") || "\u6CBF\u7528\u7236\u89C6\u9891\u5DF2\u7ECF\u9501\u5B9A\u7684\u89D2\u8272\u3001\u670D\u88C5\u3001\u573A\u666F\u3001\u9053\u5177\u4E0E\u7A7A\u95F4\u65B9\u4F4D\u3002",
-        shot_delta_prompt: section(shotBlock, "\u89C6\u9891\u751F\u6210\u63D0\u793A\u8BCD") || section(shotBlock, "\u955C\u5934\u63D0\u793A\u8BCD") || detail2 || "\u6309\u8BE5\u955C\u5934\u539F\u59CB\u5206\u955C\u751F\u6210\uFF0C\u4E0D\u6539\u53D8\u5DF2\u9501\u5B9A\u8D44\u4EA7\u3002",
+        shot_delta_prompt: section(shotBlock, "\u89C6\u9891\u751F\u6210\u63D0\u793A\u8BCD") || section(shotBlock, "\u955C\u5934\u63D0\u793A\u8BCD") || detail || "\u6309\u8BE5\u955C\u5934\u539F\u59CB\u5206\u955C\u751F\u6210\uFF0C\u4E0D\u6539\u53D8\u5DF2\u9501\u5B9A\u8D44\u4EA7\u3002",
         negative_prompt: section(shotBlock, "\u8D1F\u9762\u7EA6\u675F") || "\u4E0D\u6539\u53D8\u89D2\u8272\u8EAB\u4EFD\u3001\u670D\u88C5\u3001\u573A\u666F\u3001\u9053\u5177\u6216\u7A7A\u95F4\u65B9\u4F4D\u3002",
         status: "ready_to_generate",
         ...outTime - inTime > 3 ? { duration_exception_reason_zh: "\u4ECE\u65E7\u7248\u5206\u955C\u6587\u672C\u81EA\u52A8\u5339\u914D\uFF0C\u4FDD\u7559\u539F\u59CB\u65F6\u957F\u3002" } : {},
@@ -260,183 +260,96 @@ function parseRange(value) {
 }
 
 // dsh-plugin/client.js
-var name = "us-vertical-drama-studio", inject = ["slots"], p1Compatibility = { dsh: P1_DSH_VERSION, mode: "exact" }, tabs = ["\u5236\u4F5C\u53F0", "\u8D44\u4EA7", "\u4EFB\u52A1\u4E0E\u95EE\u9898"], statuses = { draft: "\u8349\u7A3F", blocked: "\u5DF2\u963B\u585E", ready_to_generate: "\u53EF\u751F\u6210", generating: "\u751F\u6210\u4E2D", review_required: "\u5F85\u5BA1\u6838", approved: "\u5DF2\u901A\u8FC7", pending_approval: "\u5F85\u5BA1\u6838", todo: "\u5F85\u5904\u7406", in_progress: "\u8FDB\u884C\u4E2D", review: "\u5F85\u590D\u6838", done: "\u5DF2\u5B8C\u6210" }, kinds = { character: "\u89D2\u8272", look: "\u670D\u88C5\u9020\u578B", set: "\u573A\u666F", prop: "\u9053\u5177" };
+var name = "us-vertical-drama-studio", inject = ["slots"], p1Compatibility = { dsh: P1_DSH_VERSION, mode: "exact" }, statuses = { draft: "\u8349\u7A3F", blocked: "\u5DF2\u963B\u585E", ready_to_generate: "\u53EF\u751F\u6210", generating: "\u751F\u6210\u4E2D", review_required: "\u5F85\u5BA1\u6838", approved: "\u5DF2\u901A\u8FC7" };
+function HarnessBridge() {
+  let marker = (0, import_react.useRef)(null), [target, setTarget] = (0, import_react.useState)();
+  return (0, import_react.useLayoutEffect)(() => {
+    let document = marker.current?.ownerDocument;
+    if (!document) return;
+    let locate = () => {
+      let next = document.querySelector("[data-conversation-scroll] > [data-slot='conversation.session']");
+      setTarget((current) => current === next ? current : next ?? void 0);
+    };
+    locate();
+    let observer = new MutationObserver(locate);
+    return observer.observe(document.body, { childList: !0, subtree: !0 }), () => observer.disconnect();
+  }, []), (0, import_react.createElement)("div", null, (0, import_react.createElement)("style", null, styles), (0, import_react.createElement)("span", { ref: marker, className: "uwd-bridge-marker", "aria-hidden": !0 }), target ? (0, import_react_dom.createPortal)((0, import_react.createElement)(WorkbenchPanel), target) : null);
+}
 function WorkbenchPanel() {
-  let [tab, setTab] = (0, import_react.useState)("\u5236\u4F5C\u53F0"), [snapshot, setSnapshot] = (0, import_react.useState)(), [filename, setFilename] = (0, import_react.useState)(), [importKind, setImportKind] = (0, import_react.useState)(), [activeVideo, setActiveVideo] = (0, import_react.useState)(), [activeShot, setActiveShot] = (0, import_react.useState)(), [error, setError] = (0, import_react.useState)(), importManifest = (event) => {
+  let [snapshot, setSnapshot] = (0, import_react.useState)(), [filename, setFilename] = (0, import_react.useState)("\u672A\u5BFC\u5165\u5206\u955C"), [source, setSource] = (0, import_react.useState)(""), [view, setView] = (0, import_react.useState)("\u6587\u672C"), [activeVideo, setActiveVideo] = (0, import_react.useState)(), [activeShot, setActiveShot] = (0, import_react.useState)(), [error, setError] = (0, import_react.useState)(), video = snapshot?.videos.find((item) => item.video_id === activeVideo) ?? snapshot?.videos[0], shots = (0, import_react.useMemo)(() => snapshot?.shots.filter((item) => item.video_id === video?.video_id).sort((a, b) => (a.timeline_in_seconds ?? 0) - (b.timeline_in_seconds ?? 0)) ?? [], [snapshot, video]), shot = shots.find((item) => item.shot_id === activeShot) ?? shots[0], importStoryboard = (event) => {
     let file = event.target.files?.[0];
     if (!file) return;
     let reader = new FileReader();
     reader.onload = () => {
       try {
-        let text = String(reader.result), isJson = /\.json$/i.test(file.name), manifest = isJson ? JSON.parse(text) : parseStoryboardText(text, file.name), next = buildProductionSnapshot(manifest);
-        setSnapshot(next), setFilename(file.name), setImportKind(isJson ? "JSON \u751F\u4EA7\u6E05\u5355" : "\u5206\u955C\u6587\u672C\u81EA\u52A8\u5339\u914D"), setActiveVideo(next.videos[0]?.video_id), setActiveShot(next.shots[0]?.shot_id), setError(void 0), setTab("\u5236\u4F5C\u53F0");
+        let text = String(reader.result), manifest = /\.json$/i.test(file.name) ? JSON.parse(text) : parseStoryboardText(text, file.name), next = buildProductionSnapshot(manifest);
+        setSnapshot(next), setFilename(file.name), setSource(/\.json$/i.test(file.name) ? JSON.stringify(manifest, null, 2) : text), setActiveVideo(next.videos[0]?.video_id), setActiveShot(next.shots[0]?.shot_id), setView("\u6587\u672C"), setError(void 0);
       } catch (reason) {
-        setSnapshot(void 0), setError(reason instanceof Error ? reason.message : "\u65E0\u6CD5\u8BFB\u53D6\u751F\u4EA7\u6E05\u5355");
+        setError(reason instanceof Error ? reason.message : "\u65E0\u6CD5\u8BFB\u53D6\u5206\u955C\u6587\u4EF6");
       }
     }, reader.readAsText(file, "utf-8");
-  }, content = snapshot === void 0 ? (0, import_react.createElement)(Welcome, null) : tab === "\u5236\u4F5C\u53F0" ? (0, import_react.createElement)(Desk, { snapshot, activeVideo, activeShot, setActiveVideo, setActiveShot }) : tab === "\u8D44\u4EA7" ? (0, import_react.createElement)(Assets, { snapshot }) : (0, import_react.createElement)(Tasks, { snapshot, openTarget: (target) => {
-    let shot = snapshot.shots.find((item) => item.shot_id === target);
-    shot && (setActiveVideo(shot.video_id), setActiveShot(shot.shot_id), setTab("\u5236\u4F5C\u53F0"));
-  } });
+  };
   return (0, import_react.createElement)(
-    "section",
-    { className: "uwd-workspace", "aria-label": "\u77ED\u5267\u5236\u4F5C\u5DE5\u4F5C\u53F0" },
-    (0, import_react.createElement)(
-      "header",
-      { className: "uwd-topbar" },
-      (0, import_react.createElement)("div", null, (0, import_react.createElement)("strong", null, "US Vertical Drama \xB7 \u77ED\u5267\u5236\u4F5C\u53F0"), (0, import_react.createElement)("small", null, snapshot?.episode_display_name_zh ?? filename ?? "\u751F\u6210\u3001\u5BA1\u6838\u548C\u5FAE\u8C03\u90FD\u5728\u540C\u4E00\u5DE5\u4F5C\u533A\u5B8C\u6210")),
-      (0, import_react.createElement)("div", { className: "uwd-top-actions" }, importKind ? (0, import_react.createElement)("span", { className: "uwd-import-state" }, importKind) : null, (0, import_react.createElement)("label", { className: "uwd-import" }, "\u5BFC\u5165\u5206\u955C\u6587\u4EF6", (0, import_react.createElement)("input", { type: "file", accept: "application/json,.json,text/plain,.txt,text/markdown,.md", onChange: importManifest })))
-    ),
-    error === void 0 ? null : (0, import_react.createElement)("p", { className: "uwd-error", role: "alert" }, error),
-    (0, import_react.createElement)("nav", { className: "uwd-tabs", role: "tablist", "aria-label": "\u5DE5\u4F5C\u533A\u9875\u7B7E" }, tabs.map((item) => (0, import_react.createElement)("button", { key: item, type: "button", role: "tab", "aria-selected": tab === item, onClick: () => setTab(item) }, item))),
-    content
-  );
-}
-function Welcome() {
-  return (0, import_react.createElement)(
-    "main",
-    { className: "uwd-welcome" },
-    (0, import_react.createElement)("h1", null, "\u89C6\u9891\u5206\u955C\u5236\u4F5C\u5DE5\u4F5C\u533A"),
-    (0, import_react.createElement)("p", null, "\u76F4\u63A5\u5BFC\u5165\u5206\u955C\u5BFC\u6F14\u751F\u6210\u7684 Markdown / TXT\uFF0C\u7CFB\u7EDF\u4F1A\u81EA\u52A8\u5339\u914D\u3010\u89C6\u9891\u7F16\u53F7\u3011\u3001\u3010\u955C\u5934\u7F16\u53F7\u3011\u3001\u65F6\u957F\u53CA\u4E24\u5C42\u89C6\u9891\u63D0\u793A\u8BCD\uFF1B\u4E5F\u652F\u6301 production-workbench.json \u9AD8\u7EA7\u6E05\u5355\u3002"),
-    (0, import_react.createElement)("p", { className: "uwd-welcome-note" }, "\u5DE5\u4F5C\u53F0\u548C\u5236\u4F5C\u8BF4\u660E\u4F7F\u7528\u4E2D\u6587\uFF1B\u82F1\u6587\u53EA\u4FDD\u7559\u89D2\u8272\u540D\u4E0E\u5B9E\u9645\u53F0\u8BCD\u3002")
-  );
-}
-function Desk({ snapshot, activeVideo, activeShot, setActiveVideo, setActiveShot }) {
-  let video = snapshot.videos.find((item) => item.video_id === activeVideo) ?? snapshot.videos[0], shots = (0, import_react.useMemo)(() => snapshot.shots.filter((item) => item.video_id === video?.video_id).sort((a, b) => (a.timeline_in_seconds ?? 0) - (b.timeline_in_seconds ?? 0)), [snapshot, video]), shot = shots.find((item) => item.shot_id === activeShot) ?? shots[0];
-  return (0, import_react.createElement)(
-    "main",
-    { className: "uwd-desk" },
+    "div",
+    { className: "uwd-split", "data-open": "true" },
     (0, import_react.createElement)(
       "aside",
-      { className: "uwd-sidebar" },
-      (0, import_react.createElement)("div", { className: "uwd-sidebar-title" }, "\u5267\u96C6 / \u89C6\u9891 / \u955C\u5934", (0, import_react.createElement)("span", null, String(snapshot.summary.shots))),
-      (0, import_react.createElement)("p", { className: "uwd-episode-tree" }, snapshot.episode_display_name_zh ?? snapshot.episode_id ?? "\u672A\u547D\u540D\u5267\u96C6"),
-      snapshot.videos.map((item) => (0, import_react.createElement)(
+      { className: "uwd-tree", "aria-label": "\u5206\u955C\u6587\u4EF6\u6811" },
+      (0, import_react.createElement)("header", null, (0, import_react.createElement)("strong", null, "\u77ED\u5267\u5DE5\u4F5C\u533A"), (0, import_react.createElement)("label", { className: "uwd-import" }, "\u5BFC\u5165\u5206\u955C", (0, import_react.createElement)("input", { type: "file", accept: "application/json,.json,text/plain,.txt,text/markdown,.md", onChange: importStoryboard }))),
+      (0, import_react.createElement)("p", { className: "uwd-project" }, filename),
+      (0, import_react.createElement)("button", { type: "button", className: view === "\u6587\u672C" ? "selected" : "", onClick: () => setView("\u6587\u672C") }, "\u25A3 \u5206\u955C\u6587\u672C"),
+      (0, import_react.createElement)("button", { type: "button", className: view === "\u89C6\u9891\u5305" ? "selected" : "", onClick: () => setView("\u89C6\u9891\u5305") }, "\u25A3 \u89C6\u9891\u5305\u4E0E\u955C\u5934", snapshot ? (0, import_react.createElement)("small", null, String(snapshot.summary.videos) + " \u89C6\u9891 / " + String(snapshot.summary.shots) + " \u955C\u5934") : null),
+      snapshot ? (0, import_react.createElement)("div", { className: "uwd-tree-videos" }, snapshot.videos.map((item) => (0, import_react.createElement)(
         "div",
-        { className: "uwd-video-tree", key: item.video_id },
-        (0, import_react.createElement)(
-          "button",
-          { type: "button", className: item.video_id === video?.video_id ? "selected" : "", onClick: () => {
-            setActiveVideo(item.video_id), setActiveShot(snapshot.shots.find((next) => next.video_id === item.video_id)?.shot_id);
-          } },
-          (0, import_react.createElement)("b", null, item.display_name_zh ?? item.video_id),
-          (0, import_react.createElement)("small", null, "\u89C6\u9891\u7F16\u53F7\uFF1A" + item.video_id + " \xB7 " + seconds(item.duration_seconds) + " \xB7 " + status(item.status))
-        ),
-        item.video_id !== video?.video_id ? null : snapshot.shots.filter((next) => next.video_id === item.video_id).sort((a, b) => (a.timeline_in_seconds ?? 0) - (b.timeline_in_seconds ?? 0)).map((next) => (0, import_react.createElement)("button", { type: "button", key: next.shot_id, className: "uwd-tree-shot" + (next.shot_id === activeShot ? " selected" : ""), onClick: () => setActiveShot(next.shot_id) }, (0, import_react.createElement)("b", null, next.display_name_zh ?? next.shot_id), (0, import_react.createElement)("small", null, "\u955C\u5934\u7F16\u53F7\uFF1A" + next.shot_id + " \xB7 " + timerange(next))))
-      ))
+        { key: item.video_id },
+        (0, import_react.createElement)("button", { type: "button", className: item.video_id === video?.video_id ? "selected" : "", onClick: () => {
+          setActiveVideo(item.video_id), setActiveShot(snapshot.shots.find((next) => next.video_id === item.video_id)?.shot_id), setView("\u89C6\u9891\u5305");
+        } }, "\u89C6\u9891\u7F16\u53F7\uFF1A" + item.video_id),
+        item.video_id === video?.video_id ? snapshot.shots.filter((next) => next.video_id === item.video_id).map((next) => (0, import_react.createElement)("button", { type: "button", key: next.shot_id, className: "uwd-tree-shot" + (next.shot_id === shot?.shot_id ? " selected" : ""), onClick: () => {
+          setActiveShot(next.shot_id), setView("\u89C6\u9891\u5305");
+        } }, "\u955C\u5934\u7F16\u53F7\uFF1A" + next.shot_id)) : null
+      ))) : null
     ),
     (0, import_react.createElement)(
-      "section",
-      { className: "uwd-stage" },
-      (0, import_react.createElement)("div", { className: "uwd-metrics" }, metric("\u89C6\u9891\u5305", snapshot.summary.videos), metric("\u5FAE\u955C\u5934", snapshot.summary.micro_shots || snapshot.summary.shots), metric("\u53EF\u751F\u6210", snapshot.summary.ready_to_generate), metric("\u963B\u585E", snapshot.summary.blocked)),
-      video === void 0 ? (0, import_react.createElement)("p", null, "\u6CA1\u6709\u53EF\u663E\u793A\u7684\u89C6\u9891\u5305\u3002") : (0, import_react.createElement)(Timeline, { video, shots, activeShot, setActiveShot }),
-      video === void 0 ? null : (0, import_react.createElement)(VideoPrompt, { video }),
-      (0, import_react.createElement)("p", { className: "uwd-help" }, "\u6BCF\u4E00\u5757\u4EE3\u8868\u4E00\u4E2A\u53EF\u72EC\u7ACB\u751F\u6210\u3001\u66FF\u6362\u6216\u5FAE\u8C03\u7684\u5FAE\u955C\u5934\u3002\u5B83\u4EEC\u6309\u65F6\u95F4\u6392\u5217\uFF0C\u4FDD\u8BC1\u8D44\u4EA7\u548C\u52A8\u4F5C\u8FDE\u7EED\u3002")
-    ),
-    (0, import_react.createElement)(Inspector, { shot, assets: snapshot.assets })
-  );
-}
-function Timeline({ video, shots, activeShot, setActiveShot }) {
-  let duration = video.duration_seconds || Math.max(...shots.map((item) => item.timeline_out_seconds ?? item.duration_seconds), 1);
-  return (0, import_react.createElement)(
-    "section",
-    { className: "uwd-timeline-card" },
-    (0, import_react.createElement)("div", { className: "uwd-timeline-title" }, (0, import_react.createElement)("div", null, (0, import_react.createElement)("h1", null, video.display_name_zh ?? video.video_id), (0, import_react.createElement)("small", null, "\u89C6\u9891\u7F16\u53F7\uFF1A" + video.video_id + " \xB7 " + seconds(duration) + " \xB7 " + status(video.status))), (0, import_react.createElement)("span", null, String(shots.length) + " \u4E2A\u5FAE\u955C\u5934")),
-    (0, import_react.createElement)("div", { className: "uwd-ruler" }, [0, 0.25, 0.5, 0.75, 1].map((point) => (0, import_react.createElement)("i", { key: point, style: { left: String(point * 100) + "%" } }, seconds(duration * point)))),
-    (0, import_react.createElement)("div", { className: "uwd-track", role: "list", "aria-label": "\u5FAE\u955C\u5934\u65F6\u95F4\u7EBF" }, shots.map((item) => {
-      let width = Math.max(4, (item.duration_seconds || 0) / duration * 100), left = (item.timeline_in_seconds || 0) / duration * 100;
-      return (0, import_react.createElement)(
-        "button",
-        { type: "button", role: "listitem", key: item.shot_id, className: "uwd-segment " + item.status + (item.shot_id === activeShot ? " selected" : ""), style: { left: String(left) + "%", width: String(width) + "%" }, onClick: () => setActiveShot(item.shot_id) },
-        (0, import_react.createElement)("b", null, item.display_name_zh ?? item.shot_id),
-        (0, import_react.createElement)("small", null, timerange(item) + " \xB7 " + seconds(item.duration_seconds))
-      );
-    }))
-  );
-}
-function Inspector({ shot, assets }) {
-  if (shot === void 0) return (0, import_react.createElement)("aside", { className: "uwd-inspector" }, "\u9009\u62E9\u4E00\u4E2A\u5FAE\u955C\u5934\u67E5\u770B\u8BE6\u7EC6\u5236\u4F5C\u4FE1\u606F\u3002");
-  let bound = (shot.asset_ids ?? []).map((id) => assets.find((asset) => asset.id === id)).filter(Boolean);
-  return (0, import_react.createElement)(
-    "aside",
-    { className: "uwd-inspector" },
-    (0, import_react.createElement)("small", { className: "uwd-id" }, "\u955C\u5934\u7F16\u53F7\uFF1A" + shot.shot_id),
-    (0, import_react.createElement)("h1", null, shot.display_name_zh ?? "\u672A\u547D\u540D\u5FAE\u955C\u5934"),
-    (0, import_react.createElement)("span", { className: "uwd-state " + shot.status }, status(shot.status)),
-    (0, import_react.createElement)("dl", { className: "uwd-details" }, detail("\u5305\u5185\u65F6\u95F4", timerange(shot)), detail("\u65F6\u957F", seconds(shot.duration_seconds)), detail("\u955C\u5934\u7C7B\u578B", shot.shot_type ?? "\u672A\u6807\u6CE8"), detail("\u751F\u6210\u65B9\u5F0F", generation(shot.generation_mode))),
-    (0, import_react.createElement)("h2", null, "\u753B\u9762\u4E0E\u52A8\u4F5C"),
-    (0, import_react.createElement)("p", null, shot.shot_delta_prompt),
-    (0, import_react.createElement)("h2", null, "\u9501\u5B9A\u8D44\u4EA7"),
-    (0, import_react.createElement)("div", { className: "uwd-chips" }, bound.length === 0 ? "\u672A\u7ED1\u5B9A\u8D44\u4EA7" : bound.map((asset) => (0, import_react.createElement)("span", { key: asset.id }, asset.display_name_zh ?? asset.id))),
-    (0, import_react.createElement)(Prompt, { title: "\u8D44\u4EA7\u9501\u5B9A\u63D0\u793A\u8BCD", text: shot.asset_lock_prompt }),
-    (0, import_react.createElement)(Prompt, { title: "\u8D1F\u9762\u7EA6\u675F", text: shot.negative_prompt }),
-    shot.duration_exception_reason_zh ? (0, import_react.createElement)("p", { className: "uwd-exception" }, "\u957F\u955C\u5934\u4F8B\u5916\uFF1A" + shot.duration_exception_reason_zh) : null,
-    shot.short_duration_reason_zh ? (0, import_react.createElement)("p", { className: "uwd-exception" }, "\u77ED\u955C\u5934\u4F8B\u5916\uFF1A" + shot.short_duration_reason_zh) : null
-  );
-}
-function VideoPrompt({ video }) {
-  return (0, import_react.createElement)(
-    "section",
-    { className: "uwd-video-prompt" },
-    (0, import_react.createElement)("div", null, (0, import_react.createElement)("small", null, "\u89C6\u9891\u63D0\u793A\u8BCD\u7F16\u53F7\uFF1A" + (video.video_prompt_id ?? "\u672A\u63D0\u4F9B")), (0, import_react.createElement)("h2", null, "\u89C6\u9891\u603B\u63D0\u793A\u8BCD\uFF08\u76F4\u63A5\u63D0\u4EA4\u6A21\u578B\uFF09")),
-    (0, import_react.createElement)(Prompt, { title: "\u5B8C\u6574\u65F6\u5E8F\u4E0E\u955C\u5934\u53D8\u5316", text: video.video_master_prompt }),
-    (0, import_react.createElement)(Prompt, { title: "\u89C6\u9891\u7EA7\u8D1F\u9762\u7EA6\u675F", text: video.video_negative_prompt })
-  );
-}
-function Prompt({ title, text }) {
-  let copy = () => {
-    text && navigator.clipboard?.writeText && navigator.clipboard.writeText(text).catch(() => {
-    });
-  };
-  return (0, import_react.createElement)("section", { className: "uwd-prompt" }, (0, import_react.createElement)("div", null, (0, import_react.createElement)("h2", null, title), (0, import_react.createElement)("button", { type: "button", onClick: copy }, "\u590D\u5236")), (0, import_react.createElement)("p", null, text ?? "\u672A\u63D0\u4F9B"));
-}
-function Assets({ snapshot }) {
-  return (0, import_react.createElement)(
-    "main",
-    { className: "uwd-table-page" },
-    (0, import_react.createElement)("h1", null, "\u8D44\u4EA7\u9501\u5B9A\u72B6\u6001"),
-    (0, import_react.createElement)("p", null, "\u8D44\u4EA7\u5BA1\u6838\u901A\u8FC7\u540E\uFF0C\u5173\u8054\u955C\u5934\u624D\u4F1A\u663E\u793A\u4E3A\u53EF\u751F\u6210\u3002"),
-    (0, import_react.createElement)(
-      "table",
-      null,
-      (0, import_react.createElement)("thead", null, (0, import_react.createElement)("tr", null, ["\u8D44\u4EA7", "\u7C7B\u578B", "\u72B6\u6001", "\u673A\u5668 ID"].map((name2) => (0, import_react.createElement)("th", { key: name2 }, name2)))),
-      (0, import_react.createElement)("tbody", null, snapshot.assets.map((asset) => (0, import_react.createElement)("tr", { key: asset.id }, (0, import_react.createElement)("td", null, asset.display_name_zh ?? "\u672A\u547D\u540D\u8D44\u4EA7"), (0, import_react.createElement)("td", null, kinds[asset.kind] ?? asset.kind), (0, import_react.createElement)("td", null, status(asset.status)), (0, import_react.createElement)("td", null, asset.id))))
+      "main",
+      { className: "uwd-editor", "aria-label": "\u5206\u955C\u7F16\u8F91\u5668" },
+      (0, import_react.createElement)("header", { className: "uwd-editor-bar" }, (0, import_react.createElement)("div", null, (0, import_react.createElement)("b", null, filename), (0, import_react.createElement)("small", null, snapshot ? "\u5DF2\u81EA\u52A8\u5339\u914D\u89C6\u9891\u3001\u955C\u5934\u3001\u65F6\u95F4\u4E0E\u63D0\u793A\u8BCD" : "\u5BFC\u5165\u6280\u80FD\u751F\u6210\u7684 Markdown / TXT \u5F00\u59CB\u5236\u4F5C")), (0, import_react.createElement)("div", { className: "uwd-tabs", role: "tablist" }, ["\u6587\u672C", "\u89C6\u9891\u5305"].map((name2) => (0, import_react.createElement)("button", { type: "button", role: "tab", key: name2, "aria-selected": view === name2, onClick: () => setView(name2) }, name2)))),
+      error ? (0, import_react.createElement)("p", { className: "uwd-error", role: "alert" }, error) : null,
+      view === "\u6587\u672C" ? (0, import_react.createElement)(DocumentView, { source, imported: !!snapshot }) : (0, import_react.createElement)(VideoPackageView, { snapshot, video, shots, shot, setActiveShot })
     )
   );
 }
-function Tasks({ snapshot, openTarget }) {
-  return (0, import_react.createElement)(
-    "main",
-    { className: "uwd-problem-page" },
-    (0, import_react.createElement)("section", null, (0, import_react.createElement)("h1", null, "\u4EFB\u52A1\u961F\u5217"), snapshot.tasks.length === 0 ? (0, import_react.createElement)("p", null, "\u6682\u65E0\u4EFB\u52A1\u3002") : (0, import_react.createElement)("ul", null, snapshot.tasks.map((task) => (0, import_react.createElement)("li", { key: task.id }, (0, import_react.createElement)("b", null, task.display_name_zh ?? task.id), (0, import_react.createElement)("span", null, status(task.status)), (0, import_react.createElement)("small", null, (task.targets ?? []).join("\u3001") || "\u672A\u5173\u8054\u5BF9\u8C61"))))),
-    (0, import_react.createElement)("section", null, (0, import_react.createElement)("h1", null, "\u9700\u8981\u5904\u7406"), snapshot.diagnostics.length === 0 ? (0, import_react.createElement)("p", { className: "uwd-ok" }, "\u5F53\u524D\u6CA1\u6709\u963B\u585E\u9879\u3002") : (0, import_react.createElement)("ul", null, snapshot.diagnostics.map((item, index) => (0, import_react.createElement)("li", { className: item.severity, key: item.code + index, onClick: () => item.target_id && openTarget(item.target_id) }, (item.target_id ? item.target_id + " \xB7 " : "") + item.message))))
+function DocumentView({ source, imported }) {
+  return imported ? (0, import_react.createElement)("article", { className: "uwd-document" }, (0, import_react.createElement)("pre", null, source)) : (0, import_react.createElement)("section", { className: "uwd-empty" }, (0, import_react.createElement)("h1", null, "\u4ECE\u5206\u955C\u6587\u6863\u5F00\u59CB"), (0, import_react.createElement)("p", null, "\u5DE6\u4FA7\u70B9\u51FB\u201C\u5BFC\u5165\u5206\u955C\u201D\uFF0C\u76F4\u63A5\u9009\u62E9\u5206\u955C\u5BFC\u6F14\u751F\u6210\u7684 Markdown\u3001TXT \u6216 production-workbench.json\u3002"), (0, import_react.createElement)("p", null, "\u5BFC\u5165\u540E\uFF1A\u5DE6\u4FA7\u81EA\u52A8\u751F\u6210\u89C6\u9891/\u955C\u5934\u6811\uFF1B\u4E2D\u95F4\u4FDD\u7559\u539F\u59CB\u6587\u6863\uFF1B\u53F3\u4FA7\u7EE7\u7EED\u4F7F\u7528 Harness \u539F\u751F\u5BF9\u8BDD\uFF0C\u8BA9\u6A21\u578B\u4FEE\u6539\u3001\u7EED\u5199\u6216\u5BA1\u6838\u3002"));
+}
+function VideoPackageView({ snapshot, video, shots, shot, setActiveShot }) {
+  return !snapshot || !video ? (0, import_react.createElement)("section", { className: "uwd-empty" }, (0, import_react.createElement)("h1", null, "\u8FD8\u6CA1\u6709\u89C6\u9891\u5305"), (0, import_react.createElement)("p", null, "\u5148\u5BFC\u5165\u5206\u955C\u6587\u672C\uFF0C\u7CFB\u7EDF\u4F1A\u6309\u3010\u89C6\u9891\u7F16\u53F7\u3011\u4E0E\u3010\u955C\u5934\u7F16\u53F7\u3011\u81EA\u52A8\u5EFA\u7ACB\u5173\u7CFB\u3002")) : (0, import_react.createElement)(
+    "section",
+    { className: "uwd-production" },
+    (0, import_react.createElement)("div", { className: "uwd-summary" }, metric("\u89C6\u9891\u5305", snapshot.summary.videos), metric("\u5FAE\u955C\u5934", snapshot.summary.micro_shots), metric("\u53EF\u751F\u6210", snapshot.summary.ready_to_generate), metric("\u963B\u585E", snapshot.summary.blocked)),
+    (0, import_react.createElement)("article", { className: "uwd-video-card" }, (0, import_react.createElement)("small", null, "\u89C6\u9891\u7F16\u53F7\uFF1A" + video.video_id + " \xB7 " + seconds(video.duration_seconds) + " \xB7 " + status(video.status)), (0, import_react.createElement)("h1", null, video.display_name_zh ?? video.video_id), (0, import_react.createElement)("h2", null, "\u89C6\u9891\u603B\u63D0\u793A\u8BCD\uFF08\u76F4\u63A5\u63D0\u4EA4\u6A21\u578B\uFF09"), (0, import_react.createElement)("p", null, video.video_master_prompt), (0, import_react.createElement)("h2", null, "\u89C6\u9891\u7EA7\u8D1F\u9762\u7EA6\u675F"), (0, import_react.createElement)("p", null, video.video_negative_prompt)),
+    (0, import_react.createElement)("h2", { className: "uwd-section-title" }, "\u955C\u5934\u65F6\u95F4\u7EBF"),
+    (0, import_react.createElement)("div", { className: "uwd-timeline" }, shots.map((item) => (0, import_react.createElement)("button", { type: "button", key: item.shot_id, className: item.shot_id === shot?.shot_id ? "selected" : "", onClick: () => setActiveShot(item.shot_id) }, (0, import_react.createElement)("b", null, "\u955C\u5934\u7F16\u53F7\uFF1A" + item.shot_id), (0, import_react.createElement)("small", null, timerange(item) + " \xB7 " + seconds(item.duration_seconds) + " \xB7 " + status(item.status)), (0, import_react.createElement)("span", null, item.shot_delta_prompt)))),
+    shot ? (0, import_react.createElement)("article", { className: "uwd-shot-card" }, (0, import_react.createElement)("small", null, "\u5F53\u524D\u9009\u62E9\uFF1A\u955C\u5934\u7F16\u53F7 " + shot.shot_id), (0, import_react.createElement)("h2", null, shot.display_name_zh ?? "\u5FAE\u955C\u5934"), (0, import_react.createElement)("p", null, shot.shot_delta_prompt), (0, import_react.createElement)("h3", null, "\u9501\u5B9A\u8D44\u4EA7\u4E0E\u8D1F\u9762\u7EA6\u675F"), (0, import_react.createElement)("p", null, shot.asset_lock_prompt + `
+` + shot.negative_prompt)) : null
   );
 }
 function metric(label, value) {
-  return (0, import_react.createElement)("div", { className: "uwd-metric", key: label }, (0, import_react.createElement)("b", null, String(value)), (0, import_react.createElement)("small", null, label));
-}
-function detail(label, value) {
-  return (0, import_react.createElement)("div", { key: label }, (0, import_react.createElement)("dt", null, label), (0, import_react.createElement)("dd", null, value));
+  return (0, import_react.createElement)("div", { key: label }, (0, import_react.createElement)("b", null, String(value ?? 0)), (0, import_react.createElement)("small", null, label));
 }
 function status(value) {
   return statuses[value] ?? value ?? "\u672A\u6807\u6CE8";
 }
-function generation(value) {
-  return { independent: "\u72EC\u7ACB\u751F\u6210", extend: "\u5EF6\u5C55\u751F\u6210", image_to_video: "\u56FE\u751F\u89C6\u9891" }[value] ?? value ?? "\u672A\u6807\u6CE8";
-}
 function seconds(value) {
-  let number2 = Number(value ?? 0);
-  return String(Number.isInteger(number2) ? number2 : Number(number2.toFixed(1))) + " \u79D2";
+  let n = Number(value ?? 0);
+  return String(Number.isInteger(n) ? n : Number(n.toFixed(1))) + " \u79D2";
 }
 function timerange(shot) {
   return shot.timeline_in_seconds === void 0 ? "\u672A\u6807\u6CE8" : seconds(shot.timeline_in_seconds) + "\u2013" + seconds(shot.timeline_out_seconds);
 }
-var styles = ".uwd-workspace{position:fixed;inset:0;z-index:31;background:#0d1118;color:#edf0f6;font:13px/1.45 system-ui;display:flex;flex-direction:column}.uwd-topbar{height:64px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid #273246;background:#121925}.uwd-topbar strong,.uwd-topbar small{display:block}.uwd-topbar strong{font-size:15px}.uwd-topbar small{color:#9aa8bc;margin-top:2px}.uwd-import{border:1px solid #41516d;border-radius:7px;background:#182235;color:#e8eef9;padding:7px 10px;cursor:pointer}.uwd-import input{display:none}.uwd-error{margin:8px 18px;color:#fda4af}.uwd-tabs{height:42px;flex:none;display:flex;gap:4px;padding:0 18px;border-bottom:1px solid #273246;background:#101722}.uwd-tabs button{border:0;background:transparent;color:#9aa8bc;padding:11px 10px;cursor:pointer}.uwd-tabs button[aria-selected=true]{color:#fff;border-bottom:2px solid #fb7185}.uwd-welcome{display:grid;place-content:center;flex:1;text-align:center;padding:30px}.uwd-welcome h1{font-size:24px;margin:0 0 12px}.uwd-welcome p{max-width:610px;color:#b5c0d2;margin:6px auto}.uwd-welcome-note{color:#86efac!important}.uwd-desk{display:grid;grid-template-columns:210px minmax(390px,1fr) 340px;min-height:0;flex:1}.uwd-sidebar{overflow:auto;border-right:1px solid #273246;background:#101722;padding:12px}.uwd-sidebar-title{display:flex;justify-content:space-between;color:#c8d3e6;font-weight:700;padding:4px 5px 9px}.uwd-sidebar-title span{color:#8291a8}.uwd-sidebar button{display:block;width:100%;text-align:left;border:1px solid transparent;background:transparent;color:#dce4f1;border-radius:8px;padding:10px 8px;margin:4px 0;cursor:pointer}.uwd-sidebar button:hover,.uwd-sidebar button.selected{background:#1b2940;border-color:#40557a}.uwd-sidebar b,.uwd-sidebar small{display:block}.uwd-sidebar small{color:#9aa8bc;margin-top:3px}.uwd-stage{overflow:auto;padding:18px;background:#0d1118}.uwd-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}.uwd-metric{border:1px solid #273246;background:#131c2b;padding:10px;border-radius:9px}.uwd-metric b{font-size:19px;display:block}.uwd-metric small{color:#9aa8bc}.uwd-timeline-card{border:1px solid #273246;border-radius:12px;background:#121925;padding:17px}.uwd-timeline-title{display:flex;justify-content:space-between;gap:12px}.uwd-timeline-title h1{font-size:16px;margin:0}.uwd-timeline-title small{color:#9aa8bc}.uwd-timeline-title>span{border-radius:999px;background:#273b5c;padding:4px 8px;height:min-content;color:#cfe0ff;white-space:nowrap}.uwd-ruler{position:relative;height:25px;margin:15px 4px 0;border-top:1px solid #45516a}.uwd-ruler i{position:absolute;top:5px;transform:translateX(-50%);font-style:normal;font-size:11px;color:#8e9ab0}.uwd-track{position:relative;height:94px;border-radius:8px;background:linear-gradient(90deg,#182031 1px,transparent 1px);background-size:10% 100%;overflow:hidden}.uwd-segment{position:absolute;top:13px;bottom:13px;min-width:20px;border:1px solid #536a98;border-radius:6px;background:#274b75;color:#eef5ff;padding:7px;text-align:left;overflow:hidden;cursor:pointer}.uwd-segment b,.uwd-segment small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.uwd-segment small{color:#d0e0fa;font-size:10px;margin-top:4px}.uwd-segment.selected{outline:2px solid #fbbf24;z-index:2}.uwd-segment.ready_to_generate{background:#176b52;border-color:#39a980}.uwd-segment.blocked{background:#7b2637;border-color:#e06980}.uwd-segment.generating{background:#55418a;border-color:#9179d5}.uwd-segment.review_required{background:#70551a;border-color:#cba345}.uwd-help{color:#9aa8bc;margin:11px 2px}.uwd-inspector{overflow:auto;border-left:1px solid #273246;background:#101722;padding:17px}.uwd-inspector h1{font-size:17px;margin:2px 0 8px}.uwd-id{color:#8493ab}.uwd-state{display:inline-block;border-radius:999px;padding:3px 7px;font-size:11px;background:#273246}.uwd-details{display:grid;grid-template-columns:1fr 1fr;gap:10px;border-top:1px solid #273246;border-bottom:1px solid #273246;padding:11px 0;margin:13px 0}.uwd-details dt{font-size:11px;color:#91a0b7}.uwd-details dd{margin:2px 0 0}.uwd-inspector h2{font-size:12px;color:#c9d5e8;margin:15px 0 6px}.uwd-inspector p,.uwd-prompt p{color:#d4deec;margin:0;white-space:pre-wrap}.uwd-chips{display:flex;gap:5px;flex-wrap:wrap}.uwd-chips span{background:#223149;color:#cfe0ff;border-radius:999px;padding:3px 7px;font-size:11px}.uwd-prompt{border:1px solid #2a374c;background:#121b2a;border-radius:8px;padding:9px;margin-top:10px}.uwd-prompt div{display:flex;justify-content:space-between;align-items:center}.uwd-prompt h2{margin:0 0 7px}.uwd-prompt button{border:1px solid #41516d;background:#1c2a40;color:#dce8f9;border-radius:5px;padding:3px 6px;cursor:pointer}.uwd-exception{border-left:3px solid #fbbf24;padding-left:8px;color:#fde68a!important}.uwd-table-page,.uwd-problem-page{overflow:auto;flex:1;padding:22px}.uwd-table-page h1,.uwd-problem-page h1{font-size:18px;margin:0 0 7px}.uwd-table-page>p{color:#9aa8bc}.uwd-table-page table{width:100%;border-collapse:collapse;text-align:left}.uwd-table-page th,.uwd-table-page td{padding:10px 8px;border-bottom:1px solid #273246}.uwd-table-page th{color:#9aa8bc;font-weight:600}.uwd-problem-page{display:grid;grid-template-columns:1fr 1fr;gap:30px}.uwd-problem-page ul{list-style:none;padding:0;margin:0}.uwd-problem-page li{border-bottom:1px solid #273246;padding:9px 3px}.uwd-problem-page b,.uwd-problem-page span,.uwd-problem-page small{display:block}.uwd-problem-page span{color:#a8c9ff;margin:2px 0}.uwd-problem-page small{color:#8f9eb4}.uwd-problem-page li.error{color:#fda4af;cursor:pointer}.uwd-problem-page li.warning{color:#fde68a;cursor:pointer}.uwd-ok{color:#86efac}@media(max-width:980px){.uwd-desk{grid-template-columns:170px minmax(310px,1fr)}.uwd-inspector{grid-column:1/-1;border-left:0;border-top:1px solid #273246;max-height:340px}.uwd-stage{min-height:360px}}@media(max-width:650px){.uwd-topbar{padding:0 12px}.uwd-topbar strong{font-size:13px}.uwd-desk{grid-template-columns:1fr}.uwd-sidebar{display:flex;gap:5px;overflow:auto;border-right:0;border-bottom:1px solid #273246}.uwd-sidebar-title{display:none}.uwd-sidebar button{min-width:150px}.uwd-metrics{grid-template-columns:repeat(2,1fr)}.uwd-problem-page{grid-template-columns:1fr}.uwd-timeline-card{padding:12px}.uwd-segment{font-size:10px;padding:5px}}", treeStyles = ".uwd-top-actions{display:flex;gap:10px;align-items:center}.uwd-import-state{color:#a7f3d0;font-size:12px}.uwd-episode-tree{margin:0 5px 8px;padding:7px 8px;border-left:2px solid #f472b6;color:#dbeafe;background:#151f30}.uwd-video-tree{border-left:1px solid #34425a;margin-left:7px;padding-left:7px}.uwd-sidebar .uwd-tree-shot{margin-left:7px;width:calc(100% - 7px);padding:7px 8px;background:#111a29}.uwd-sidebar .uwd-tree-shot b{font-weight:500;font-size:12px}";
+var styles = '.uwd-bridge-marker{display:none}.uwd-split{display:contents;font-family:var(--dsw-font-family,system-ui)}[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split){display:grid;grid-template-columns:clamp(170px,16%,210px) minmax(320px,1fr) clamp(360px,34%,500px);grid-template-rows:minmax(0,1fr);min-height:0;overflow:auto;position:relative;background:var(--dsw-alias-bg-base,#fff)}[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split)>[data-slot="conversation.session"]>:not(.uwd-split){grid-column:3;grid-row:1;min-width:0;min-height:100%;border-left:1px solid var(--dsw-alias-border-l2,#e5e7eb)}[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split)>[data-composer-seat]{grid-column:3;grid-row:1;align-self:end;min-width:0;width:100%;position:sticky;z-index:4}.uwd-tree,.uwd-editor{box-sizing:border-box;grid-row:1;position:sticky;top:0;align-self:start;min-width:0;height:100%;overflow:auto;color:var(--dsw-alias-label-primary,#172033);background:var(--dsw-alias-bg-base,#fff)}.uwd-tree{grid-column:1;border-right:1px solid var(--dsw-alias-border-l2,#e5e7eb);padding:13px 10px}.uwd-tree header{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:14px;font-size:13px}.uwd-import{border:1px solid var(--dsw-alias-border-l2,#d1d5db);border-radius:6px;padding:4px 6px;color:var(--dsw-alias-label-secondary,#596579);cursor:pointer;font-size:11px}.uwd-import input{display:none}.uwd-project{overflow:hidden;margin:0 0 6px;color:var(--dsw-alias-label-secondary,#596579);text-overflow:ellipsis;white-space:nowrap;font-size:11px}.uwd-tree button{display:block;width:100%;border:0;border-radius:5px;color:inherit;background:transparent;padding:7px 8px;text-align:left;cursor:pointer;font:12px/1.4 inherit}.uwd-tree button:hover,.uwd-tree button.selected{background:var(--dsw-alias-interactive-bg-hover,#edf4ff)}.uwd-tree button small{display:block;color:var(--dsw-alias-label-secondary,#596579);font-size:10px}.uwd-tree-videos{margin:5px 0 0 8px;border-left:1px solid var(--dsw-alias-border-l2,#e5e7eb);padding-left:4px}.uwd-tree .uwd-tree-shot{margin-left:5px;width:calc(100% - 5px);color:var(--dsw-alias-label-secondary,#596579);font-size:11px}.uwd-editor{grid-column:2;background:#fff}.uwd-editor-bar{position:sticky;top:0;z-index:2;display:flex;min-height:47px;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--dsw-alias-border-l2,#e5e7eb);background:var(--dsw-alias-bg-base,#fff);padding:7px 15px}.uwd-editor-bar b,.uwd-editor-bar small{display:block}.uwd-editor-bar small{color:var(--dsw-alias-label-secondary,#596579);font-size:11px}.uwd-tabs{display:flex;gap:2px}.uwd-tabs button{border:0;border-radius:5px;color:var(--dsw-alias-label-secondary,#596579);background:transparent;padding:6px 9px;cursor:pointer;font:12px inherit}.uwd-tabs button[aria-selected="true"]{color:var(--dsw-alias-label-primary,#172033);background:var(--dsw-alias-interactive-bg-hover,#edf4ff)}.uwd-error{margin:12px 16px;color:#c24152}.uwd-empty{max-width:580px;margin:100px auto;padding:30px;color:#374151}.uwd-empty h1{margin:0 0 12px;font-size:25px}.uwd-empty p{color:#64748b;line-height:1.8}.uwd-document{box-sizing:border-box;min-height:100%;padding:34px clamp(20px,6%,72px);color:#1f2937}.uwd-document pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.9 ui-monospace,SFMono-Regular,Menlo,monospace}.uwd-production{padding:18px clamp(16px,4%,44px) 80px;color:#1f2937}.uwd-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:16px}.uwd-summary div{border:1px solid #e5e7eb;border-radius:8px;padding:9px;background:#f8fafc}.uwd-summary b,.uwd-summary small{display:block}.uwd-summary b{font-size:18px}.uwd-summary small{color:#64748b;font-size:11px}.uwd-video-card,.uwd-shot-card{border:1px solid #e5e7eb;border-radius:10px;background:#fff;padding:18px;box-shadow:0 1px 3px rgb(15 23 42 / 5%)}.uwd-video-card small,.uwd-shot-card small{color:#64748b}.uwd-video-card h1{margin:7px 0 18px;font-size:20px}.uwd-video-card h2,.uwd-shot-card h2,.uwd-shot-card h3{margin:16px 0 6px;font-size:13px}.uwd-video-card p,.uwd-shot-card p{margin:0;white-space:pre-wrap;color:#374151;line-height:1.7}.uwd-section-title{margin:22px 0 10px;font-size:15px}.uwd-timeline{display:grid;gap:8px}.uwd-timeline button{border:1px solid #e5e7eb;border-radius:8px;background:#fff;padding:10px;text-align:left;cursor:pointer;color:#1f2937}.uwd-timeline button:hover,.uwd-timeline button.selected{border-color:#60a5fa;background:#eff6ff}.uwd-timeline b,.uwd-timeline small,.uwd-timeline span{display:block}.uwd-timeline small{color:#64748b;margin:2px 0 5px}.uwd-timeline span{overflow:hidden;color:#475569;text-overflow:ellipsis;white-space:nowrap;font-size:12px}.uwd-shot-card{margin-top:15px}@media(max-width:900px){[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split){grid-template-columns:170px minmax(280px,1fr)}[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split)>[data-slot="conversation.session"]>:not(.uwd-split),[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split)>[data-composer-seat]{grid-column:1/-1;grid-row:2}.uwd-tree,.uwd-editor{height:auto;min-height:520px}}';
 function apply(context) {
-  assertP1Compatibility(context), context.slots.inject("shell.overlay", () => context.slots.register({
-    name: "shell.overlay",
-    id: "us-vertical-drama-workbench"
-  }, () => (0, import_react.createElement)("div", null, (0, import_react.createElement)("style", null, styles + treeStyles), (0, import_react.createElement)(WorkbenchPanel))));
+  assertP1Compatibility(context), context.slots.inject("shell.overlay", () => context.slots.register({ name: "shell.overlay", id: "us-vertical-drama-workbench", order: -100 }, HarnessBridge));
 }
 var client_default = { name, inject, apply };
 ;return module.exports;}});

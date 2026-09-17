@@ -136,3 +136,10 @@ test('P1 declares exact rc.1 peers and ships a DSH module-loader bundle', () => 
   const bundle = readFileSync(fileURLToPath(new URL('../client.bundle.cjs', import.meta.url)), 'utf8')
   assert.match(bundle, /window\.__ModuleLoader__\.load/)
 })
+
+test('workbench portals into the native DSH session instead of covering the shell', () => {
+  const client = readFileSync(fileURLToPath(new URL('../client.js', import.meta.url)), 'utf8')
+  assert.match(client, /createPortal\(h\(WorkbenchPanel\), target\)/)
+  assert.match(client, /data-conversation-scroll/)
+  assert.doesNotMatch(client, /\.uwd-workspace\{position:fixed/)
+})

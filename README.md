@@ -40,7 +40,7 @@ This repository is also an installable DeepSeek Harness plugin. It registers the
 
 ### Compatibility boundary
 
-The P0 skill provider and the production-workbench JSON contract are independent of the browser panel. The optional **P1 Production Workbench UI** is deliberately pinned to **DeepSeek Harness `0.1.5-rc.1` only**. It opens as a full production workspace rather than a floating card: left-side video packages, a central time-coded micro-shot timeline, and a right-side asset/prompt inspector. Do not install this package with DSH `0.1.6-alpha.1` or another version: the P1 UI has exact peer dependencies and a runtime slot-service guard, while P0 remains usable without the panel.
+The P0 skill provider and the production-workbench JSON contract are independent of the browser panel. The optional **P1 Production Workbench UI** is deliberately pinned to **DeepSeek Harness `0.1.5-rc.1` only**. It uses the native Harness conversation geometry rather than covering it: a production file tree on the left, the readable storyboard or video package in the center, and the original DSH chat/composer on the right. Markdown/TXT delivery files are parsed automatically into their `【视频编号】` / `【镜头编号】` production relationships. Do not install this package with DSH `0.1.6-alpha.1` or another version: the P1 UI has exact peer dependencies and a runtime slot-service guard, while P0 remains usable without the panel.
 
 Create the profile from DSH's `web` template before installing the plugin. A bare profile has no browser shell, so it can run P0 skills but cannot show P1:
 
