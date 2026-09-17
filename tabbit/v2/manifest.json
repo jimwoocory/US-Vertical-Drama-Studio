@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "skills": [
+    {
+      "slug": "usvd-controller",
+      "display_name": "USVD 总控",
+      "bundle": "bundles/usvd-controller.zip",
+      "description": "当用户要进行美国/欧美竖屏短剧、漫剧、微短剧创作，但不确定当前应进入哪个生产阶段时调用。只负责识别当前 Gate、检查缺失输入并指定唯一下一阶段；不直接写剧本、分镜、资产提示词或视频提示词。"
+    },
+    {
+      "slug": "usvd-01-adaptation",
+      "display_name": "USVD 01 欧美本土化",
+      "bundle": "bundles/usvd-01-adaptation.zip",
+      "description": "当用户要把中文、韩国、日本或其他非美国来源的短剧、小说、电影情节改编成面向美国/欧美观众的竖屏短剧时调用。只完成本土化 Adaptation Brief；不写 Story Bible、正式剧本、资产、分镜或视频提示词。"
+    },
+    {
+      "slug": "usvd-02-story-architecture",
+      "display_name": "USVD 02 故事架构",
+      "bundle": "bundles/usvd-02-story-architecture.zip",
+      "description": "当用户需要为欧美竖屏短剧建立 Story Bible、角色发动机、季/篇章升级结构，或在已批准 Story Bible 基础上制作某一集 Beat Sheet 时调用。只负责故事架构；不写正式剧本、资产、分镜或视频提示词。"
+    },
+    {
+      "slug": "usvd-03-screenwriter",
+      "display_name": "USVD 03 剧本编写",
+      "bundle": "bundles/usvd-03-screenwriter.zip",
+      "description": "当用户已经有 BIBLE APPROVED 与目标集 BEATS APPROVED，需要写欧美竖屏短剧正式剧本时调用。只负责 Screenplay Draft 和 Beat-to-scene trace；不自审 PASS、不做资产、不做分镜或视频提示词。"
+    },
+    {
+      "slug": "usvd-04-review-continuity",
+      "display_name": "USVD 04 审稿连续性",
+      "bundle": "bundles/usvd-04-review-continuity.zip",
+      "description": "当用户已有欧美竖屏短剧 Screenplay Draft，需要独立 Script Doctor 审稿并在 PASS 后完成连续性核对时调用。只做诊断、Gate 与 Continuity Ledger；不代写新剧本、不做资产、分镜或视频提示词。"
+    },
+    {
+      "slug": "usvd-05-asset-lock",
+      "display_name": "USVD 05 资产锁定",
+      "bundle": "bundles/usvd-05-asset-lock.zip",
+      "description": "当欧美竖屏短剧已经 SCRIPT DOCTOR PASS 且 CONTINUITY CLEAR，需要在分镜前锁定角色、服装、场景与关键道具资产时调用。只制作 Asset Creation Pack 与 Asset Ledger；不拆 VIDEO/SHOT，不输出视频分镜提示词。"
+    },
+    {
+      "slug": "usvd-06-storyboard-video",
+      "display_name": "USVD 06 分镜生成包",
+      "bundle": "bundles/usvd-06-storyboard-video.zip",
+      "description": "当欧美竖屏短剧已经 SCRIPT DOCTOR PASS、CONTINUITY CLEAR、ASSETS LOCKED，需要制作分镜、15秒以内视频包、0.5–3秒微镜头以及 Seedance/MediaGo 生成提示词时调用。只执行视觉生产拆分，不改剧情、不新增资产。"
+    }
+  ]
+}
