@@ -1,11 +1,29 @@
 {
-  "contract_version": "v9-stage-06-1",
+  "contract_version": "v9-stage-06-2",
   "stage": "06-storyboard",
+  "owner": "storyboard-director",
   "requires": ["SCRIPT DOCTOR PASS", "CONTINUITY CLEAR", "ASSETS LOCKED"],
-  "input_refs": ["screenplay", "approved_beat_sheet", "continuity_ledger", "asset_ledger"],
-  "output": {
-    "video": ["video_id", "source_scene_refs", "dramatic_objective", "start_state", "end_state", "duration_seconds", "shot_ids", "continuity_in", "continuity_out", "dialogue_audio_plan"],
-    "shot": ["shot_id", "video_id", "time_in", "time_out", "narrative_purpose", "composition", "blocking_action", "eyeline_screen_direction", "performance_beat", "camera_intent", "continuity_delta"]
+  "input_refs": ["screenplay", "approved_beat_sheet", "story_bible_constraints", "continuity_ledger", "asset_ledger"],
+  "identity": {
+    "video": "VIDEO-* is one independently producible/generatable unit; Stage 06 does not create its model prompt.",
+    "shot": "SHOT-* is a micro-shot/timing unit inside its parent VIDEO and is not automatically a separate generation call."
   },
-  "handoff": { "next_stage": "07-performance-cinematography", "forbidden_outputs": ["final_model_prompt"] }
+  "timing_invariants": {
+    "first_shot_starts_at": 0,
+    "contiguous": true,
+    "allow_gaps": false,
+    "allow_overlaps": false,
+    "shot_duration_equals_range": true,
+    "last_shot_ends_at_video_duration": true
+  },
+  "output": {
+    "video": ["video_id", "display_name_zh", "source_scene_refs", "dramatic_objective", "start_state", "end_state", "duration_seconds", "asset_ids", "shot_ids", "continuity_in", "continuity_out", "dialogue_audio_plan"],
+    "shot": ["shot_id", "video_id", "time_in", "time_out", "duration_seconds", "narrative_purpose", "composition", "blocking_action", "eyeline_screen_direction", "performance_beat", "camera_intent", "continuity_in", "continuity_out", "continuity_delta", "asset_ids"]
+  },
+  "forbidden_output_fields": ["video_master_prompt", "video_negative_prompt", "shot_delta_prompt", "final_model_prompt", "model_prompt"],
+  "model_prompt_owner": "08-seedance-2-mini-adapter",
+  "handoff": {
+    "gate": "STAGE 06 APPROVED",
+    "next_stage": "07-performance-cinematography"
+  }
 }

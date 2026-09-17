@@ -76,7 +76,7 @@
       "responsibility": "Convert cleared screenplay and locked assets into VIDEO/SHOT coverage and a director package; never emit the final model prompt.",
       "canonical_path": "skills/06-storyboard/SKILL.md",
       "contract_path": "contracts/stage-06-storyboard.json",
-      "status": "contract-slot"
+      "status": "implemented"
     },
     {
       "id": "07-performance-cinematography",
@@ -84,7 +84,7 @@
       "responsibility": "Add motivated blocking, performance, composition, camera, focus, light, and cut direction to approved shots.",
       "canonical_path": "skills/07-performance-cinematography/SKILL.md",
       "contract_path": "contracts/stage-07-performance-cinematography.json",
-      "status": "contract-slot"
+      "status": "implemented"
     },
     {
       "id": "08-seedance-2-mini-adapter",
