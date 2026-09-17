@@ -10,7 +10,7 @@ Tabbit 2.0 不再把完整多阶段工作流塞进一个“任务妙招”。它
 4. `USVD 03 剧本编写` → `usvd-03-screenwriter.zip`
 5. `USVD 04 审稿连续性` → `usvd-04-review-continuity.zip`
 6. `USVD 05 资产锁定` → `usvd-05-asset-lock.zip`
-7. `USVD 06 分镜生成包` → `usvd-06-storyboard-video.zip`
+7. `USVD 06 分镜导演` → `usvd-06-storyboard-video.zip`
 
 每个 ZIP 都是 Tabbit Runtime Bundle：压缩包根目录只有一个 `SKILL.md`，可以独立导入为“任务妙招”。
 

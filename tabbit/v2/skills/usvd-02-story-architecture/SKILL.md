@@ -1,7 +1,7 @@
 ---
 name: usvd-02-story-architecture
 description: 当用户需要为欧美竖屏短剧建立 Story Bible、角色发动机、季/篇章升级结构，或在已批准 Story Bible 基础上制作某一集 Beat Sheet 时调用。只负责故事架构；不写正式剧本、资产、分镜或视频提示词。
-version: 2.0.0
+version: 2.0.1
 ---
 
 # USVD 02 故事架构

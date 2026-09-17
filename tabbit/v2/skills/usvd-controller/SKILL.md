@@ -1,7 +1,7 @@
 ---
 name: usvd-controller
 description: 当用户要进行美国/欧美竖屏短剧、漫剧、微短剧创作，但不确定当前应进入哪个生产阶段时调用。只负责识别当前 Gate、检查缺失输入并指定唯一下一阶段；不直接写剧本、分镜、资产提示词或视频提示词。
-version: 2.0.0
+version: 2.0.1
 ---
 
 # USVD 总控路由器
@@ -23,7 +23,7 @@ version: 2.0.0
 3. `USVD 03 剧本编写`：把 APPROVED Beat Sheet 写成正式剧本。
 4. `USVD 04 审稿连续性`：Script Doctor 独立审稿；PASS 后做 Continuity CLEAR。
 5. `USVD 05 资产锁定`：锁定角色、服装、场景、道具和资产生成提示词。
-6. `USVD 06 分镜生成包`：在资产锁定后拆 VIDEO/SHOT，并生成 Seedance/MediaGo 生产包。
+6. `USVD 06 分镜导演`：在资产锁定后拆 VIDEO/SHOT，并生成 Seedance/MediaGo 生产包。
 
 ## 路由规则
 

@@ -1,7 +1,7 @@
 ---
 name: usvd-03-screenwriter
 description: 当用户已经有 BIBLE APPROVED 与目标集 BEATS APPROVED，需要写欧美竖屏短剧正式剧本时调用。只负责 Screenplay Draft 和 Beat-to-scene trace；不自审 PASS、不做资产、不做分镜或视频提示词。
-version: 2.0.0
+version: 2.0.1
 ---
 
 # USVD 03 剧本编写

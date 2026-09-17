@@ -1,10 +1,10 @@
 ---
 name: usvd-06-storyboard-video
 description: 当欧美竖屏短剧已经 SCRIPT DOCTOR PASS、CONTINUITY CLEAR、ASSETS LOCKED，需要制作分镜、15秒以内视频包、0.5–3秒微镜头以及 Seedance/MediaGo 生成提示词时调用。只执行视觉生产拆分，不改剧情、不新增资产。
-version: 2.0.0
+version: 2.0.1
 ---
 
-# USVD 06 分镜生成包
+# USVD 06 分镜导演
 
 ## 前置 Gate
 

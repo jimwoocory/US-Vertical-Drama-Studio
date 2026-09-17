@@ -1,7 +1,7 @@
 ---
 name: usvd-05-asset-lock
 description: 当欧美竖屏短剧已经 SCRIPT DOCTOR PASS 且 CONTINUITY CLEAR，需要在分镜前锁定角色、服装、场景与关键道具资产时调用。只制作 Asset Creation Pack 与 Asset Ledger；不拆 VIDEO/SHOT，不输出视频分镜提示词。
-version: 2.0.0
+version: 2.0.1
 ---
 
 # USVD 05 资产锁定
@@ -70,7 +70,7 @@ version: 2.0.0
 3. `【Continuity-to-Asset Mapping】`
 4. `【待批准资产】`
 5. 所有必须资产均 APPROVED 后才能输出：`【ASSETS LOCKED】`
-6. `【下一步】USVD 06 分镜生成包`
+6. `【下一步】USVD 06 分镜导演`
 
 ## 停止条件
 

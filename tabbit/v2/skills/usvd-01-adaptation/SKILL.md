@@ -1,7 +1,7 @@
 ---
 name: usvd-01-adaptation
 description: 当用户要把中文、韩国、日本或其他非美国来源的短剧、小说、电影情节改编成面向美国/欧美观众的竖屏短剧时调用。只完成本土化 Adaptation Brief；不写 Story Bible、正式剧本、资产、分镜或视频提示词。
-version: 2.0.0
+version: 2.0.1
 ---
 
 # USVD 01 欧美本土化

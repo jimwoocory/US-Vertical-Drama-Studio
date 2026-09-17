@@ -1,7 +1,7 @@
 ---
 name: usvd-04-review-continuity
 description: 当用户已有欧美竖屏短剧 Screenplay Draft，需要独立 Script Doctor 审稿并在 PASS 后完成连续性核对时调用。只做诊断、Gate 与 Continuity Ledger；不代写新剧本、不做资产、分镜或视频提示词。
-version: 2.0.0
+version: 2.0.1
 ---
 
 # USVD 04 审稿连续性
