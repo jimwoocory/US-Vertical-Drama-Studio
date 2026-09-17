@@ -1,9 +1,38 @@
 {
-  "contract_version": "v9-stage-09-1",
+  "contract_version": "v9-stage-09-2",
   "stage": "09-prompt-qa",
-  "requires": ["STAGE 08 PACKAGE"],
-  "checks": ["story_source_coverage", "video_shot_timing_closure", "asset_identity_look_consistency", "blocking_eyeline_continuity", "camera_contradictions", "impossible_simultaneous_actions", "redundant_adjectives", "unsupported_capabilities", "dialogue_duration", "prompt_overload", "continuity_in_out"],
-  "defect": ["defect_id", "severity", "stable_ref", "rule", "evidence", "requested_action"],
-  "result": { "gate": ["PASS", "REVISE", "BLOCKED"], "stable_refs_required": true },
-  "handoff": { "revise_to": "08-seedance-2-mini-adapter" }
+  "owner": "prompt-qa",
+  "requires": ["STAGE 06 APPROVED", "STAGE 07 APPROVED", "STAGE 08 READY FOR QA", "ASSET LEDGER", "CONTINUITY LEDGER", "ENDPOINT CAPABILITY PROFILE"],
+  "checks": [
+    "story_source_coverage",
+    "video_shot_timing_closure",
+    "asset_identity_look_set_prop_consistency",
+    "blocking_eyeline_screen_direction_continuity",
+    "camera_contradictions_and_motivation",
+    "impossible_simultaneous_actions",
+    "prompt_redundancy_and_quality_padding",
+    "endpoint_capability_truthfulness",
+    "dialogue_duration_feasibility",
+    "prompt_overload",
+    "continuity_in_out_closure"
+  ],
+  "dialogue_heuristic": {
+    "english_max_words_per_second": 3.0,
+    "note": "Internal QA heuristic; not a Seedance endpoint limit."
+  },
+  "defect": ["defect_id", "severity", "stable_ref", "rule", "evidence", "requested_action", "return_to_stage"],
+  "severity": ["blocker", "major", "minor"],
+  "gate": {
+    "PASS": "No unresolved blocker/major defects and machine plus human review requirements satisfied.",
+    "REVISE": "Defects are repairable in Stage 07/08 without changing approved story or assets.",
+    "BLOCKED": "Critical evidence is missing or story/asset/timing/capability truth is invalid."
+  },
+  "stable_refs_required": true,
+  "machine_validator": "scripts/v9-prompt-qa-validation.mjs",
+  "human_checklist": "references/prompt-qa-human-checklist.md",
+  "golden_cases_root": "golden-cases",
+  "handoff": {
+    "revise_to": ["07-performance-cinematography", "08-seedance-2-mini-adapter", "upstream"],
+    "pass_gate": "PROMPT QA PASS"
+  }
 }

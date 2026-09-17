@@ -1,0 +1,84 @@
+{
+  "case_id": "GC-01-ARCHIVE-KEY",
+  "title": "档案室钥匙：旧版 Shot Prompt 分层缺失",
+  "provenance": "plugins/us-vertical-drama-studio/fixtures/v1.2-ep01-mediago-video-package.md",
+  "selection_reason": "Existing V1.2 acceptance fixture with stable assets, a 9-second VIDEO, two shots, dialogue timing, continuity state and legacy shot-level generation prompts.",
+  "comparison_controls": {
+    "same_source_coverage": true,
+    "same_approved_assets": true,
+    "same_target_model": "Seedance 2.0 Mini",
+    "same_endpoint_profile_id": "GOLDEN-MINI-PROFILE-01",
+    "rendered_video_review": "pending"
+  },
+  "expected": {
+    "baseline_gate": "BLOCKED",
+    "v9_gate": "PASS",
+    "material_changes": [
+      {"rule": "08.video_master_required", "change": "V9 adds one complete VIDEO master prompt instead of relying on child shot prompts."},
+      {"rule": "07.movement_motivation", "change": "The push-in is tied to revealing the key/eyeline relationship rather than style-only movement."},
+      {"rule": "08.capability_truthfulness", "change": "Audio and lip-sync remain external under the fixed endpoint profile."}
+    ]
+  },
+  "baseline": {
+    "target_model": "Seedance 2.0 Mini",
+    "required_source_refs": ["SCENE-01"],
+    "approved_asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"],
+    "capability_profile": {"audio": "unsupported", "lip_sync": "unsupported", "seed": "unknown", "start_frame": "unknown", "end_frame": "unknown", "reference_images": "supported"},
+    "reference_bindings": [
+      {"asset_id": "CHAR-01", "reference_id": "eve-neutral-front.png"},
+      {"asset_id": "LOOK-01A", "reference_id": "look-01a-approved"},
+      {"asset_id": "SET-01", "reference_id": "set-01-approved"},
+      {"asset_id": "PROP-01", "reference_id": "prop-01-approved"}
+    ],
+    "videos": [{
+      "video_id": "VIDEO-01",
+      "prompt_id": "VIDEO-PROMPT-01",
+      "source_scene_refs": ["SCENE-01"],
+      "duration_seconds": 9,
+      "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"],
+      "video_negative_prompt": "不改变角色、服装、门位置、钥匙材质或屏幕方向。",
+      "execution_features": {"audio": "external", "lip_sync": "external", "seed": "unused", "start_frame": "unused", "end_frame": "unused", "reference_images": "native"},
+      "external_execution_notes": [{"feature": "audio", "owner": "post-audio"}, {"feature": "lip_sync", "owner": "external-lip-sync"}]
+    }],
+    "shots": [
+      {"shot_id": "SHOT-01", "video_id": "VIDEO-01", "prompt_id": "PROMPT-01", "time_in": 0, "time_out": 4, "duration_seconds": 4, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "EVE 将黄铜钥匙插入旧锁，暖黄侧光，缓慢推近；她强压恐惧，最后看向门外。", "local_exclusions": "不加首饰、不改发型、不增加人物、不改门和钥匙。"},
+      {"shot_id": "SHOT-02", "video_id": "VIDEO-01", "prompt_id": "PROMPT-02", "time_in": 4, "time_out": 9, "duration_seconds": 5, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "EVE 把档案压在胸前，听见脚步后低声说话，门缝在前景，暖黄侧光，克制恐惧。", "local_exclusions": "不改变服装污渍、钥匙位置、人物朝向或门在左侧的空间关系。"}
+    ],
+    "director_shots": [
+      {"shot_id": "SHOT-01", "video_id": "VIDEO-01", "time_in": 0, "time_out": 4, "narrative_purpose": "EVE 在危险逼近前尝试开启档案。", "performance_transition": "紧张 → 强迫自己稳定", "shot_size_composition": "中近景，EVE 右侧，门在左侧", "camera_movement": "缓慢推近", "movement_motivation": "", "cut_motivation": "钥匙进入锁孔并完成第一动作节点", "continuity_in": {"screen_direction": "faces-left", "prop_state": "key-in-right-hand", "look_state": "LOOK-01A", "set_state": "SET-01"}, "continuity_out": {"screen_direction": "faces-left", "prop_state": "key-in-lock", "look_state": "LOOK-01A", "set_state": "SET-01"}},
+      {"shot_id": "SHOT-02", "video_id": "VIDEO-01", "time_in": 4, "time_out": 9, "narrative_purpose": "脚步声迫使 EVE 做出行动决定。", "performance_transition": "警觉 → 压低声音下定决心", "shot_size_composition": "近景侧面，门缝左前景", "camera_movement": "STATIC", "movement_motivation": "", "cut_motivation": "对白结束并准备后退", "continuity_in": {"screen_direction": "faces-left", "prop_state": "key-in-lock", "look_state": "LOOK-01A", "set_state": "SET-01"}, "continuity_out": {"screen_direction": "faces-left", "prop_state": "key-in-lock", "look_state": "LOOK-01A", "set_state": "SET-01"}, "dialogue_items": [{"text": "I made a promise.", "start_seconds": 6.1, "end_seconds": 8.0}]}
+    ]
+  },
+  "v9": {
+    "target_model": "Seedance 2.0 Mini",
+    "required_source_refs": ["SCENE-01"],
+    "approved_asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"],
+    "capability_profile": {"audio": "unsupported", "lip_sync": "unsupported", "seed": "unknown", "start_frame": "unknown", "end_frame": "unknown", "reference_images": "supported"},
+    "reference_bindings": [
+      {"asset_id": "CHAR-01", "reference_id": "eve-neutral-front.png"},
+      {"asset_id": "LOOK-01A", "reference_id": "look-01a-approved"},
+      {"asset_id": "SET-01", "reference_id": "set-01-approved"},
+      {"asset_id": "PROP-01", "reference_id": "prop-01-approved"}
+    ],
+    "videos": [{
+      "video_id": "VIDEO-01",
+      "prompt_id": "VIDEO-PROMPT-01",
+      "source_scene_refs": ["SCENE-01"],
+      "duration_seconds": 9,
+      "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"],
+      "video_master_prompt": "VIDEO-01，午夜王宫地下档案室。使用 CHAR-01、LOOK-01A、SET-01、PROP-01。0–4秒，EVE 位于画面右侧面向左侧铁门，右手把黄铜钥匙插入旧锁，手指因紧张发白；镜头从中近景缓慢推近，目的是把锁孔动作与她的警觉视线连在一起。4–9秒，钥匙保持在锁中，门外脚步逼近，EVE 把档案压向胸前并低声说“I made a promise.”，定机保持门缝在左前景，结束时她准备后退。暖黄壁灯和雨夜反光保持连续。音频与口型由外部链路执行。",
+      "video_negative_prompt": "不改变 CHAR-01 身份、LOOK-01A、SET-01 门的位置、PROP-01 材质和钥匙状态；不新增人物；不反转既定屏幕方向；不新增未经 Stage 07 批准的运镜。",
+      "execution_features": {"audio": "external", "lip_sync": "external", "seed": "unused", "start_frame": "unused", "end_frame": "unused", "reference_images": "native"},
+      "external_execution_notes": [{"feature": "audio", "owner": "post-audio"}, {"feature": "lip_sync", "owner": "external-lip-sync"}],
+      "degradation_log": []
+    }],
+    "shots": [
+      {"shot_id": "SHOT-01", "video_id": "VIDEO-01", "prompt_id": "PROMPT-01", "time_in": 0, "time_out": 4, "duration_seconds": 4, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "0–4秒：EVE 右手将 PROP-01 插入锁孔，手指发白；中近景缓慢推近到锁孔与她的警觉视线。", "local_exclusions": "不换装、不改门位置、不让钥匙离手或复制。", "degradation_log": []},
+      {"shot_id": "SHOT-02", "video_id": "VIDEO-01", "prompt_id": "PROMPT-02", "time_in": 4, "time_out": 9, "duration_seconds": 5, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "4–9秒：钥匙保持在锁中；脚步逼近后 EVE 把档案压向胸前，低声说“I made a promise.”，定机保持门缝左前景。", "local_exclusions": "不改变钥匙状态、人物朝向、LOOK-01A 或 SET-01 空间关系。", "degradation_log": []}
+    ],
+    "director_shots": [
+      {"shot_id": "SHOT-01", "video_id": "VIDEO-01", "time_in": 0, "time_out": 4, "narrative_purpose": "用钥匙动作建立她主动冒险的选择。", "performance_transition": "紧张 → 强迫自己稳定", "shot_size_composition": "中近景，EVE 右侧，门在左侧", "camera_movement": "缓慢推近", "movement_motivation": "从人物状态推进到钥匙/视线信息，强化危险即将被打开。", "cut_motivation": "钥匙进入锁孔，动作节点完成并转入外部威胁。", "continuity_in": {"screen_direction": "faces-left", "prop_state": "key-in-right-hand", "look_state": "LOOK-01A", "set_state": "SET-01"}, "continuity_out": {"screen_direction": "faces-left", "prop_state": "key-in-lock", "look_state": "LOOK-01A", "set_state": "SET-01"}},
+      {"shot_id": "SHOT-02", "video_id": "VIDEO-01", "time_in": 4, "time_out": 9, "narrative_purpose": "让脚步声触发决定并完成对白承诺。", "performance_transition": "警觉 → 压住恐惧 → 下定决心", "shot_size_composition": "近景侧面，门缝左前景", "camera_movement": "STATIC", "movement_motivation": "无运镜，稳定画面让脚步和面部反应成为主要变化。", "cut_motivation": "对白结束并形成下一动作的准备状态。", "continuity_in": {"screen_direction": "faces-left", "prop_state": "key-in-lock", "look_state": "LOOK-01A", "set_state": "SET-01"}, "continuity_out": {"screen_direction": "faces-left", "prop_state": "key-in-lock", "look_state": "LOOK-01A", "set_state": "SET-01"}, "dialogue_items": [{"text": "I made a promise.", "start_seconds": 6.1, "end_seconds": 8.0}]}
+    ]
+  }
+}

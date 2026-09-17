@@ -129,6 +129,8 @@ QA checks:
 
 QA must return defects mapped to stable IDs (`VIDEO-*`, `SHOT-*`, asset IDs), not generic prose only.
 
+The Stage 09 implementation lives in `core/usvd-v9/skills/09-prompt-qa/SKILL.md` and `scripts/v9-prompt-qa-validation.mjs`. Machine QA and human review are intentionally separate: deterministic checks produce stable defect IDs and a `PASS | REVISE | BLOCKED` gate, while visual engagement, reaction readability, repeated rhythm, and rendered AI artifacts remain on `core/usvd-v9/references/prompt-qa-human-checklist.md`.
+
 ## 8. Canonical Core and handoff boundaries
 
 The canonical V9 source is `core/usvd-v9/`. Its machine-readable `manifest.json` defines the ordered controller + 01–09 workflow, each responsibility, canonical skill path, stable-baseline provenance, and downstream distribution targets. The copied controller and 01–05 skills are based on the stable Tabbit V2 skills; the canonical Core copy is the source that later distribution work consumes.
@@ -152,6 +154,15 @@ For each case compare:
 - V9 prompt package
 
 The comparison record must identify which rule change caused each material improvement or regression.
+
+V9-D currently preserves two reproducible machine-regression records under `core/usvd-v9/golden-cases/`:
+
+- `GC-01-ARCHIVE-KEY`, sourced from the existing V1.2 MediaGo package fixture;
+- `GC-02-AUCTION-ENTRY`, sourced from the existing production-workbench EP01 fixture.
+
+Both hold source coverage, approved assets, `Seedance 2.0 Mini` target, and endpoint profile constant between legacy and V9 packages. Their machine results are regression evidence only; rendered-video review remains explicitly `pending` until both versions are generated with identical endpoint settings and inspected using the human checklist.
+
+`npm test` runs the Golden Cases together with the pre-existing DSH/provider/workbench compatibility suite, so V9 QA changes cannot silently replace the stable downstream tests.
 
 ## 10. Merge gate
 

@@ -100,7 +100,7 @@
       "responsibility": "Find coverage, timing, continuity, contradiction, capability, and overload defects and map them to stable IDs.",
       "canonical_path": "skills/09-prompt-qa/SKILL.md",
       "contract_path": "contracts/stage-09-prompt-qa.json",
-      "status": "contract-slot"
+      "status": "implemented"
     }
   ],
   "distribution_targets": [
