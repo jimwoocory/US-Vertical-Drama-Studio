@@ -1,0 +1,10 @@
+{
+  "id": "us-vertical-drama-studio",
+  "name": "US Vertical Drama Studio",
+  "version": "1.0.0",
+  "author": "MediaGo Drama",
+  "description": "Model-agnostic US vertical microdrama development workflow.",
+  "categories": [
+    { "id": "vertical-drama", "label": "US Vertical Drama", "order": 0 }
+  ]
+}
