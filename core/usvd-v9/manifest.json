@@ -1,13 +1,14 @@
 {
   "schema_version": "v9-core-manifest-1",
   "core_id": "usvd-v9",
-  "version": "0.1.0-contract",
-  "status": "canonical-source",
+  "version": "0.9.0-preview.1",
+  "status": "canonical-source-preview",
   "canonical_root": "core/usvd-v9",
   "principles": {
     "core_is_truth": true,
     "plugins_are_not_truth": true,
-    "distribution_sync_implemented": false
+    "distribution_sync_implemented": true,
+    "distribution_sync_script": "scripts/sync-v9-distributions.mjs"
   },
   "skill_order": [
     "controller",
@@ -104,11 +105,11 @@
     }
   ],
   "distribution_targets": [
-    { "id": "chatgpt-plugin", "path": "plugins/us-vertical-drama-studio", "status": "downstream-target" },
-    { "id": "chatgpt-direct-upload", "path": "direct-upload/chatgpt", "status": "downstream-target" },
-    { "id": "claude-direct-upload", "path": "direct-upload/claude", "status": "downstream-target" },
-    { "id": "deepseek-harness", "path": "dsh-plugin", "status": "downstream-target" },
-    { "id": "tabbit", "path": "tabbit", "status": "downstream-target" },
-    { "id": "mediago", "path": "mediago", "status": "downstream-target" }
+    { "id": "chatgpt-plugin", "path": "plugins/us-vertical-drama-studio-v9", "status": "generated-preview" },
+    { "id": "chatgpt-direct-upload", "path": "direct-upload/v9/chatgpt", "status": "generated-preview" },
+    { "id": "claude-direct-upload", "path": "direct-upload/v9/claude", "status": "generated-preview" },
+    { "id": "deepseek-harness", "path": "dsh-plugin", "status": "generated-catalog-consumer" },
+    { "id": "tabbit", "path": "tabbit/v9", "status": "generated-preview" },
+    { "id": "mediago", "path": "mediago/v9", "status": "generated-source-native-mgpack-pending" }
   ]
 }

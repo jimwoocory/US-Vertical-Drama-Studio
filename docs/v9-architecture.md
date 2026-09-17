@@ -135,11 +135,21 @@ The Stage 09 implementation lives in `core/usvd-v9/skills/09-prompt-qa/SKILL.md`
 
 The canonical V9 source is `core/usvd-v9/`. Its machine-readable `manifest.json` defines the ordered controller + 01–09 workflow, each responsibility, canonical skill path, stable-baseline provenance, and downstream distribution targets. The copied controller and 01–05 skills are based on the stable Tabbit V2 skills; the canonical Core copy is the source that later distribution work consumes.
 
-`plugins/`, `direct-upload/`, `dsh-plugin/`, `tabbit/`, and `mediago/` are distribution or historical surfaces, not V9 truth. V9-E owns generation/synchronization from Core; this workstream intentionally adds no build or distribution synchronization logic.
+`plugins/`, `direct-upload/`, `dsh-plugin/`, `tabbit/`, and `mediago/` are distribution or historical surfaces, not V9 truth. V9-E implements generation/synchronization through one entry point: `scripts/sync-v9-distributions.mjs`. The generated V9 preview surfaces live at `plugins/us-vertical-drama-studio-v9/`, `direct-upload/v9/`, `tabbit/v9/`, and `mediago/v9/`; stable V1/V2 surfaces remain untouched. DSH consumes the generated V9 manifest dynamically rather than maintaining a second hard-coded Skill list.
 
 Handoffs are one-way and gated: 05 emits `ASSETS LOCKED` to 06; 06 emits VIDEO/SHOT director coverage without a final model prompt to 07; 07 adds motivated performance/cinematography direction without changing story facts to 08; 08 alone emits Seedance 2.0 Mini model-facing prompt fields; 09 diagnoses and gates the resulting package and may route a revision back to 08. The contract slots and machine-readable shapes live under `core/usvd-v9/contracts/`.
 
 Legacy folders remain for traceability until the new build path passes regression tests.
+
+### V9 distribution verification
+
+- `npm run build:v9` regenerates every managed V9 distribution from Core.
+- `npm run check:v9` fails when any generated V9 file, ZIP, marketplace entry, manifest, or Skill content differs from the Core-derived plan.
+- `npm test` runs `check:v9` before the DSH/provider/workbench, V9 director, Seedance adapter, Prompt QA, Golden Case and distribution compatibility tests.
+- ChatGPT/Codex marketplace keeps the stable plugin and adds a separate `US Vertical Drama Studio V9 Preview` plugin.
+- Tabbit keeps `tabbit/v2/` and adds generated `tabbit/v9/` bundles.
+- Direct upload keeps the existing stable folders and adds generated `direct-upload/v9/chatgpt` and `direct-upload/v9/claude` packages.
+- MediaGo keeps the existing legacy `.mgpack`. V9 generates `mediago/v9/manifest.json` plus Skill source only; a V9 `.mgpack` is intentionally not fabricated because the repository has no verified native `MGPK` packager.
 
 ## 9. Golden regression rule
 

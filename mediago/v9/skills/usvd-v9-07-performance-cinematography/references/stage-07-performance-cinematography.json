@@ -1,0 +1,21 @@
+{
+  "contract_version": "v9-stage-07-2",
+  "stage": "07-performance-cinematography",
+  "owner": "performance-cinematography-director",
+  "requires": ["STAGE 06 APPROVED"],
+  "immutable_from_stage_06": ["video_id", "shot_id", "time_in", "time_out", "duration_seconds", "source_scene_refs", "asset_ids", "continuity_in", "continuity_out", "dialogue_audio_plan"],
+  "output_per_shot": ["blocking", "eyeline", "gesture", "micro_expression", "performance_transition", "shot_size_composition", "camera_height_angle", "lens_feeling", "camera_movement", "movement_motivation", "focus_behavior", "lighting_motivation", "cut_motivation", "continuity_check"],
+  "invariants": [
+    "Every addition must have a narrative or continuity reason.",
+    "No decorative camera movement: movement without motivation defaults to LOCKED/STATIC.",
+    "Stage 07 may refine execution but may not change story facts, shot timing ownership, or locked asset identity.",
+    "Approved English names/dialogue remain unchanged; operator-facing production labels and diagnostics are Chinese by default."
+  ],
+  "forbidden_output_fields": ["video_master_prompt", "video_negative_prompt", "shot_delta_prompt", "final_model_prompt", "model_prompt"],
+  "forbidden_quality_tokens": ["8K", "masterpiece", "cinematic-as-unmotivated-quality-token"],
+  "model_prompt_owner": "08-seedance-2-mini-adapter",
+  "handoff": {
+    "gate": "STAGE 07 APPROVED",
+    "next_stage": "08-seedance-2-mini-adapter"
+  }
+}

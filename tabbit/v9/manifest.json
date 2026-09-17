@@ -1,0 +1,88 @@
+{
+  "version": "0.9.0-preview.1",
+  "status": "preview",
+  "generated_from": "core/usvd-v9/manifest.json",
+  "source_sha256": "ff0f237ee81ca5ac9bffec13757063a4ca3e18998d05563c88f8ea15c91f6fd8",
+  "skills": [
+    {
+      "slug": "usvd-controller",
+      "display_name": "USVD V9 总控",
+      "bundle": "bundles/usvd-controller.zip",
+      "description": "当用户要进行美国/欧美竖屏短剧、漫剧、微短剧创作，但不确定当前应进入 V9 哪个生产阶段时调用。只负责识别 Gate、检查缺失输入并指定唯一下一阶段；不直接代做被路由阶段。",
+      "canonical_path": "core/usvd-v9/skills/controller/SKILL.md",
+      "sha256": "ca31bb38bc9aa4d58ca56efa04fa51330919c6cc34bd3a6ac5006ea7288383c1"
+    },
+    {
+      "slug": "usvd-01-adaptation",
+      "display_name": "USVD 01 欧美本土化",
+      "bundle": "bundles/usvd-01-adaptation.zip",
+      "description": "当用户要把中文、韩国、日本或其他非美国来源的短剧、小说、电影情节改编成面向美国/欧美观众的竖屏短剧时调用。只完成本土化 Adaptation Brief；不写 Story Bible、正式剧本、资产、分镜或视频提示词。",
+      "canonical_path": "core/usvd-v9/skills/01-adaptation/SKILL.md",
+      "sha256": "468f4de21f1b9863ff20fa9f1ba9a37ccab4d06c8fd4907f1c6c238978d2b608"
+    },
+    {
+      "slug": "usvd-02-story-architecture",
+      "display_name": "USVD 02 故事架构",
+      "bundle": "bundles/usvd-02-story-architecture.zip",
+      "description": "当用户需要为欧美竖屏短剧建立 Story Bible、角色发动机、季/篇章升级结构，或在已批准 Story Bible 基础上制作某一集 Beat Sheet 时调用。只负责故事架构；不写正式剧本、资产、分镜或视频提示词。",
+      "canonical_path": "core/usvd-v9/skills/02-story-architecture/SKILL.md",
+      "sha256": "e2b915bee9771c1c5a3758ddeb017983a0e3f161e6a1eb0cf01563c00d382f58"
+    },
+    {
+      "slug": "usvd-03-screenwriter",
+      "display_name": "USVD 03 剧本编写",
+      "bundle": "bundles/usvd-03-screenwriter.zip",
+      "description": "当用户已经有 BIBLE APPROVED 与目标集 BEATS APPROVED，需要写欧美竖屏短剧正式剧本时调用。只负责 Screenplay Draft 和 Beat-to-scene trace；不自审 PASS、不做资产、不做分镜或视频提示词。",
+      "canonical_path": "core/usvd-v9/skills/03-screenwriter/SKILL.md",
+      "sha256": "ae83c3edf1976fd81ba8dff26baf331b7b5b2e27985c8b829f59b5870ae3ccf8"
+    },
+    {
+      "slug": "usvd-04-review-continuity",
+      "display_name": "USVD 04 审稿连续性",
+      "bundle": "bundles/usvd-04-review-continuity.zip",
+      "description": "当用户已有欧美竖屏短剧 Screenplay Draft，需要独立 Script Doctor 审稿并在 PASS 后完成连续性核对时调用。只做诊断、Gate 与 Continuity Ledger；不代写新剧本、不做资产、分镜或视频提示词。",
+      "canonical_path": "core/usvd-v9/skills/04-review-continuity/SKILL.md",
+      "sha256": "3ca31be957b26d6e6df8656d031acc31b0f03c296b4b64cb26fcd359524acaa9"
+    },
+    {
+      "slug": "usvd-05-asset-lock",
+      "display_name": "USVD 05 资产锁定",
+      "bundle": "bundles/usvd-05-asset-lock.zip",
+      "description": "当欧美竖屏短剧已经 SCRIPT DOCTOR PASS 且 CONTINUITY CLEAR，需要在分镜前锁定角色、服装、场景与关键道具资产时调用。只制作 Asset Creation Pack 与 Asset Ledger；不拆 VIDEO/SHOT，不输出视频分镜提示词。",
+      "canonical_path": "core/usvd-v9/skills/05-asset-lock/SKILL.md",
+      "sha256": "fb0a5be48bea29764f44838ca127c0ea198f1918a86b6254041492dad357c167"
+    },
+    {
+      "slug": "usvd-v9-06-storyboard",
+      "display_name": "USVD V9 06 分镜导演",
+      "bundle": "bundles/usvd-v9-06-storyboard.zip",
+      "description": "当欧美竖屏短剧已经 SCRIPT DOCTOR PASS、CONTINUITY CLEAR、ASSETS LOCKED，需要把审核剧本拆成模型无关的 VIDEO/SHOT 分镜导演计划时调用；只负责来源覆盖、时序、叙事拍法和连续性，不编写最终视频模型 Prompt。",
+      "canonical_path": "core/usvd-v9/skills/06-storyboard/SKILL.md",
+      "sha256": "ead0af9da810e2e421a528d4bcff385bd4bade598f60c51aa2ccdb56875fdc61"
+    },
+    {
+      "slug": "usvd-v9-07-performance-cinematography",
+      "display_name": "USVD V9 07 表演与摄影导演",
+      "bundle": "bundles/usvd-v9-07-performance-cinematography.zip",
+      "description": "当 Stage 06 已经输出 APPROVED VIDEO/SHOT 分镜计划，需要把每个 SHOT 精确导演成可执行的表演、Blocking、视线、构图、摄影机、焦点、光线与 Cut 动机时调用；只做导演层精化，不改剧情、不改锁定资产、不写最终视频模型 Prompt。",
+      "canonical_path": "core/usvd-v9/skills/07-performance-cinematography/SKILL.md",
+      "sha256": "ddfeb3fe767697634fec9ff18e1f8008113fb3965d187b3ec86dbdea9a10da18"
+    },
+    {
+      "slug": "usvd-v9-08-seedance-2-mini-adapter",
+      "display_name": "USVD V9 08 Seedance 2.0 Mini Adapter",
+      "bundle": "bundles/usvd-v9-08-seedance-2-mini-adapter.zip",
+      "description": "当 Stage 06/07 已 APPROVED、资产与连续性已锁定，需要把导演计划翻译并压缩成仅面向 Seedance 2.0 Mini 的中文 VIDEO master + SHOT delta 视频生成提示词时调用；负责模型执行层，不改剧情、不改导演计划、不发明模型能力。",
+      "canonical_path": "core/usvd-v9/skills/08-seedance-2-mini-adapter/SKILL.md",
+      "sha256": "adc35922969b97aa746904c94f2d478b78ff1d232da890c4dd996f1a642cfd21"
+    },
+    {
+      "slug": "usvd-v9-09-prompt-qa",
+      "display_name": "USVD V9 09 Prompt QA",
+      "bundle": "bundles/usvd-v9-09-prompt-qa.zip",
+      "description": "当 Stage 08 已输出 Seedance 2.0 Mini VIDEO master / SHOT delta Prompt，需要在交付生成前检查剧情覆盖、VIDEO/SHOT 时间闭合、资产漂移、视线/方向/动作连续性、Prompt 冲突与过载、对白时长和 endpoint capability 声明时调用；只诊断、定位和 Gate，不静默改写上游内容。",
+      "canonical_path": "core/usvd-v9/skills/09-prompt-qa/SKILL.md",
+      "sha256": "50330ef4943c7d8522939e8dda366abc8704bfd63597a6812464f1a5f4d412ef"
+    }
+  ]
+}
