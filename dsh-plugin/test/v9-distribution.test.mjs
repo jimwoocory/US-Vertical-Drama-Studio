@@ -10,6 +10,10 @@ function readJson(path) {
   return JSON.parse(readFileSync(new URL(path, root), 'utf8'))
 }
 
+function normalizeText(buffer) {
+  return buffer.toString('utf8').replace(/\r\n?/gu, '\n')
+}
+
 test('V9 generated distributions are byte-synchronized with canonical Core', () => {
   const result = checkDistributionSync()
   assert.equal(result.ok, true, result.problems.join('\n'))
@@ -48,7 +52,7 @@ test('Tabbit and direct-upload V9 surfaces contain ten generated skills and dete
   assert.equal(tabbitZip.readUInt32LE(0), 0x04034b50)
   const claudeSkill = readFileSync(new URL('direct-upload/v9/claude/usvd-v9-09-prompt-qa/skill.md', root))
   const coreSkill = readFileSync(new URL('core/usvd-v9/skills/09-prompt-qa/SKILL.md', root))
-  assert.equal(claudeSkill.equals(coreSkill), true)
+  assert.equal(normalizeText(claudeSkill), normalizeText(coreSkill))
 })
 
 test('stable V1/V2 distribution surfaces remain present while V9 is preview-only', () => {

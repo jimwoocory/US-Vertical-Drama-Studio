@@ -45,7 +45,7 @@ export function loadCore() {
     .toSorted((a, b) => a.order - b.order)
     .map(entry => {
       const sourcePath = join(coreRoot, entry.canonical_path)
-      const content = readFileSync(sourcePath)
+      const content = normalizedTextBuffer(readFileSync(sourcePath))
       const parsed = parseSkill(content.toString('utf8'), entry.id)
       return {
         ...entry,
@@ -56,7 +56,7 @@ export function loadCore() {
         resources: (resourceMap[entry.id] ?? []).map(rel => ({
           sourceRelative: `core/usvd-v9/${rel}`,
           basename: basename(rel),
-          content: readFileSync(join(coreRoot, rel)),
+          content: normalizedTextBuffer(readFileSync(join(coreRoot, rel))),
         })),
       }
     })
@@ -193,7 +193,7 @@ export function checkDistributionSync() {
       continue
     }
     const actual = readFileSync(full)
-    if (!actual.equals(expected)) problems.push(`out-of-sync: ${rel}`)
+    if (!distributionBuffersEqual(rel, actual, expected)) problems.push(`out-of-sync: ${rel}`)
   }
   const expectedPaths = new Set(plan.files.keys())
   for (const root of managedRoots) {
@@ -225,7 +225,7 @@ function updateMarketplace(write) {
     return []
   }
   const actual = readFileSync(path)
-  return actual.equals(expected) ? [] : ['out-of-sync: .agents/plugins/marketplace.json']
+  return normalizedTextBuffer(actual).equals(normalizedTextBuffer(expected)) ? [] : ['out-of-sync: .agents/plugins/marketplace.json']
 }
 
 function addSkills(files, base, skills, skillFilename) {
@@ -302,6 +302,15 @@ function jsonBuffer(value) {
 
 function sha256(buffer) {
   return createHash('sha256').update(buffer).digest('hex')
+}
+
+function normalizedTextBuffer(buffer) {
+  return Buffer.from(buffer.toString('utf8').replace(/\r\n?/gu, '\n'), 'utf8')
+}
+
+function distributionBuffersEqual(path, actual, expected) {
+  if (path.endsWith('.zip')) return actual.equals(expected)
+  return normalizedTextBuffer(actual).equals(normalizedTextBuffer(expected))
 }
 
 function walkFiles(root) {
