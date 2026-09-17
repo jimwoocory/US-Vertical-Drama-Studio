@@ -1,7 +1,7 @@
 # USVD V9 — Seedance 2.0 Mini Architecture
 
 Status: active refactor branch
-Parent tracking issue: #1
+Parent tracking issue: #2
 Target branch: `refactor/usvd-v9-seedance2-mini`
 Target video model: **Seedance 2.0 Mini only**
 
@@ -129,9 +129,13 @@ QA checks:
 
 QA must return defects mapped to stable IDs (`VIDEO-*`, `SHOT-*`, asset IDs), not generic prose only.
 
-## 8. Canonical-source direction
+## 8. Canonical Core and handoff boundaries
 
-V9 will move toward one canonical Core source. ChatGPT/Codex, DSH, Tabbit and MediaGo distributions must be generated or synchronized from Core rather than hand-edited independently.
+The canonical V9 source is `core/usvd-v9/`. Its machine-readable `manifest.json` defines the ordered controller + 01–09 workflow, each responsibility, canonical skill path, stable-baseline provenance, and downstream distribution targets. The copied controller and 01–05 skills are based on the stable Tabbit V2 skills; the canonical Core copy is the source that later distribution work consumes.
+
+`plugins/`, `direct-upload/`, `dsh-plugin/`, `tabbit/`, and `mediago/` are distribution or historical surfaces, not V9 truth. V9-E owns generation/synchronization from Core; this workstream intentionally adds no build or distribution synchronization logic.
+
+Handoffs are one-way and gated: 05 emits `ASSETS LOCKED` to 06; 06 emits VIDEO/SHOT director coverage without a final model prompt to 07; 07 adds motivated performance/cinematography direction without changing story facts to 08; 08 alone emits Seedance 2.0 Mini model-facing prompt fields; 09 diagnoses and gates the resulting package and may route a revision back to 08. The contract slots and machine-readable shapes live under `core/usvd-v9/contracts/`.
 
 Legacy folders remain for traceability until the new build path passes regression tests.
 

@@ -1,0 +1,9 @@
+{
+  "contract_version": "v9-stage-09-1",
+  "stage": "09-prompt-qa",
+  "requires": ["STAGE 08 PACKAGE"],
+  "checks": ["story_source_coverage", "video_shot_timing_closure", "asset_identity_look_consistency", "blocking_eyeline_continuity", "camera_contradictions", "impossible_simultaneous_actions", "redundant_adjectives", "unsupported_capabilities", "dialogue_duration", "prompt_overload", "continuity_in_out"],
+  "defect": ["defect_id", "severity", "stable_ref", "rule", "evidence", "requested_action"],
+  "result": { "gate": ["PASS", "REVISE", "BLOCKED"], "stable_refs_required": true },
+  "handoff": { "revise_to": "08-seedance-2-mini-adapter" }
+}

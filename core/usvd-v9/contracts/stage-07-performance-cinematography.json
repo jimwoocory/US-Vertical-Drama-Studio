@@ -1,0 +1,8 @@
+{
+  "contract_version": "v9-stage-07-1",
+  "stage": "07-performance-cinematography",
+  "requires": ["STAGE 06 PACKAGE"],
+  "output_per_shot": ["blocking", "eyeline", "gesture", "micro_expression", "performance_transition", "camera_height_angle", "lens_feeling", "movement_motivation", "focus_behavior", "lighting_motivation", "cut_motivation"],
+  "invariant": "Every addition has a narrative or continuity reason.",
+  "handoff": { "next_stage": "08-seedance-2-mini-adapter", "forbidden_outputs": ["story_rewrite", "model_prompt"] }
+}

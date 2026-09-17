@@ -1,0 +1,11 @@
+{
+  "contract_version": "v9-stage-06-1",
+  "stage": "06-storyboard",
+  "requires": ["SCRIPT DOCTOR PASS", "CONTINUITY CLEAR", "ASSETS LOCKED"],
+  "input_refs": ["screenplay", "approved_beat_sheet", "continuity_ledger", "asset_ledger"],
+  "output": {
+    "video": ["video_id", "source_scene_refs", "dramatic_objective", "start_state", "end_state", "duration_seconds", "shot_ids", "continuity_in", "continuity_out", "dialogue_audio_plan"],
+    "shot": ["shot_id", "video_id", "time_in", "time_out", "narrative_purpose", "composition", "blocking_action", "eyeline_screen_direction", "performance_beat", "camera_intent", "continuity_delta"]
+  },
+  "handoff": { "next_stage": "07-performance-cinematography", "forbidden_outputs": ["final_model_prompt"] }
+}
