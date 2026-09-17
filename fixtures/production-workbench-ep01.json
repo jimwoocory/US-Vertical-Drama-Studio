@@ -1,0 +1,87 @@
+{
+  "schema_version": "us-vertical-drama-workbench/v1",
+  "episode_id": "EP-001",
+  "episode_display_name_zh": "第 1 集：拍卖厅入口的异动",
+  "assets": [
+    { "id": "CHAR-EVE", "display_name_zh": "女主角：伊芙", "kind": "character", "status": "approved" },
+    { "id": "LOOK-EVE-NIGHT", "display_name_zh": "伊芙的深蓝晚礼服", "kind": "look", "status": "approved" },
+    { "id": "SET-AUCTION", "display_name_zh": "深夜拍卖厅", "kind": "set", "status": "approved" },
+    { "id": "PROP-BOTTLE", "display_name_zh": "裂纹香槟杯", "kind": "prop", "status": "approved" }
+  ],
+  "videos": [
+    { "video_id": "VIDEO-001", "display_name_zh": "伊芙发现入口异动", "source_scene_id": "EP01-SC01", "duration_seconds": 8, "video_prompt_id": "VIDEO-PROMPT-001", "video_master_prompt": "8 秒竖屏视频。深夜拍卖厅内，伊芙察觉入口异动，镜头依次展示她停在酒杯上的手、抬眼的反应、闪烁的吊灯和她握紧裂纹酒杯的近景。人物、深蓝晚礼服、拍卖厅和裂纹香槟杯全程一致；冷白吊灯光，紧张克制。", "video_negative_prompt": "不改变角色身份、深蓝晚礼服、裂纹香槟杯、拍卖厅方位或持杯的手；不新增人物；不跳切到其他地点。", "status": "ready_to_generate" }
+  ],
+  "shots": [
+    {
+      "shot_id": "SHOT-001-01",
+      "video_id": "VIDEO-001",
+      "display_name_zh": "伊芙转身看向入口",
+      "prompt_id": "PROMPT-001",
+      "source_scene_id": "EP01-SC01",
+      "timeline_in_seconds": 0,
+      "timeline_out_seconds": 2,
+      "duration_seconds": 2,
+      "shot_type": "反应",
+      "generation_mode": "independent",
+      "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"],
+      "asset_lock_prompt": "CHAR-EVE、LOOK-EVE-NIGHT、SET-AUCTION、PROP-BOTTLE；角色身份、晚礼服、拍卖厅和裂纹香槟杯均锁定。",
+      "shot_delta_prompt": "伊芙转身看向入口，拍卖厅上方的吊灯闪出冷光。",
+      "negative_prompt": "不更换服装；不复制酒杯；不跳变场景方位；不新增未批准角色。",
+      "status": "ready_to_generate"
+    },
+    {
+      "shot_id": "SHOT-001-02",
+      "video_id": "VIDEO-001",
+      "display_name_zh": "吊灯的冷光闪烁",
+      "prompt_id": "PROMPT-002",
+      "source_scene_id": "EP01-SC01",
+      "timeline_in_seconds": 2,
+      "timeline_out_seconds": 4,
+      "duration_seconds": 2,
+      "shot_type": "信息揭示",
+      "generation_mode": "independent",
+      "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION"],
+      "asset_lock_prompt": "CHAR-EVE、LOOK-EVE-NIGHT、SET-AUCTION；角色身份、晚礼服和拍卖厅锁定。",
+      "shot_delta_prompt": "吊灯闪烁，短暂照亮寂静的入口；伊芙保持不动。",
+      "negative_prompt": "不新增角色；不更换服装；不跳变场景。",
+      "status": "ready_to_generate"
+    },
+    {
+      "shot_id": "SHOT-001-03",
+      "video_id": "VIDEO-001",
+      "display_name_zh": "香槟杯裂纹蔓延",
+      "prompt_id": "PROMPT-003",
+      "source_scene_id": "EP01-SC01",
+      "timeline_in_seconds": 4,
+      "timeline_out_seconds": 5.5,
+      "duration_seconds": 1.5,
+      "shot_type": "特写插入",
+      "generation_mode": "independent",
+      "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "PROP-BOTTLE"],
+      "asset_lock_prompt": "CHAR-EVE、LOOK-EVE-NIGHT、PROP-BOTTLE；角色身份、晚礼服和裂纹香槟杯锁定。",
+      "shot_delta_prompt": "特写：伊芙手中的香槟杯上，细小裂纹缓慢蔓延。",
+      "negative_prompt": "不复制道具；不改变持杯的手；不更换服装。",
+      "status": "ready_to_generate"
+    },
+    {
+      "shot_id": "SHOT-001-04",
+      "video_id": "VIDEO-001",
+      "display_name_zh": "伊芙握紧酒杯",
+      "prompt_id": "PROMPT-004",
+      "source_scene_id": "EP01-SC01",
+      "timeline_in_seconds": 5.5,
+      "timeline_out_seconds": 8,
+      "duration_seconds": 2.5,
+      "shot_type": "动作",
+      "generation_mode": "independent",
+      "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"],
+      "asset_lock_prompt": "CHAR-EVE、LOOK-EVE-NIGHT、SET-AUCTION、PROP-BOTTLE；角色身份、晚礼服、拍卖厅和裂纹香槟杯均锁定。",
+      "shot_delta_prompt": "伊芙缓慢握紧裂纹酒杯，目光始终锁在入口。",
+      "negative_prompt": "不更换服装；不复制酒杯；不跳变场景方位；不新增未批准角色。",
+      "status": "ready_to_generate"
+    }
+  ],
+  "tasks": [
+    { "id": "TASK-001", "display_name_zh": "审核伊芙入口反应镜头", "status": "todo", "targets": ["SHOT-001-01"] }
+  ]
+}
