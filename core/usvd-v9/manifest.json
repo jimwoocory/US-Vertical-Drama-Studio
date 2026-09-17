@@ -92,7 +92,7 @@
       "responsibility": "Translate the approved director package into Seedance 2.0 Mini model-facing prompt fields using a verified capability profile.",
       "canonical_path": "skills/08-seedance-2-mini-adapter/SKILL.md",
       "contract_path": "contracts/stage-08-seedance-2-mini-adapter.json",
-      "status": "contract-slot"
+      "status": "implemented"
     },
     {
       "id": "09-prompt-qa",

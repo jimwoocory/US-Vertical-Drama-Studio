@@ -1,9 +1,26 @@
 {
-  "contract_version": "v9-stage-08-1",
+  "contract_version": "v9-stage-08-2",
   "stage": "08-seedance-2-mini-adapter",
-  "requires": ["STAGE 06 PACKAGE", "STAGE 07 PACKAGE", "VERIFIED ENDPOINT CAPABILITY PROFILE"],
-  "output_per_video": ["video_master_prompt", "video_negative_prompt", "ordered_time_sequence", "reference_bindings", "external_execution_notes"],
-  "output_per_shot": ["shot_delta_prompt", "local_exclusions", "continuity_state_delta"],
-  "invariants": ["Preserve story-critical action and continuity constraints.", "Do not claim unverified capabilities.", "Keep approved names and dialogue unchanged."],
-  "handoff": { "next_stage": "09-prompt-qa" }
+  "owner": "seedance-2-mini-prompt-adapter",
+  "target_model": "Seedance 2.0 Mini",
+  "requires": ["STAGE 06 APPROVED", "STAGE 07 APPROVED", "ASSETS LOCKED", "VERIFIED ENDPOINT CAPABILITY PROFILE"],
+  "capability_profile": {
+    "status_values": ["supported", "unsupported", "unknown"],
+    "required_features": ["audio", "lip_sync", "seed", "start_frame", "end_frame", "reference_images"],
+    "unknown_policy": "treat_as_unsupported"
+  },
+  "output_per_video": ["video_id", "prompt_id", "source_scene_refs", "asset_ids", "video_master_prompt", "video_negative_prompt", "ordered_time_sequence", "reference_bindings", "execution_features", "external_execution_notes", "budget_status", "degradation_log"],
+  "output_per_shot": ["shot_id", "video_id", "prompt_id", "time_in", "time_out", "asset_ids", "shot_delta_prompt", "local_exclusions", "continuity_state_delta", "budget_status", "degradation_log"],
+  "prompt_budget": {
+    "video_master_target_chars": 1200,
+    "video_master_review_chars": 1600,
+    "shot_delta_target_chars": 360,
+    "shot_delta_review_chars": 520,
+    "note": "Internal USVDS complexity budget; not an endpoint maximum."
+  },
+  "degradation_order": ["remove_redundant_adjectives", "remove_unmotivated_style_qualifiers", "collapse_repeated_asset_descriptions_to_bindings", "collapse_unchanged_lighting_focus", "remove_parent_master_repetition_from_shot_delta", "compress_noncritical_environment_detail"],
+  "protected_content": ["story_critical_action", "ordered_timing", "asset_identity_and_state", "continuity_critical_direction_and_handoff", "approved_dialogue_and_timing", "motivated_camera_and_cut_direction"],
+  "forbidden_quality_tokens": ["8K", "masterpiece", "cinematic-as-generic-quality-token"],
+  "invariants": ["Do not alter story facts, asset identity, Stage 06 timing, or Stage 07 directing decisions.", "VIDEO master is the complete submission prompt; SHOT delta contains only local changes.", "Do not claim unsupported or unknown endpoint features as native.", "Every prompt is traceable to stable VIDEO/SHOT/Asset IDs.", "Approved English names/dialogue remain unchanged; production prompt language is Chinese by default."],
+  "handoff": {"gate": "STAGE 08 READY FOR QA", "next_stage": "09-prompt-qa"}
 }
