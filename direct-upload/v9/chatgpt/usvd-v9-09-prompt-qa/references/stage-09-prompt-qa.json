@@ -1,14 +1,19 @@
 {
-  "contract_version": "v9-stage-09-2",
+  "contract_version": "v9-stage-09-3",
   "stage": "09-prompt-qa",
   "owner": "prompt-qa",
   "requires": ["STAGE 06 APPROVED", "STAGE 07 APPROVED", "STAGE 08 READY FOR QA", "ASSET LEDGER", "CONTINUITY LEDGER", "ENDPOINT CAPABILITY PROFILE"],
   "checks": [
     "story_source_coverage",
     "video_shot_timing_closure",
+    "video_duration_sum_and_max",
+    "shot_audio_field_presence",
+    "shot_event_execution_coverage",
     "asset_identity_look_set_prop_consistency",
+    "asset_prompt_non_duplication",
     "blocking_eyeline_screen_direction_continuity",
     "camera_contradictions_and_motivation",
+    "camera_movement_presence",
     "impossible_simultaneous_actions",
     "prompt_redundancy_and_quality_padding",
     "endpoint_capability_truthfulness",
@@ -22,6 +27,19 @@
   },
   "defect": ["defect_id", "severity", "stable_ref", "rule", "evidence", "requested_action", "return_to_stage"],
   "severity": ["blocker", "major", "minor"],
+  "blocking_rules": {
+    "blocker": ["timing_not_closed", "video_over_15_seconds", "timeline_gap_or_overlap", "invalid_core_type", "unapproved_asset", "unsupported_native_capability"],
+    "major": ["shot_audio_field_missing", "video_only_audio_plan", "dynamic_camera_without_motivation", "asset_description_overload", "event_execution_unresolved"]
+  },
+  "required_shot_audio_fields": ["dialogue", "inner_voice", "environment_sound", "sfx", "music_cue"],
+  "required_event_resolution": ["native_execution", "external_execution_notes", "unused_with_reason"],
+  "timing_policy": {
+    "video_duration_equals_sum_of_shots": true,
+    "max_video_duration_seconds": 15,
+    "tolerance_seconds": 0.01,
+    "15_seconds_is_padding_target": false
+  },
+  "regression_cases": ["R01", "R02", "R03", "R04", "R05", "R06", "R07", "R08", "R09", "R10", "R11", "R12", "R13", "R14", "R15", "R16", "R17", "R18"],
   "gate": {
     "PASS": "No unresolved blocker/major defects and machine plus human review requirements satisfied.",
     "REVISE": "Defects are repairable in Stage 07/08 without changing approved story or assets.",

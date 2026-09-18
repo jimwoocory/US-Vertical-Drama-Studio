@@ -39,6 +39,15 @@ Stage 08 只回答：**如何把已经批准的故事事实、资产锁、时序
 - 将已验证支持的 endpoint 能力绑定到执行字段；
 - 将不支持/未验证能力移到 external execution notes。
 
+### SHOT 事件适配与执行归属
+
+- Stage 06 的 `shot_events` 是音频事实的规范来源；先按时间构造 `shot_event_index`，再生成 VIDEO master 和 SHOT delta。
+- 每个 `event_id` 必须解析到且仅到 `native_execution`、`external_execution_notes` 或 `unused_with_reason` 之一。
+- `dialogue` 只有在 `audio` 与 `lip_sync` 均明确 `supported` 时才可声明原生执行；`inner_voice` 默认走 external voiceover。
+- `environment_sound`、`sfx`、`music_cue` 默认走外部后期音轨，除非 capability profile 明确支持。
+- `camera_movement` 必须继承 Stage 07 的运动动机；Adapter 不得增加装饰性运镜。
+- 所有降级写入 `degradation_log`，至少包含原事件、动作、原因、执行责任和保留位置。
+
 它不可以：
 - 改 Story Bible / Beat / 台词结果；
 - 新增服装、场景、人物、道具；

@@ -48,6 +48,7 @@ export function validateAdapterPackage(pkg) {
     if (budget.status === 'OVER_BUDGET') diagnostics.push({ code: 'video_prompt_over_budget', ref: video.video_id, chars: budget.chars, limit: budget.review })
     if (budget.status === 'REVIEW' && !Array.isArray(video.degradation_log)) diagnostics.push({ code: 'review_prompt_missing_degradation_log', ref: video.video_id })
     validateExecutionFeatures(video, profile, diagnostics)
+    validateEventExecutionCoverage(video, diagnostics)
   }
 
   for (const shot of shots) {
@@ -69,6 +70,21 @@ export function validateAdapterPackage(pkg) {
   }
 
   return diagnostics
+}
+
+function validateEventExecutionCoverage(video, diagnostics) {
+  const coverage = Array.isArray(video?.event_execution_coverage) ? video.event_execution_coverage : []
+  if (coverage.length === 0 && Array.isArray(video?.shot_event_ids) && video.shot_event_ids.length > 0) {
+    diagnostics.push({ code: 'event_execution_coverage_missing', ref: video.video_id })
+    return
+  }
+  for (const item of coverage) {
+    const resolutionCount = [item?.native_execution, item?.external_execution_notes, item?.unused_with_reason].filter(Boolean).length
+    const resolved = resolutionCount === 1
+    if (!item?.event_id || !resolved) {
+      diagnostics.push({ code: 'event_execution_unresolved', ref: video.video_id, event_id: item?.event_id })
+    }
+  }
 }
 
 function requireTrace(item, keys, diagnostics, kind) {

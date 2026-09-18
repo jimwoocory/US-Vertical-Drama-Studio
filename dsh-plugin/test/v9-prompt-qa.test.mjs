@@ -106,6 +106,56 @@ test('Prompt QA propagates Seedance capability and prompt-overload defects', () 
   assert.ok(result.defects.some(item => item.rule === 'adapter_video_prompt_over_budget'))
 })
 
+test('Prompt QA blocks unresolved shot events when execution coverage is missing or incomplete', () => {
+  const pkg = structuredClone(minimalPass)
+  pkg.videos[0].audio_schema_version = 'shot-level-2'
+  pkg.shots[0].shot_events = [{ event_id: 'EVENT-01', shot_id: 'SHOT-01', type: 'sfx', time_in: 0, time_out: 1, source_ref: 'SCENE-01', execution_intent: 'door impact' }]
+  const missing = runPromptQA(pkg)
+  assert.ok(missing.defects.some(item => item.rule === 'event_execution_unresolved'))
+
+  pkg.videos[0].event_execution_coverage = [{ event_id: 'EVENT-01', native_execution: false, external_execution_notes: { owner: 'post-audio' } }]
+  const resolved = runPromptQA(pkg)
+  assert.equal(resolved.defects.some(item => item.rule === 'event_execution_unresolved'), false)
+})
+
+test('Prompt QA blocks invalid core structure types', () => {
+  const pkg = structuredClone(minimalPass)
+  pkg.shots = 'not-an-array'
+  const result = runPromptQA(pkg)
+  assert.equal(result.gate, 'BLOCKED')
+  assert.ok(result.defects.some(item => item.rule === 'invalid_core_type'))
+})
+
+test('V9.1 enforces shot-level audio fields, explicit camera, and the 15-second ceiling', () => {
+  const pkg = structuredClone(minimalPass)
+  pkg.videos[0].audio_schema_version = 'shot-level-2'
+  for (const shot of pkg.shots) {
+    shot.dialogue = []
+    shot.inner_voice = []
+    shot.environment_sound = []
+    shot.sfx = []
+    shot.music_cue = []
+    shot.camera_movement = 'LOCKED/STATIC'
+  }
+
+  const pass = runPromptQA(pkg)
+  assert.equal(pass.summary.blocker, 0)
+  assert.equal(pass.summary.major, 0)
+
+  const missing = structuredClone(pkg)
+  delete missing.shots[0].inner_voice
+  const missingResult = runPromptQA(missing)
+  assert.ok(missingResult.defects.some(item => item.rule === 'shot_audio_field_missing'))
+
+  const tooLong = structuredClone(pkg)
+  tooLong.videos[0].duration_seconds = 15.1
+  tooLong.shots[1].time_out = 15.1
+  tooLong.shots[1].duration_seconds = 13.1
+  const tooLongResult = runPromptQA(tooLong)
+  assert.equal(tooLongResult.gate, 'BLOCKED')
+  assert.ok(tooLongResult.defects.some(item => item.rule === 'timing_video_duration_exceeds_max'))
+})
+
 test('Stage 09 contract and checklist expose the machine/human QA boundary', () => {
   const contract = JSON.parse(readFileSync(new URL('../../core/usvd-v9/contracts/stage-09-prompt-qa.json', import.meta.url), 'utf8'))
   const checklist = readFileSync(new URL('../../core/usvd-v9/references/prompt-qa-human-checklist.md', import.meta.url), 'utf8')

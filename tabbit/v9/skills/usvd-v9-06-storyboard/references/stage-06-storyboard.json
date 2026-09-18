@@ -1,5 +1,5 @@
 {
-  "contract_version": "v9-stage-06-2",
+  "contract_version": "v9-stage-06-3",
   "stage": "06-storyboard",
   "owner": "storyboard-director",
   "requires": ["SCRIPT DOCTOR PASS", "CONTINUITY CLEAR", "ASSETS LOCKED"],
@@ -14,13 +14,31 @@
     "allow_gaps": false,
     "allow_overlaps": false,
     "shot_duration_equals_range": true,
-    "last_shot_ends_at_video_duration": true
+    "last_shot_ends_at_video_duration": true,
+    "video_duration_equals_sum_of_shots": true,
+    "video_duration_max_seconds": 15,
+    "duration_tolerance_seconds": 0.01,
+    "duration_is_derived_not_padded": true
   },
   "output": {
-    "video": ["video_id", "display_name_zh", "source_scene_refs", "dramatic_objective", "start_state", "end_state", "duration_seconds", "asset_ids", "shot_ids", "continuity_in", "continuity_out", "dialogue_audio_plan"],
-    "shot": ["shot_id", "video_id", "time_in", "time_out", "duration_seconds", "narrative_purpose", "composition", "blocking_action", "eyeline_screen_direction", "performance_beat", "camera_intent", "continuity_in", "continuity_out", "continuity_delta", "asset_ids"]
+    "video": ["video_id", "display_name_zh", "source_scene_refs", "dramatic_objective", "start_state", "end_state", "duration_seconds", "asset_ids", "shot_ids", "continuity_in", "continuity_out", "audio_schema_version", "dialogue_audio_plan"],
+    "shot": ["shot_id", "video_id", "time_in", "time_out", "duration_seconds", "narrative_purpose", "composition", "blocking_action", "eyeline_screen_direction", "performance_beat", "camera_intent", "camera_movement", "camera_movement_motivation", "dialogue", "inner_voice", "environment_sound", "sfx", "music_cue", "shot_events", "continuity_in", "continuity_out", "continuity_delta", "asset_ids"]
   },
-  "forbidden_output_fields": ["video_master_prompt", "video_negative_prompt", "shot_delta_prompt", "final_model_prompt", "model_prompt"],
+  "audio_schema": {
+    "version": "shot-level-2",
+    "canonical_owner": "shot",
+    "event_types": ["dialogue", "inner_voice", "environment_sound", "sfx", "music_cue"],
+    "required_fields_on_every_shot": ["dialogue", "inner_voice", "environment_sound", "sfx", "music_cue"],
+    "legacy_video_plan": "dialogue_audio_plan",
+    "legacy_policy": "read-only compatibility aggregate; never the source for new data"
+  },
+  "asset_description_rule": "SHOT may reference approved asset_ids and retain only visible action, composition, and continuity-critical state; full character, look, set, and prop descriptions belong to Asset Lock prompts.",
+  "shot_event_schema": {
+    "required_fields": ["event_id", "shot_id", "type", "time_in", "time_out", "source_ref", "execution_intent"],
+    "optional_fields": ["text", "description"]
+  },
+  "camera_rule": "Every SHOT declares camera_movement; static shots use LOCKED/STATIC. Dynamic movement requires camera_movement_motivation.",
+  "forbidden_output_fields": ["video_master_prompt", "video_negative_prompt", "shot_delta_prompt", "final_model_prompt", "model_prompt", "full_asset_prompt_copy"],
   "model_prompt_owner": "08-seedance-2-mini-adapter",
   "handoff": {
     "gate": "STAGE 06 APPROVED",

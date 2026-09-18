@@ -59,6 +59,15 @@ Stage 09 不可以：
 
 ## 机器检查
 
+### V9.1 升级门禁
+
+- `VIDEO.duration_seconds` 必须等于全部 SHOT 时长之和，允许误差 `±0.01s`；超过 `15s` 为 `blocker`，15 秒不是补齐目标。
+- 每个 SHOT 必须存在 `dialogue`、`inner_voice`、`environment_sound`、`sfx`、`music_cue`；无内容可为空数组，但字段不能缺失。
+- 音频只存在于 VIDEO 级 `dialogue_audio_plan`、而 SHOT 没有对应字段时，判定为 `major`。
+- 每个 SHOT 必须显式声明 `camera_movement`；动态运镜缺 `movement_motivation` 判定为 `major`。
+- `asset_ids` 必须引用 Asset Ledger；完整角色/场景/道具描述不得在多个 SHOT 中重复复制，资产提示词过载判定为 `major`。
+- 每个 `shot_events.event_id` 必须在 Stage 08 落到 `native_execution`、`external_execution_notes` 或 `unused_with_reason`，否则判定为 `major`。
+
 ### 1. Story/source coverage
 - `required_source_refs` 必须被 VIDEO 的 `source_scene_refs` 完整覆盖；
 - 不允许 Prompt 引入 source coverage 之外的新剧情事件；
@@ -131,7 +140,13 @@ Stage 09 不可以：
 - SHOT delta > 520 Unicode chars → `major`；
 - REVIEW 区间必须有 degradation log。
 
-### 11. Continuity in/out closure
+### 11. Event execution coverage
+
+- `event_id`、`shot_id`、`source_ref`、`execution_owner` 和 `capability_status` 必须可回溯。
+- `inner_voice` 默认检查为 external voiceover，不得被静默当成 lip-sync。
+- unknown/unsupported 能力不得进入 native execution。
+
+### 12. Continuity in/out closure
 VIDEO 与 SHOT 的结束状态必须成为下一单元的合法起点；伤势、PROP、LOOK、位置、方向、时间/天气不可凭空复位。
 
 ## 人工审片前清单

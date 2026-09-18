@@ -13,7 +13,7 @@ version: 0.2.0
 - Stage 06 VIDEO/SHOT package
 - Continuity Ledger
 - Asset Ledger
-- approved dialogue/audio plan
+- approved dialogue/audio plan；优先使用 SHOT 级 `shot_events`，旧版才读取 VIDEO 级聚合字段
 
 如果 Stage 06 时间没有闭合、资产未锁定或来源覆盖不完整，输出 `BLOCKED` 并返回 Stage 06。
 
@@ -21,7 +21,13 @@ version: 0.2.0
 
 Stage 07 只回答：**已经确定的每个 SHOT 应该怎样被演员和摄影机执行，才能把该镜头的叙事目的拍出来。**
 
-Stage 07 不新增剧情、不改变对白结果、不重新划分 VIDEO/SHOT、不改变锁定资产，也不负责模型 Prompt Engineering。
+Stage 07 不新增剧情、不改变对白结果、不重新划分 VIDEO/SHOT、不改变锁定资产，也不负责模型 Prompt Engineering。它不得改写或静默丢弃 Stage 06 的音频事件事实。
+
+### SHOT 事件与兼容读取
+
+- 新数据优先读取 `shot_events`，按 `event_id`、时间范围和 `source_ref` 绑定到表演、动作、切点与摄影指令。
+- 旧数据只有 VIDEO 级 `dialogue_audio_plan` 时，才按 SHOT 时间范围切片；无法确定归属时输出 `REVIEW_REQUIRED` 或 `BLOCKED`，不得静默复制。
+- 每个事件必须保留来源和执行意图；Stage 07 只补充导演关系，不改写台词文本。
 
 ## 每个 SHOT 必须补齐
 
@@ -83,6 +89,8 @@ Stage 07 不新增剧情、不改变对白结果、不重新划分 VIDEO/SHOT、
 - 强化主观感受。
 
 如果没有明确动机，默认 `LOCKED / STATIC`。禁止为了“电影感”持续推拉摇移。
+
+Stage 06 的 `camera_intent` 是叙事来源；Stage 07 输出可执行的 `camera_movement` 和 `movement_motivation`。二者冲突时返回 Stage 06，不由 Stage 07 猜测。
 
 ### 10. Focus behavior
 - focus target；

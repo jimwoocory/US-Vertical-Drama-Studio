@@ -1,4 +1,6 @@
-const EPSILON = 1e-6
+const EPSILON = 0.01
+const MAX_VIDEO_DURATION_SECONDS = 15
+const SHOT_AUDIO_FIELDS = ['dialogue', 'inner_voice', 'environment_sound', 'sfx', 'music_cue']
 
 export const FORBIDDEN_MODEL_PROMPT_FIELDS = new Set([
   'video_master_prompt',
@@ -12,8 +14,34 @@ export const FORBIDDEN_MODEL_PROMPT_FIELDS = new Set([
 export function validateDirectorPackage(pkg) {
   return [
     ...validateTimingClosure(pkg),
+    ...validateShotLevelFields(pkg),
     ...findForbiddenModelPromptFields(pkg),
   ]
+}
+
+export function validateShotLevelFields(pkg) {
+  const videos = Array.isArray(pkg?.videos) ? pkg.videos : []
+  const shots = Array.isArray(pkg?.shots) ? pkg.shots : []
+  const shotLevel = pkg?.audio_schema_version === 'shot-level-2'
+    || videos.some(video => video?.audio_schema_version === 'shot-level-2')
+    || shots.some(shot => Array.isArray(shot?.shot_events))
+  if (!shotLevel) return []
+
+  const diagnostics = []
+  for (const shot of shots) {
+    for (const field of SHOT_AUDIO_FIELDS) {
+      if (!Object.hasOwn(shot ?? {}, field)) diagnostics.push({ code: 'shot_audio_field_missing', ref: shot?.shot_id, field })
+    }
+    if (!String(shot?.camera_movement ?? '').trim() && !shot?.camera_movement?.type) {
+      diagnostics.push({ code: 'camera_movement_missing', ref: shot?.shot_id })
+    }
+    const movement = typeof shot?.camera_movement === 'string' ? shot.camera_movement : shot?.camera_movement?.type
+    const dynamic = /push|pull|pan|tilt|dolly|track|orbit|zoom|handheld|crane|横移|推|拉|摇|移|跟拍|环绕|变焦|手持|升降/u.test(String(movement ?? '').toLowerCase())
+    if (dynamic && !String(shot?.camera_movement_motivation ?? shot?.camera_movement?.motivation ?? '').trim()) {
+      diagnostics.push({ code: 'camera_movement_without_motivation', ref: shot?.shot_id })
+    }
+  }
+  return diagnostics
 }
 
 export function validateTimingClosure(pkg) {
@@ -31,6 +59,9 @@ export function validateTimingClosure(pkg) {
     if (!Number.isFinite(duration) || duration <= 0) {
       diagnostics.push({ code: 'invalid_video_duration', ref: videoId })
       continue
+    }
+    if (duration > MAX_VIDEO_DURATION_SECONDS + EPSILON) {
+      diagnostics.push({ code: 'video_duration_exceeds_max', ref: videoId, max_duration: MAX_VIDEO_DURATION_SECONDS, actual_duration: duration })
     }
     if (children.length === 0) {
       diagnostics.push({ code: 'video_has_no_shots', ref: videoId })

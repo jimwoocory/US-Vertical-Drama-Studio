@@ -1,4 +1,4 @@
-import { validateTimingClosure } from './v9-director-validation.mjs'
+import { validateShotLevelFields, validateTimingClosure } from './v9-director-validation.mjs'
 import { validateAdapterPackage } from './v9-seedance-adapter-validation.mjs'
 
 export const DIALOGUE_MAX_WORDS_PER_SECOND = 3.0
@@ -24,8 +24,10 @@ const ADAPTER_BLOCKERS = new Set([
 
 export function runPromptQA(pkg) {
   const raw = []
+  raw.push(...checkCoreTypes(pkg))
   raw.push(...checkRequiredEvidence(pkg))
   raw.push(...mapTimingDiagnostics(validateTimingClosure(pkg)))
+  raw.push(...mapShotLevelDiagnostics(pkg))
   raw.push(...mapAdapterDiagnostics(validateAdapterPackage(pkg)))
   raw.push(...checkSourceCoverage(pkg))
   raw.push(...checkAssetIntegrity(pkg))
@@ -44,6 +46,92 @@ export function runPromptQA(pkg) {
     summary: { blocker: blockers, major: majors, minor: minors, total: defects.length },
     defects,
   }
+}
+
+function mapShotLevelDiagnostics(pkg) {
+  const shotLevel = pkg?.audio_schema_version === 'shot-level-2'
+    || (Array.isArray(pkg?.videos) && pkg.videos.some(video => video?.audio_schema_version === 'shot-level-2'))
+    || (Array.isArray(pkg?.shots) && pkg.shots.some(shot => Array.isArray(shot?.shot_events)))
+  if (!shotLevel) return []
+
+  const diagnostics = validateShotLevelFields(pkg).map(item => defect(
+    'major',
+    item.ref ?? 'PACKAGE',
+    item.code,
+    JSON.stringify(item),
+    'Repair the Stage 06 shot-level contract before continuing.',
+    '06',
+  ))
+  const shots = Array.isArray(pkg?.shots) ? pkg.shots : []
+  const videos = new Map((Array.isArray(pkg?.videos) ? pkg.videos : []).map(video => [video?.video_id, video]))
+  const packageCoverage = Array.isArray(pkg?.event_execution_coverage) ? pkg.event_execution_coverage : null
+  for (const shot of shots) {
+    for (const event of shot?.shot_events ?? []) {
+      if (!event?.event_id) {
+        diagnostics.push(defect('major', shot.shot_id ?? 'PACKAGE', 'event_id_missing', JSON.stringify(event), 'Add a stable event_id and source_ref to the shot event.', '06'))
+        continue
+      }
+      const parent = videos.get(shot.video_id)
+      const coverage = Array.isArray(parent?.event_execution_coverage)
+        ? parent.event_execution_coverage
+        : packageCoverage
+      const match = coverage?.find(item => item?.event_id === event.event_id)
+      if (!match || !hasEventResolution(match)) {
+        diagnostics.push(defect('major', event.event_id, 'event_execution_unresolved', `No native/external/unused resolution for ${event.event_id}.`, 'Resolve the event in Stage 08 and retain execution ownership or an unused reason.', '08'))
+      }
+    }
+  }
+  return diagnostics
+}
+
+function checkCoreTypes(pkg) {
+  const diagnostics = []
+  const arrayFields = ['required_source_refs', 'approved_asset_ids', 'videos', 'shots', 'director_shots']
+  for (const field of arrayFields) {
+    if (pkg?.[field] !== undefined && !Array.isArray(pkg[field])) {
+      diagnostics.push(defect('blocker', 'PACKAGE', 'invalid_core_type', `${field} must be an array.`, `Repair the package schema: ${field} must be an array.`, '09'))
+    }
+  }
+  for (const video of Array.isArray(pkg?.videos) ? pkg.videos : []) {
+    if (!isRecord(video)) {
+      diagnostics.push(defect('blocker', 'PACKAGE', 'invalid_core_type', 'Every videos item must be an object.', 'Repair the package schema: each VIDEO must be an object.', '09'))
+      continue
+    }
+    checkFieldType(video, 'video_id', 'string', video.video_id ?? 'VIDEO', diagnostics)
+    checkFieldType(video, 'duration_seconds', 'number', video.video_id ?? 'VIDEO', diagnostics)
+    checkFieldType(video, 'source_scene_refs', 'array', video.video_id ?? 'VIDEO', diagnostics)
+    checkFieldType(video, 'asset_ids', 'array', video.video_id ?? 'VIDEO', diagnostics)
+    if (video.event_execution_coverage !== undefined) checkFieldType(video, 'event_execution_coverage', 'array', video.video_id ?? 'VIDEO', diagnostics)
+  }
+  for (const shot of Array.isArray(pkg?.shots) ? pkg.shots : []) {
+    if (!isRecord(shot)) {
+      diagnostics.push(defect('blocker', 'PACKAGE', 'invalid_core_type', 'Every shots item must be an object.', 'Repair the package schema: each SHOT must be an object.', '09'))
+      continue
+    }
+    const ref = shot.shot_id ?? 'SHOT'
+    for (const field of ['shot_id', 'video_id']) checkFieldType(shot, field, 'string', ref, diagnostics)
+    for (const field of ['time_in', 'time_out', 'duration_seconds']) checkFieldType(shot, field, 'number', ref, diagnostics)
+    checkFieldType(shot, 'asset_ids', 'array', ref, diagnostics)
+    if (shot.shot_events !== undefined) checkFieldType(shot, 'shot_events', 'array', ref, diagnostics)
+    for (const event of Array.isArray(shot.shot_events) ? shot.shot_events : []) {
+      if (!isRecord(event)) diagnostics.push(defect('blocker', ref, 'invalid_core_type', 'Every shot_events item must be an object.', 'Repair the package schema: each shot event must be an object.', '09'))
+    }
+  }
+  return diagnostics
+}
+
+function checkFieldType(item, field, expected, ref, diagnostics) {
+  const value = item?.[field]
+  const valid = expected === 'array' ? Array.isArray(value) : typeof value === expected
+  if (!valid) diagnostics.push(defect('blocker', ref, 'invalid_core_type', `${field} must be ${expected}.`, `Repair the package schema: ${field} must be ${expected}.`, '09'))
+}
+
+function isRecord(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+}
+
+function hasEventResolution(item) {
+  return Boolean(item?.native_execution || item?.external_execution_notes || item?.unused_with_reason)
 }
 
 function checkRequiredEvidence(pkg) {
@@ -88,7 +176,7 @@ function mapAdapterDiagnostics(items) {
 function checkSourceCoverage(pkg) {
   if (!Array.isArray(pkg?.required_source_refs)) return []
   const covered = new Set()
-  for (const video of pkg?.videos ?? []) {
+  for (const video of Array.isArray(pkg?.videos) ? pkg.videos : []) {
     for (const ref of video?.source_scene_refs ?? []) covered.add(ref)
   }
   const diagnostics = []
@@ -104,7 +192,10 @@ function checkAssetIntegrity(pkg) {
   if (!Array.isArray(pkg?.approved_asset_ids)) return []
   const approved = new Set(pkg.approved_asset_ids)
   const diagnostics = []
-  const items = [...(pkg?.videos ?? []), ...(pkg?.shots ?? [])]
+  const items = [
+    ...(Array.isArray(pkg?.videos) ? pkg.videos : []),
+    ...(Array.isArray(pkg?.shots) ? pkg.shots : []),
+  ]
   for (const item of items) {
     const ref = item.shot_id ?? item.video_id ?? 'PACKAGE'
     for (const assetId of item?.asset_ids ?? []) {
@@ -125,7 +216,7 @@ function checkDirectorEvidence(pkg) {
   if (!Array.isArray(pkg?.director_shots)) return []
   const diagnostics = []
   const byVideo = new Map()
-  const stage08ShotIds = new Set((pkg?.shots ?? []).map(shot => shot.shot_id).filter(Boolean))
+  const stage08ShotIds = new Set((Array.isArray(pkg?.shots) ? pkg.shots : []).map(shot => shot.shot_id).filter(Boolean))
   const directorShotIds = new Set(pkg.director_shots.map(shot => shot.shot_id).filter(Boolean))
   for (const shotId of stage08ShotIds) {
     if (!directorShotIds.has(shotId)) {
