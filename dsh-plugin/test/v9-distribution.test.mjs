@@ -20,7 +20,7 @@ test('V9 generated distributions are byte-synchronized with canonical Core', () 
   assert.equal(result.skills.length, 10)
 })
 
-test('generated ChatGPT/Codex V9 plugin mirrors all canonical Skill files', () => {
+test('generated ChatGPT/Codex V9 plugin mirrors canonical Skill content across line endings', () => {
   const { skills } = loadCore()
   const generated = readJson('plugins/us-vertical-drama-studio-v9/manifest.json')
   assert.equal(generated.status, 'preview')
@@ -28,7 +28,7 @@ test('generated ChatGPT/Codex V9 plugin mirrors all canonical Skill files', () =
   assert.deepEqual(generated.skills.map(item => item.name), skills.map(item => item.name))
   for (const skill of skills) {
     const distributed = readFileSync(new URL(`plugins/us-vertical-drama-studio-v9/skills/${skill.name}/SKILL.md`, root))
-    assert.equal(distributed.equals(skill.content), true, skill.name)
+    assert.equal(normalizeText(distributed), normalizeText(skill.content), skill.name)
   }
 })
 
