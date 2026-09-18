@@ -1,0 +1,95 @@
+{
+  "case_id": "GC-02-AUCTION-ENTRY",
+  "title": "拍卖厅入口反应：旧版缺少 Stage 07 导演证据",
+  "provenance": "fixtures/production-workbench-ep01.json",
+  "selection_reason": "Existing four-shot reaction/reveal sequence with stable assets and timing, suitable for checking whether V9 adds explicit narrative purpose, performance transition, composition priority and cut motivation instead of generic reaction beats.",
+  "comparison_controls": {
+    "same_source_coverage": true,
+    "same_approved_assets": true,
+    "same_target_model": "Seedance 2.0 Mini",
+    "same_endpoint_profile_id": "GOLDEN-MINI-PROFILE-02",
+    "rendered_video_review": "pending"
+  },
+  "expected": {
+    "baseline_gate": "REVISE",
+    "v9_gate": "PASS",
+    "material_changes": [
+      {"rule": "07.narrative_purpose", "change": "Every shot now has one explicit visual/narrative job."},
+      {"rule": "07.performance_transition", "change": "Reaction beats carry visible state changes instead of generic looking/holding actions."},
+      {"rule": "07.cut_motivation", "change": "Each cut is tied to information or reaction progression."},
+      {"rule": "08.shot_delta", "change": "SHOT prompts only describe local changes relative to the VIDEO master."}
+    ]
+  },
+  "baseline": {
+    "target_model": "Seedance 2.0 Mini",
+    "required_source_refs": ["EP01-SC01"],
+    "approved_asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"],
+    "capability_profile": {"audio": "unsupported", "lip_sync": "unsupported", "seed": "unknown", "start_frame": "unknown", "end_frame": "unknown", "reference_images": "supported"},
+    "reference_bindings": [
+      {"asset_id": "CHAR-EVE", "reference_id": "char-eve-approved"},
+      {"asset_id": "LOOK-EVE-NIGHT", "reference_id": "look-eve-night-approved"},
+      {"asset_id": "SET-AUCTION", "reference_id": "set-auction-approved"},
+      {"asset_id": "PROP-BOTTLE", "reference_id": "prop-bottle-approved"}
+    ],
+    "videos": [{
+      "video_id": "VIDEO-001",
+      "prompt_id": "VIDEO-PROMPT-001",
+      "source_scene_refs": ["EP01-SC01"],
+      "duration_seconds": 8,
+      "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"],
+      "video_master_prompt": "8秒竖屏视频。深夜拍卖厅内，伊芙察觉入口异动，依次展示她停在酒杯上的手、抬眼的反应、闪烁的吊灯和她握紧裂纹酒杯的近景。人物、深蓝晚礼服、拍卖厅和裂纹香槟杯全程一致；冷白吊灯光，紧张克制。",
+      "video_negative_prompt": "不改变角色身份、深蓝晚礼服、裂纹香槟杯、拍卖厅方位或持杯的手；不新增人物；不跳切到其他地点。",
+      "execution_features": {"audio": "unused", "lip_sync": "unused", "seed": "unused", "start_frame": "unused", "end_frame": "unused", "reference_images": "native"},
+      "external_execution_notes": [],
+      "degradation_log": []
+    }],
+    "shots": [
+      {"shot_id": "SHOT-001-01", "video_id": "VIDEO-001", "prompt_id": "PROMPT-001", "time_in": 0, "time_out": 2, "duration_seconds": 2, "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"], "shot_delta_prompt": "伊芙转身看向入口，拍卖厅上方的吊灯闪出冷光。", "local_exclusions": "不更换服装；不复制酒杯；不跳变场景方位；不新增未批准角色。", "degradation_log": []},
+      {"shot_id": "SHOT-001-02", "video_id": "VIDEO-001", "prompt_id": "PROMPT-002", "time_in": 2, "time_out": 4, "duration_seconds": 2, "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION"], "shot_delta_prompt": "吊灯闪烁，短暂照亮寂静的入口；伊芙保持不动。", "local_exclusions": "不新增角色；不更换服装；不跳变场景。", "degradation_log": []},
+      {"shot_id": "SHOT-001-03", "video_id": "VIDEO-001", "prompt_id": "PROMPT-003", "time_in": 4, "time_out": 5.5, "duration_seconds": 1.5, "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "PROP-BOTTLE"], "shot_delta_prompt": "特写：伊芙手中的香槟杯上，细小裂纹缓慢蔓延。", "local_exclusions": "不复制道具；不改变持杯的手；不更换服装。", "degradation_log": []},
+      {"shot_id": "SHOT-001-04", "video_id": "VIDEO-001", "prompt_id": "PROMPT-004", "time_in": 5.5, "time_out": 8, "duration_seconds": 2.5, "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"], "shot_delta_prompt": "伊芙缓慢握紧裂纹酒杯，目光始终锁在入口。", "local_exclusions": "不更换服装；不复制酒杯；不跳变场景方位；不新增未批准角色。", "degradation_log": []}
+    ],
+    "director_shots": [
+      {"shot_id": "SHOT-001-01", "video_id": "VIDEO-001", "time_in": 0, "time_out": 2, "camera_movement": "STATIC", "continuity_in": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}, "continuity_out": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}},
+      {"shot_id": "SHOT-001-02", "video_id": "VIDEO-001", "time_in": 2, "time_out": 4, "camera_movement": "STATIC", "continuity_in": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}, "continuity_out": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}},
+      {"shot_id": "SHOT-001-03", "video_id": "VIDEO-001", "time_in": 4, "time_out": 5.5, "camera_movement": "STATIC", "continuity_in": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}, "continuity_out": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand-cracked", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}},
+      {"shot_id": "SHOT-001-04", "video_id": "VIDEO-001", "time_in": 5.5, "time_out": 8, "camera_movement": "STATIC", "continuity_in": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand-cracked", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}, "continuity_out": {"screen_direction": "faces-entry", "prop_state": "glass-gripped-tight", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}}
+    ]
+  },
+  "v9": {
+    "target_model": "Seedance 2.0 Mini",
+    "required_source_refs": ["EP01-SC01"],
+    "approved_asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"],
+    "capability_profile": {"audio": "unsupported", "lip_sync": "unsupported", "seed": "unknown", "start_frame": "unknown", "end_frame": "unknown", "reference_images": "supported"},
+    "reference_bindings": [
+      {"asset_id": "CHAR-EVE", "reference_id": "char-eve-approved"},
+      {"asset_id": "LOOK-EVE-NIGHT", "reference_id": "look-eve-night-approved"},
+      {"asset_id": "SET-AUCTION", "reference_id": "set-auction-approved"},
+      {"asset_id": "PROP-BOTTLE", "reference_id": "prop-bottle-approved"}
+    ],
+    "videos": [{
+      "video_id": "VIDEO-001",
+      "prompt_id": "VIDEO-PROMPT-001",
+      "source_scene_refs": ["EP01-SC01"],
+      "duration_seconds": 8,
+      "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"],
+      "video_master_prompt": "VIDEO-001，深夜拍卖厅。使用 CHAR-EVE、LOOK-EVE-NIGHT、SET-AUCTION、PROP-BOTTLE。0–2秒，伊芙先听见入口异动，肩膀停住后才转眼看向入口；2–4秒，保持她不动，让吊灯冷光短暂揭示空入口；4–5.5秒，切到她手中的裂纹酒杯，裂纹继续蔓延；5.5–8秒，回到伊芙，她握紧酒杯，呼吸变浅，目光锁住入口，完成“察觉异常 → 确认未知威胁 → 身体紧绷准备应对”的反应链。全程保持角色、晚礼服、拍卖厅方位和酒杯状态连续。",
+      "video_negative_prompt": "不改变 CHAR-EVE 身份、LOOK-EVE-NIGHT、SET-AUCTION 空间关系和 PROP-BOTTLE 持有状态；不新增人物；不让酒杯裂纹复原；不添加无叙事目的运镜。",
+      "execution_features": {"audio": "unused", "lip_sync": "unused", "seed": "unused", "start_frame": "unused", "end_frame": "unused", "reference_images": "native"},
+      "external_execution_notes": [],
+      "degradation_log": []
+    }],
+    "shots": [
+      {"shot_id": "SHOT-001-01", "video_id": "VIDEO-001", "prompt_id": "PROMPT-001", "time_in": 0, "time_out": 2, "duration_seconds": 2, "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"], "shot_delta_prompt": "0–2秒：先让伊芙肩膀停住，再转眼看向入口；保持酒杯在原手中，反应从听见异动到主动确认。", "local_exclusions": "不换装、不复制酒杯、不先转头后听见声音。", "degradation_log": []},
+      {"shot_id": "SHOT-001-02", "video_id": "VIDEO-001", "prompt_id": "PROMPT-002", "time_in": 2, "time_out": 4, "duration_seconds": 2, "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"], "shot_delta_prompt": "2–4秒：伊芙保持不动，吊灯冷光短暂照亮入口，让观众确认入口仍空但威胁未明。", "local_exclusions": "不新增人物、不改变场景方位、不让伊芙重复转头。", "degradation_log": []},
+      {"shot_id": "SHOT-001-03", "video_id": "VIDEO-001", "prompt_id": "PROMPT-003", "time_in": 4, "time_out": 5.5, "duration_seconds": 1.5, "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"], "shot_delta_prompt": "4–5.5秒：特写 PROP-BOTTLE，裂纹继续蔓延；用道具状态变化把外部威胁转成可见压力。", "local_exclusions": "不复制酒杯、不让裂纹复原、不改变持杯的手。", "degradation_log": []},
+      {"shot_id": "SHOT-001-04", "video_id": "VIDEO-001", "prompt_id": "PROMPT-004", "time_in": 5.5, "time_out": 8, "duration_seconds": 2.5, "asset_ids": ["CHAR-EVE", "LOOK-EVE-NIGHT", "SET-AUCTION", "PROP-BOTTLE"], "shot_delta_prompt": "5.5–8秒：回到伊芙近景，她握紧裂纹酒杯，呼吸变浅，眼神不离入口，从确认威胁进入准备应对状态。", "local_exclusions": "不新增人物、不改变酒杯裂纹、不让目光离开入口。", "degradation_log": []}
+    ],
+    "director_shots": [
+      {"shot_id": "SHOT-001-01", "video_id": "VIDEO-001", "time_in": 0, "time_out": 2, "narrative_purpose": "用先停顿后转眼建立‘听见异常’而非无因果转头。", "performance_transition": "正常警觉 → 身体停住 → 主动确认", "shot_size_composition": "中近景，伊芙占画面右侧，入口留在视线方向的负空间", "camera_movement": "STATIC", "movement_motivation": "定机让表演变化成为唯一运动。", "cut_motivation": "视线完成转向后切到她正在看的入口。", "continuity_in": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}, "continuity_out": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}},
+      {"shot_id": "SHOT-001-02", "video_id": "VIDEO-001", "time_in": 2, "time_out": 4, "narrative_purpose": "确认入口为空，同时用灯光变化维持未知威胁。", "performance_transition": "保持冻结 → 等待信息", "shot_size_composition": "入口信息镜头，人物保留在边缘或画外视线关系中", "camera_movement": "STATIC", "movement_motivation": "定机保持空间清楚，让光线成为信息变化。", "cut_motivation": "灯光揭示完成后切到受压力影响的道具。", "continuity_in": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}, "continuity_out": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}},
+      {"shot_id": "SHOT-001-03", "video_id": "VIDEO-001", "time_in": 4, "time_out": 5.5, "narrative_purpose": "用裂纹变化把不可见威胁转成具体可见压力。", "performance_transition": "外部威胁 → 道具承压", "shot_size_composition": "酒杯特写，裂纹是唯一视觉焦点", "camera_movement": "STATIC", "movement_motivation": "定机确保裂纹变化清楚可读。", "cut_motivation": "裂纹变化完成后回到人物反应。", "continuity_in": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}, "continuity_out": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand-cracked", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}},
+      {"shot_id": "SHOT-001-04", "video_id": "VIDEO-001", "time_in": 5.5, "time_out": 8, "narrative_purpose": "完成反应链，让伊芙从确认异常进入主动应对。", "performance_transition": "确认威胁 → 握紧道具 → 准备应对", "shot_size_composition": "近景，眼神和握杯手同时可读但面部优先", "camera_movement": "STATIC", "movement_motivation": "定机避免重复慢推，让表演和握杯动作承担升级。", "cut_motivation": "人物完成应对准备，形成下一剧情动作的起点。", "continuity_in": {"screen_direction": "faces-entry", "prop_state": "glass-in-hand-cracked", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}, "continuity_out": {"screen_direction": "faces-entry", "prop_state": "glass-gripped-tight", "look_state": "LOOK-EVE-NIGHT", "set_state": "SET-AUCTION"}}
+    ]
+  }
+}

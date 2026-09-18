@@ -2,6 +2,24 @@
 
 A single-entry, eight-skill production workflow for US-facing vertical microdrama development: one Studio orchestrator plus seven specialist skills. It enforces approval gates from adaptation through asset-locked storyboard and video-generation handoff.
 
+## V9 Preview branch
+
+The `refactor/usvd-v9-seedance2-mini` branch adds a **separate V9 preview** without replacing the stable V1/V2 distribution trees. V9 authoring truth lives only under `core/usvd-v9/` and uses the gated chain:
+
+`01–05 story/assets → 06 Storyboard → 07 Performance+Cinematography → 08 Seedance 2.0 Mini Adapter → 09 Prompt QA`.
+
+Run `npm run build:v9` to regenerate all V9 distribution surfaces and `npm run check:v9` to verify they are byte-synchronized with Core. `npm test` runs that synchronization gate before the full regression suite.
+
+Generated V9 preview surfaces:
+
+- ChatGPT/Codex marketplace plugin: `plugins/us-vertical-drama-studio-v9/`
+- ChatGPT/Claude direct upload: `direct-upload/v9/`
+- Tabbit: `tabbit/v9/`
+- MediaGo integration source: `mediago/v9/`
+- DSH: `dsh-plugin/` reads the generated V9 plugin manifest dynamically
+
+The existing stable `plugins/us-vertical-drama-studio/`, `direct-upload/chatgpt/`, `direct-upload/claude/`, `tabbit/v2/`, and legacy MediaGo `.mgpack` remain present and are not rewritten by the V9 generator.
+
 ## ChatGPT / Codex Marketplace
 
 This repository is directly importable as a workspace plugin marketplace.
@@ -28,15 +46,18 @@ The workflow gates screenplay and storyboard handoff through approved Story Bibl
 
 ## Other distributions
 
-- `direct-upload/chatgpt/` — eight per-skill ChatGPT direct-upload packages.
-- `direct-upload/claude/` — per-skill Claude folders and ZIP files.
+- `direct-upload/chatgpt/` — stable per-skill ChatGPT direct-upload packages.
+- `direct-upload/claude/` — stable per-skill Claude folders and ZIP files.
+- `direct-upload/v9/` — generated V9 preview ChatGPT/Claude folders and deterministic ZIP files.
 - `mediago/US-Vertical-Drama-Studio-v1.0.0.mgpack` — legacy MediaGo v1.0 artifact; do not release it as v1.1.
-- `plugins/us-vertical-drama-studio/` — canonical v1.2 runtime source.
+- `mediago/v9/` — generated V9 Skill source + manifest; no V9 `.mgpack` is claimed without a verified MediaGo-native packager.
+- `plugins/us-vertical-drama-studio/` — stable v1.2 runtime surface.
+- `plugins/us-vertical-drama-studio-v9/` — generated V9 preview marketplace surface.
 - `source/us-vertical-drama-studio/` — legacy v1.0 source retained for traceability; do not package it for v1.2.
 
 ## DeepSeek Harness (DSH)
 
-This repository is also an installable DeepSeek Harness plugin. It registers the same eight canonical skills through DSH's native skill-provider lifecycle, including their linked references. It does not duplicate prompt text or add a separate agent loop.
+This repository is also an installable DeepSeek Harness plugin. On the V9 preview branch, DSH reads `plugins/us-vertical-drama-studio-v9/manifest.json` and exposes the generated ten-skill V9 catalog through the native skill-provider lifecycle. The catalog is not hard-coded in `dsh-plugin/index.js`, so Core remains the single authoring source.
 
 ### Compatibility boundary
 
@@ -49,14 +70,14 @@ npx -y @deepseek-ai/dsh@0.1.5-rc.1 --profile us-drama --from-default-profile web
 npx -y --package pnpm@11.7.0 --package @deepseek-ai/dsh@0.1.5-rc.1 dsh plugin --profile us-drama add github:jimwoocory/US-Vertical-Drama-Studio
 ```
 
-Launch the same profile with `npx -y @deepseek-ai/dsh@0.1.5-rc.1 --profile us-drama`. The normal DSH skill catalog will then expose the eight `us-vertical-drama-*` skills and the full P1 workspace. The Storyboard Director emits a V8-compatible video package of at most 15 seconds, split into contiguous 0.5–3 second micro-shots for independent generation and fine adjustment. Operator-facing production text is Chinese; English is reserved for approved character names and spoken dialogue. The adapter and P1 UI are verified only against DSH `0.1.5-rc.1`; because DeepSeek Harness is in developer preview, do not upgrade this profile in place. Create another profile to test a newer DSH version, and run `npm test` before using that version for production work.
+Launch the same profile with `npx -y @deepseek-ai/dsh@0.1.5-rc.1 --profile us-drama`. The V9 branch exposes ten generated skills: controller + 01–05 + model-agnostic 06 Storyboard + 07 Performance/Cinematography + 08 Seedance 2.0 Mini Adapter + 09 Prompt QA. Operator-facing production text is Chinese; approved English character names and dialogue remain English. The adapter and P1 UI are verified only against DSH `0.1.5-rc.1`; because DeepSeek Harness is in developer preview, do not upgrade this profile in place. Create another profile to test a newer DSH version, and run `npm test` before using that version for production work.
 
 DSH installs profile plugins separately from its own runtime, so `dsh plugin add` can print a peer-dependency warning even when this exact DSH command is used. Treat the pinned DSH command and the P1 startup check as the compatibility authority; do not silence the warning by upgrading the plugin's `0.1.5-rc.1` peer pins.
 
-## Golden regression case
+## Golden regression cases
 
-The source pack includes the 80-episode, ~90-second Norse royal-revenge process fixture used to verify long-form arc cadence and EP01 Hook / Conflict / Escalation / Reversal / Payoff / Cliffhanger gates. It is a workflow fixture, not generated scene content.
+V9 includes two reproducible prompt-engine Golden Cases under `core/usvd-v9/golden-cases/`: the archive-key fixture and auction-entry reaction fixture. Their machine regression is part of `npm test`; rendered-video review remains explicitly pending until baseline and V9 outputs are generated with identical endpoint settings and viewed using the human checklist. The repository also retains the older Norse royal-revenge workflow fixture for long-form process regression.
 
 ## Validation
 
-Run `scripts/validate-v11.sh` before release. A v1.1 MediaGo `.mgpack` still requires a MediaGo-native rebuild and import test; the repository does not claim that the legacy v1.0 binary is compatible.
+For V9 preview validation run `npm run check:v9` and `npm test`. `scripts/validate-v11.sh` remains a legacy stable-distribution check. A V9 MediaGo `.mgpack` still requires a verified MediaGo-native packager and import test; the repository does not claim that the legacy v1.0 binary is V9-compatible.

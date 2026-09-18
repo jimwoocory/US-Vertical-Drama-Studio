@@ -1,0 +1,25 @@
+{
+  "author": {
+    "name": "MediaGo Drama"
+  },
+  "description": "US Vertical Drama Studio V9 preview generated from the canonical V9 Core.",
+  "interface": {
+    "capabilities": [
+      "Creative Writing",
+      "Analysis"
+    ],
+    "category": "Creative",
+    "defaultPrompt": [
+      "Route this US vertical drama project through the V9 gated production workflow.",
+      "Create a model-agnostic V9 storyboard and performance/cinematography director package.",
+      "Translate an approved director package into Seedance 2.0 Mini prompts and run Prompt QA."
+    ],
+    "developerName": "MediaGo Drama",
+    "displayName": "US Vertical Drama Studio V9 Preview",
+    "longDescription": "Preview of the canonical USVD V9 workflow with separate Storyboard, Performance+Cinematography, Seedance 2.0 Mini Adapter, and Prompt QA stages.",
+    "shortDescription": "USVD V9 preview generated from canonical Core."
+  },
+  "name": "us-vertical-drama-studio-v9",
+  "skills": "./skills/",
+  "version": "0.9.0-preview.1"
+}
