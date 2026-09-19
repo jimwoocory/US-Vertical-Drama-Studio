@@ -110,7 +110,7 @@ Stage 06 的“Blocking / 表演节拍 / 镜头意图”只写叙事需要的粗
 ## 声音、对白与运镜
 
 - Approved English character names 与 approved English dialogue 原样保留。
-- 中文只用于导演说明、执行说明、诊断与标签。
+- Stage 06 is an internal director plan. Any content handed to Stage 08 for a model-facing Prompt must be translated into English; Chinese may remain in operator-facing explanations, diagnostics and labels.
 - 每个 SHOT 必须直接记录 `dialogue`、`inner_voice`、`environment_sound`、`sfx`、`music_cue`；无内容使用空数组，不得缺字段。
 - 每个事件必须带 `event_id`、`shot_id`、`time_in`、`time_out`、`source_ref`、`execution_intent`。
 - `camera_movement` 属于分镜字段；Stage 06 写叙事意图，Stage 07 再精化执行参数。

@@ -16,6 +16,7 @@
     "camera_movement_presence",
     "impossible_simultaneous_actions",
     "prompt_redundancy_and_quality_padding",
+    "model_facing_prompt_language",
     "endpoint_capability_truthfulness",
     "dialogue_duration_feasibility",
     "prompt_overload",
@@ -28,7 +29,7 @@
   "defect": ["defect_id", "severity", "stable_ref", "rule", "evidence", "requested_action", "return_to_stage"],
   "severity": ["blocker", "major", "minor"],
   "blocking_rules": {
-    "blocker": ["timing_not_closed", "video_over_15_seconds", "timeline_gap_or_overlap", "invalid_core_type", "unapproved_asset", "unsupported_native_capability"],
+    "blocker": ["timing_not_closed", "video_over_15_seconds", "timeline_gap_or_overlap", "invalid_core_type", "model_facing_prompt_not_english", "unapproved_asset", "unsupported_native_capability"],
     "major": ["shot_audio_field_missing", "video_only_audio_plan", "dynamic_camera_without_motivation", "asset_description_overload", "event_execution_unresolved"]
   },
   "required_shot_audio_fields": ["dialogue", "inner_voice", "environment_sound", "sfx", "music_cue"],
@@ -48,6 +49,34 @@
   "stable_refs_required": true,
   "machine_validator": "scripts/v9-prompt-qa-validation.mjs",
   "human_checklist": "references/prompt-qa-human-checklist.md",
+  "review_delegation": {
+    "mode": "opt_in_after_machine_qa",
+    "default_enabled": false,
+    "allowed_stages": ["09-prompt-qa"],
+    "machine_qa_gate_required": "PASS",
+    "permitted_triggers": ["user_requested", "subjective_open_question"],
+    "max_concurrent_reviewers": 1,
+    "max_delegation_depth": 1,
+    "max_runs_per_gate": 1,
+    "context_pack": {
+      "max_tokens": 6000,
+      "includes": ["current_gate_summary", "machine_qa_summary", "unresolved_subjective_questions", "stable_refs", "required_video_shot_asset_evidence"],
+      "excludes": ["full_chat_history", "unrelated_project_documents", "raw_tool_transcripts"]
+    },
+    "permissions": {
+      "read_only": true,
+      "may_modify_project_documents": false,
+      "may_spawn_subagents": false,
+      "may_invoke_downstream_skills": false,
+      "may_submit_media_jobs": false
+    },
+    "result": {
+      "statuses": ["PASS", "NEEDS_REVISION", "BLOCKED"],
+      "required_fields": ["review_status", "defects", "return_to_stage", "evidence"],
+      "return_to_stage": ["06", "07", "08", "upstream", "none"]
+    },
+    "release_on_completion": true
+  },
   "golden_cases_root": "golden-cases",
   "handoff": {
     "revise_to": ["07-performance-cinematography", "08-seedance-2-mini-adapter", "upstream"],

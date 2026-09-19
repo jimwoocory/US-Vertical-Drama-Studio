@@ -60,7 +60,7 @@ Stage 07 不新增剧情、不改变对白结果、不重新划分 VIDEO/SHOT、
 必须能对应 SHOT 的 narrative purpose。
 
 ### 6. Shot size / composition
-- 景别：ECU / CU / MCU / MS / MLS / WS 等，输出时附中文说明；
+- 景别：ECU / CU / MCU / MS / MLS / WS 等；Stage 08 must express the final model-facing description in English；
 - 主体在画面中的位置与视觉优先级；
 - 前景/中景/背景关系；
 - 留白、遮挡、负空间只有在叙事需要时使用；

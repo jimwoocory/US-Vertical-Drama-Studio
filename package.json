@@ -7,7 +7,9 @@
   "main": "./dsh-plugin/index.js",
   "exports": {
     ".": "./dsh-plugin/index.js",
-    "./client": "./dsh-plugin/client.bundle.cjs"
+    "./client": "./dsh-plugin/client.bundle.cjs",
+    "./controlled-review": "./dsh-plugin/controlled-review.js",
+    "./stage09-review-executor": "./dsh-plugin/stage09-review-executor.js"
   },
   "engines": {
     "node": ">=24"

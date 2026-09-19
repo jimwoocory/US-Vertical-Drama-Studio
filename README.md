@@ -59,6 +59,18 @@ The workflow gates screenplay and storyboard handoff through approved Story Bibl
 
 This repository is also an installable DeepSeek Harness plugin. On the V9 preview branch, DSH reads `plugins/us-vertical-drama-studio-v9/manifest.json` and exposes the generated ten-skill V9 catalog through the native skill-provider lifecycle. The catalog is not hard-coded in `dsh-plugin/index.js`, so Core remains the single authoring source.
 
+### Optional Stage 09 native reviewer
+
+The controlled reviewer is disabled by default. To enable the single, one-shot, tool-free Stage 09 reviewer in a DSH profile that already mounts `@deepseek-ai/dsh-subagent` and `@deepseek-ai/dsh-subagent-spawn-in-process`, pass this plugin configuration:
+
+```yaml
+stage09ControlledReview:
+  enabled: true
+  provider: spawn
+```
+
+This exposes `dramago_stage09_review` only. It requires a machine-QA `PASS`, one focused question, and a bounded evidence packet; it starts one depth-one reviewer with no global tools and disposes it after the final structured result. It does not enable general-purpose delegation.
+
 ### Compatibility boundary
 
 The P0 skill provider and the production-workbench JSON contract are independent of the browser panel. The optional **P1 Production Workbench UI** is deliberately pinned to **DeepSeek Harness `0.1.5-rc.1` only**. It uses the native Harness conversation geometry rather than covering it: a production file tree on the left, the readable storyboard or video package in the center, and the original DSH chat/composer on the right. Markdown/TXT delivery files are parsed automatically into their `【视频编号】` / `【镜头编号】` production relationships. Do not install this package with DSH `0.1.6-alpha.1` or another version: the P1 UI has exact peer dependencies and a runtime slot-service guard, while P0 remains usable without the panel.

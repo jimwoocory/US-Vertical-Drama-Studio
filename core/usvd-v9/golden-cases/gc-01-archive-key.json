@@ -36,13 +36,13 @@
       "source_scene_refs": ["SCENE-01"],
       "duration_seconds": 9,
       "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"],
-      "video_negative_prompt": "不改变角色、服装、门位置、钥匙材质或屏幕方向。",
+      "video_negative_prompt": "Do not change the character, wardrobe, door position, key material, or screen direction.",
       "execution_features": {"audio": "external", "lip_sync": "external", "seed": "unused", "start_frame": "unused", "end_frame": "unused", "reference_images": "native"},
       "external_execution_notes": [{"feature": "audio", "owner": "post-audio"}, {"feature": "lip_sync", "owner": "external-lip-sync"}]
     }],
     "shots": [
-      {"shot_id": "SHOT-01", "video_id": "VIDEO-01", "prompt_id": "PROMPT-01", "time_in": 0, "time_out": 4, "duration_seconds": 4, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "EVE 将黄铜钥匙插入旧锁，暖黄侧光，缓慢推近；她强压恐惧，最后看向门外。", "local_exclusions": "不加首饰、不改发型、不增加人物、不改门和钥匙。"},
-      {"shot_id": "SHOT-02", "video_id": "VIDEO-01", "prompt_id": "PROMPT-02", "time_in": 4, "time_out": 9, "duration_seconds": 5, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "EVE 把档案压在胸前，听见脚步后低声说话，门缝在前景，暖黄侧光，克制恐惧。", "local_exclusions": "不改变服装污渍、钥匙位置、人物朝向或门在左侧的空间关系。"}
+      {"shot_id": "SHOT-01", "video_id": "VIDEO-01", "prompt_id": "PROMPT-01", "time_in": 0, "time_out": 4, "duration_seconds": 4, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "EVE inserts the brass key into the old lock under warm side light; slowly push in as she suppresses fear and finally looks outside the door.", "local_exclusions": "Do not add jewelry, change the hairstyle, add people, or change the door or key."},
+      {"shot_id": "SHOT-02", "video_id": "VIDEO-01", "prompt_id": "PROMPT-02", "time_in": 4, "time_out": 9, "duration_seconds": 5, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "EVE presses the archive against her chest and speaks quietly after hearing footsteps; keep the door gap in the foreground under warm side light while she controls her fear.", "local_exclusions": "Do not change wardrobe stains, key position, body orientation, or the door's left-side spatial relation."}
     ],
     "director_shots": [
       {"shot_id": "SHOT-01", "video_id": "VIDEO-01", "time_in": 0, "time_out": 4, "narrative_purpose": "EVE 在危险逼近前尝试开启档案。", "performance_transition": "紧张 → 强迫自己稳定", "shot_size_composition": "中近景，EVE 右侧，门在左侧", "camera_movement": "缓慢推近", "movement_motivation": "", "cut_motivation": "钥匙进入锁孔并完成第一动作节点", "continuity_in": {"screen_direction": "faces-left", "prop_state": "key-in-right-hand", "look_state": "LOOK-01A", "set_state": "SET-01"}, "continuity_out": {"screen_direction": "faces-left", "prop_state": "key-in-lock", "look_state": "LOOK-01A", "set_state": "SET-01"}},
@@ -66,15 +66,15 @@
       "source_scene_refs": ["SCENE-01"],
       "duration_seconds": 9,
       "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"],
-      "video_master_prompt": "VIDEO-01，午夜王宫地下档案室。使用 CHAR-01、LOOK-01A、SET-01、PROP-01。0–4秒，EVE 位于画面右侧面向左侧铁门，右手把黄铜钥匙插入旧锁，手指因紧张发白；镜头从中近景缓慢推近，目的是把锁孔动作与她的警觉视线连在一起。4–9秒，钥匙保持在锁中，门外脚步逼近，EVE 把档案压向胸前并低声说“I made a promise.”，定机保持门缝在左前景，结束时她准备后退。暖黄壁灯和雨夜反光保持连续。音频与口型由外部链路执行。",
-      "video_negative_prompt": "不改变 CHAR-01 身份、LOOK-01A、SET-01 门的位置、PROP-01 材质和钥匙状态；不新增人物；不反转既定屏幕方向；不新增未经 Stage 07 批准的运镜。",
+      "video_master_prompt": "VIDEO-01. Midnight underground archive room beneath the palace. Use CHAR-01, LOOK-01A, SET-01, and PROP-01. 0–4s: EVE stands on the right side facing the iron door on the left, inserts the brass key into the old lock with her right hand, and her fingers turn pale from tension; slowly push in from a medium close-up to connect the lock action with her alert eyeline. 4–9s: keep the key in the lock as footsteps approach outside; EVE presses the archive against her chest and quietly says \"I made a promise.\" Hold the door gap in the left foreground with a locked camera; end as she prepares to step back. Keep the warm wall lamp and rainy-night reflections continuous. Audio and lip-sync are handled by the external post-production chain.",
+      "video_negative_prompt": "Do not change CHAR-01 identity, LOOK-01A, the SET-01 door position, PROP-01 material, or the key state; do not add people; do not reverse the established screen direction; do not add camera movement not approved by Stage 07.",
       "execution_features": {"audio": "external", "lip_sync": "external", "seed": "unused", "start_frame": "unused", "end_frame": "unused", "reference_images": "native"},
       "external_execution_notes": [{"feature": "audio", "owner": "post-audio"}, {"feature": "lip_sync", "owner": "external-lip-sync"}],
       "degradation_log": []
     }],
     "shots": [
-      {"shot_id": "SHOT-01", "video_id": "VIDEO-01", "prompt_id": "PROMPT-01", "time_in": 0, "time_out": 4, "duration_seconds": 4, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "0–4秒：EVE 右手将 PROP-01 插入锁孔，手指发白；中近景缓慢推近到锁孔与她的警觉视线。", "local_exclusions": "不换装、不改门位置、不让钥匙离手或复制。", "degradation_log": []},
-      {"shot_id": "SHOT-02", "video_id": "VIDEO-01", "prompt_id": "PROMPT-02", "time_in": 4, "time_out": 9, "duration_seconds": 5, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "4–9秒：钥匙保持在锁中；脚步逼近后 EVE 把档案压向胸前，低声说“I made a promise.”，定机保持门缝左前景。", "local_exclusions": "不改变钥匙状态、人物朝向、LOOK-01A 或 SET-01 空间关系。", "degradation_log": []}
+      {"shot_id": "SHOT-01", "video_id": "VIDEO-01", "prompt_id": "PROMPT-01", "time_in": 0, "time_out": 4, "duration_seconds": 4, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "0–4s: EVE inserts PROP-01 into the lock with her right hand; her fingers turn pale as the medium close-up slowly pushes toward the lock and her alert eyeline.", "local_exclusions": "Do not change wardrobe, move the door, release the key, or duplicate the key.", "degradation_log": []},
+      {"shot_id": "SHOT-02", "video_id": "VIDEO-01", "prompt_id": "PROMPT-02", "time_in": 4, "time_out": 9, "duration_seconds": 5, "asset_ids": ["CHAR-01", "LOOK-01A", "SET-01", "PROP-01"], "shot_delta_prompt": "4–9s: keep the key in the lock; after footsteps approach, EVE presses the archive to her chest and quietly says \"I made a promise.\" Hold the door gap in the left foreground with a locked camera.", "local_exclusions": "Do not change the key state, body orientation, LOOK-01A, or SET-01 spatial relation.", "degradation_log": []}
     ],
     "director_shots": [
       {"shot_id": "SHOT-01", "video_id": "VIDEO-01", "time_in": 0, "time_out": 4, "narrative_purpose": "用钥匙动作建立她主动冒险的选择。", "performance_transition": "紧张 → 强迫自己稳定", "shot_size_composition": "中近景，EVE 右侧，门在左侧", "camera_movement": "缓慢推近", "movement_motivation": "从人物状态推进到钥匙/视线信息，强化危险即将被打开。", "cut_motivation": "钥匙进入锁孔，动作节点完成并转入外部威胁。", "continuity_in": {"screen_direction": "faces-left", "prop_state": "key-in-right-hand", "look_state": "LOOK-01A", "set_state": "SET-01"}, "continuity_out": {"screen_direction": "faces-left", "prop_state": "key-in-lock", "look_state": "LOOK-01A", "set_state": "SET-01"}},

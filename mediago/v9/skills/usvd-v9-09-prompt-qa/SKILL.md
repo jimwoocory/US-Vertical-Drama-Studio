@@ -67,6 +67,7 @@ Stage 09 不可以：
 - 每个 SHOT 必须显式声明 `camera_movement`；动态运镜缺 `movement_motivation` 判定为 `major`。
 - `asset_ids` 必须引用 Asset Ledger；完整角色/场景/道具描述不得在多个 SHOT 中重复复制，资产提示词过载判定为 `major`。
 - 每个 `shot_events.event_id` 必须在 Stage 08 落到 `native_execution`、`external_execution_notes` 或 `unused_with_reason`，否则判定为 `major`。
+- `video_master_prompt`、`video_negative_prompt`、`shot_delta_prompt` 与 `local_exclusions` 必须为英文；只有 approved spoken dialogue 可保留原语言，否则判定为 `blocker`。
 
 ### 1. Story/source coverage
 - `required_source_refs` 必须被 VIDEO 的 `source_scene_refs` 完整覆盖；
@@ -165,6 +166,32 @@ VIDEO 与 SHOT 的结束状态必须成为下一单元的合法起点；伤势�
 
 人工清单发现重大问题时，不能因为机器 PASS 就放行。
 
+## 受控子代理审核 POC（默认关闭）
+
+本阶段的审核子代理是**可选的只读二次意见**，不是生产流水线的默认步骤，也不替代主代理的 Gate 决策。
+
+只有同时满足以下条件，才允许准备一次审核请求：
+- Stage 09 的机器 QA 已为 `PASS`；
+- 用户明确要求子代理审核，或主审记录了机器规则无法判断的具体主观问题；
+- 请求包含一个明确的 `review_question`，不能笼统要求“检查整个项目”。
+
+以下情况不得启动审核：
+- 机器 QA 尚有 blocker/major defect；
+- 仅因为上下文很长、希望“多找一个 agent”，或试图替代人工审片；
+- 其他 Stage（01–08）或一次 Gate 内的第二次审核请求。
+
+审核上下文包必须只包含：当前 Gate 摘要、机器 QA 摘要、未决主观问题、相关 stable refs，以及必要的 VIDEO/SHOT/asset 证据。禁止传入完整聊天记录、无关项目文档或原始工具转录。上下文包上限 `6000 tokens`。
+
+运行边界必须由宿主执行层强制：
+- 同时最多 `1` 名 reviewer，委派深度固定为 `1`，不得递归委派；
+- reviewer 只读，不得修改项目文档、调用下游 Skill、提交媒体任务或创建子代理；
+- reviewer 完成即释放；本 Skill 本身只准备审核请求，**绝不自行 spawn agent**；
+- 宿主未配置原生委派时，保留正常的 Stage 09 结果，并标记 `REVIEW NOT RUN`，不得伪造审核结论。
+
+当 DSH 插件配置明确启用 `stage09ControlledReview.enabled: true` 后，主代理可以调用唯一入口 `dramago_stage09_review`。该入口固定使用一次性 `spawn` reviewer；reviewer 没有全局工具访问权，因此不会读写项目、发起生成或继续委派。配置缺少 native `spawn` provider 时必须失败并保持 `REVIEW NOT RUN`。
+
+reviewer 只返回：`review_status`（`PASS` / `NEEDS_REVISION` / `BLOCKED`）、`defects[]`、`return_to_stage`（`06` / `07` / `08` / `upstream` / `none`）和 `evidence[]`。主代理将该意见映射为最终 Stage 09 Gate，且不得静默改写任何生产文档。
+
 ## Golden Case 回归
 
 每个 Golden Case 必须固定：
@@ -191,7 +218,8 @@ V9 不要求“所有主观指标必然更好”，但要求：
 4. `【Human Review Checklist】`
 5. `【Return-to-stage Actions】`
 6. `【Golden Case Regression】`（回归任务时）
+7. `【Controlled Review】`（仅在实际请求或明确未运行时输出）
 
 ## 完成条件
 
-只有机器规则通过、重大人工项已解决、所有 defect 都有 stable ref，并且没有未验证 capability claim 时，才输出 `PROMPT QA PASS`。
+只有机器规则通过、重大人工项已解决、所有 defect 都有 stable ref，并且没有未验证 capability claim 时，才输出 `PROMPT QA PASS`。若运行受控审核，最终 Gate 仍由主代理依据审核证据决定。

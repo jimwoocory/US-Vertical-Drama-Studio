@@ -6,4 +6,4 @@ It provides the canonical V9 Skill source and machine-readable manifest for Medi
 
 A MediaGo-native pack may be produced only by a verified MediaGo packager/import pipeline. Until then, use `manifest.json` and `skills/` as the V9 integration source.
 
-Core source SHA-256: `bdef9b7221568de632e6280754123442eb747f5cb58c86880234b13d67e522b3`
+Core source SHA-256: `64d602ad98b1608561fc9cdd15ca4fb931c1ad46f10454436e7918249ba44abd`

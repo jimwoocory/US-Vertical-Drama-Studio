@@ -24,7 +24,7 @@ __export(client_exports, {
   p1Compatibility: () => p1Compatibility
 });
 module.exports = __toCommonJS(client_exports);
-var import_react = require("react"), import_react_dom = require("react-dom");
+var import_react = require("react");
 
 // dsh-plugin/compatibility.js
 var P1_DSH_VERSION = "0.1.5-rc.1";
@@ -261,21 +261,31 @@ function parseRange(value) {
 
 // dsh-plugin/client.js
 var name = "us-vertical-drama-studio", inject = ["slots"], p1Compatibility = { dsh: P1_DSH_VERSION, mode: "exact" }, statuses = { draft: "\u8349\u7A3F", blocked: "\u5DF2\u963B\u585E", ready_to_generate: "\u53EF\u751F\u6210", generating: "\u751F\u6210\u4E2D", review_required: "\u5F85\u5BA1\u6838", approved: "\u5DF2\u901A\u8FC7" };
-function HarnessBridge() {
-  let marker = (0, import_react.useRef)(null), [target, setTarget] = (0, import_react.useState)();
-  return (0, import_react.useLayoutEffect)(() => {
-    let document = marker.current?.ownerDocument;
+function SessionArtifactIndexer({ sessionId }) {
+  return (0, import_react.useEffect)(() => {
+    let root, observer, document = globalThis.document;
     if (!document) return;
-    let locate = () => {
-      let next = document.querySelector("[data-conversation-scroll] > [data-slot='conversation.session']");
-      setTarget((current) => current === next ? current : next ?? void 0);
+    let refresh = () => recordConversationDocuments(sessionId, root ? scanConversationDocuments(root) : []), locate = () => {
+      let next = document.querySelector("[data-conversation-scroll]");
+      next !== root && (observer?.disconnect(), root = next, root && (observer = new MutationObserver(refresh), observer.observe(root, { childList: !0, subtree: !0, characterData: !0 })), refresh());
     };
     locate();
-    let observer = new MutationObserver(locate);
-    return observer.observe(document.body, { childList: !0, subtree: !0 }), () => observer.disconnect();
-  }, []), (0, import_react.createElement)("div", null, (0, import_react.createElement)("style", null, styles), (0, import_react.createElement)("span", { ref: marker, className: "uwd-bridge-marker", "aria-hidden": !0 }), target ? (0, import_react_dom.createPortal)((0, import_react.createElement)(WorkbenchPanel), target) : null);
+    let locator = new MutationObserver(locate);
+    return locator.observe(document.body, { childList: !0, subtree: !0 }), () => {
+      observer?.disconnect(), locator.disconnect();
+    };
+  }, [sessionId]), null;
 }
-function WorkbenchPanel() {
+function DramaGoView({ sessionId }) {
+  let documents = useConversationDocuments(sessionId);
+  return (0, import_react.createElement)(
+    "div",
+    { className: "uwd-native-view", "data-session-id": String(sessionId) },
+    (0, import_react.createElement)("style", null, nativeViewStyles),
+    (0, import_react.createElement)(WorkbenchPanel, { documents })
+  );
+}
+function WorkbenchPanel({ documents }) {
   let [snapshot, setSnapshot] = (0, import_react.useState)(), [filename, setFilename] = (0, import_react.useState)("\u672A\u5BFC\u5165\u5206\u955C"), [source, setSource] = (0, import_react.useState)(""), [view, setView] = (0, import_react.useState)("\u6587\u672C"), [activeVideo, setActiveVideo] = (0, import_react.useState)(), [activeShot, setActiveShot] = (0, import_react.useState)(), [error, setError] = (0, import_react.useState)(), video = snapshot?.videos.find((item) => item.video_id === activeVideo) ?? snapshot?.videos[0], shots = (0, import_react.useMemo)(() => snapshot?.shots.filter((item) => item.video_id === video?.video_id).sort((a, b) => (a.timeline_in_seconds ?? 0) - (b.timeline_in_seconds ?? 0)) ?? [], [snapshot, video]), shot = shots.find((item) => item.shot_id === activeShot) ?? shots[0], importStoryboard = (event) => {
     let file = event.target.files?.[0];
     if (!file) return;
@@ -288,15 +298,24 @@ function WorkbenchPanel() {
         setError(reason instanceof Error ? reason.message : "\u65E0\u6CD5\u8BFB\u53D6\u5206\u955C\u6587\u4EF6");
       }
     }, reader.readAsText(file, "utf-8");
+  }, openConversationDocument = (document) => {
+    try {
+      let manifest = /(?:分镜|storyboard)/iu.test(document.title) || /【视频编号】|【镜头编号】/u.test(document.source) ? parseStoryboardText(document.source, document.filename) : void 0, next = manifest ? buildProductionSnapshot(manifest) : void 0;
+      setSnapshot(next), setFilename(document.filename), setSource(document.source), setActiveVideo(next?.videos[0]?.video_id), setActiveShot(next?.shots[0]?.shot_id), setView("\u6587\u672C"), setError(void 0);
+    } catch (reason) {
+      setSnapshot(void 0), setFilename(document.filename), setSource(document.source), setView("\u6587\u672C"), setError(reason instanceof Error ? reason.message : "\u65E0\u6CD5\u6253\u5F00\u5BF9\u8BDD\u6587\u6863");
+    }
   };
   return (0, import_react.createElement)(
     "div",
-    { className: "uwd-split", "data-open": "true" },
+    { className: "uwd-workspace-panel", "data-open": "true" },
     (0, import_react.createElement)(
       "aside",
       { className: "uwd-tree", "aria-label": "\u5206\u955C\u6587\u4EF6\u6811" },
-      (0, import_react.createElement)("header", null, (0, import_react.createElement)("strong", null, "\u77ED\u5267\u5DE5\u4F5C\u533A"), (0, import_react.createElement)("label", { className: "uwd-import" }, "\u5BFC\u5165\u5206\u955C", (0, import_react.createElement)("input", { type: "file", accept: "application/json,.json,text/plain,.txt,text/markdown,.md", onChange: importStoryboard }))),
+      (0, import_react.createElement)("header", null, (0, import_react.createElement)("strong", null, "DramaGo \u5DE5\u4F5C\u53F0")),
+      (0, import_react.createElement)("label", { className: "uwd-import" }, "\u5BFC\u5165\u5206\u955C", (0, import_react.createElement)("input", { type: "file", accept: "application/json,.json,text/plain,.txt,text/markdown,.md", onChange: importStoryboard })),
       (0, import_react.createElement)("p", { className: "uwd-project" }, filename),
+      (0, import_react.createElement)(ConversationDocumentTree, { documents, activeId: filename, onOpen: openConversationDocument }),
       (0, import_react.createElement)("button", { type: "button", className: view === "\u6587\u672C" ? "selected" : "", onClick: () => setView("\u6587\u672C") }, "\u25A3 \u5206\u955C\u6587\u672C"),
       (0, import_react.createElement)("button", { type: "button", className: view === "\u89C6\u9891\u5305" ? "selected" : "", onClick: () => setView("\u89C6\u9891\u5305") }, "\u25A3 \u89C6\u9891\u5305\u4E0E\u955C\u5934", snapshot ? (0, import_react.createElement)("small", null, String(snapshot.summary.videos) + " \u89C6\u9891 / " + String(snapshot.summary.shots) + " \u955C\u5934") : null),
       snapshot ? (0, import_react.createElement)("div", { className: "uwd-tree-videos" }, snapshot.videos.map((item) => (0, import_react.createElement)(
@@ -318,6 +337,80 @@ function WorkbenchPanel() {
       view === "\u6587\u672C" ? (0, import_react.createElement)(DocumentView, { source, imported: !!snapshot }) : (0, import_react.createElement)(VideoPackageView, { snapshot, video, shots, shot, setActiveShot })
     )
   );
+}
+function ConversationDocumentTree({ documents, activeId, onOpen }) {
+  let grouped = (0, import_react.useMemo)(() => groupConversationDocuments(documents), [documents]), groups = Object.entries(grouped);
+  return documents.length === 0 ? (0, import_react.createElement)("section", { className: "uwd-conversation-files", "aria-label": "\u5BF9\u8BDD\u6587\u6863" }, (0, import_react.createElement)("div", { className: "uwd-tree-caption" }, "\u5BF9\u8BDD\u6587\u6863"), (0, import_react.createElement)("p", { className: "uwd-tree-hint" }, "\u751F\u6210 Markdown \u540E\u4F1A\u81EA\u52A8\u5F52\u6863\u5230\u8FD9\u91CC")) : (0, import_react.createElement)(
+    "section",
+    { className: "uwd-conversation-files", "aria-label": "\u5BF9\u8BDD\u6587\u6863" },
+    (0, import_react.createElement)("div", { className: "uwd-tree-caption" }, "\u5BF9\u8BDD\u6587\u6863", (0, import_react.createElement)("small", null, String(documents.length))),
+    groups.map(([group, folders]) => (0, import_react.createElement)(
+      "details",
+      { key: group, open: !0, className: "uwd-doc-group" },
+      (0, import_react.createElement)("summary", null, group, (0, import_react.createElement)("small", null, String(Object.values(folders).flat().length))),
+      Object.entries(folders).map(([folder, items]) => (0, import_react.createElement)(
+        "details",
+        { key: folder, open: !0, className: "uwd-doc-folder" },
+        (0, import_react.createElement)("summary", null, folder, (0, import_react.createElement)("small", null, String(items.length))),
+        items.map((item) => (0, import_react.createElement)("button", { type: "button", key: item.id, className: "uwd-doc-item" + (activeId === item.filename ? " selected" : ""), title: item.filename, onClick: () => onOpen(item) }, item.filename))
+      ))
+    ))
+  );
+}
+var sessionDocuments = /* @__PURE__ */ new Map(), sessionDocumentSignatures = /* @__PURE__ */ new Map(), documentSubscribers = /* @__PURE__ */ new Set();
+function useConversationDocuments(sessionId) {
+  let [documents, setDocuments] = (0, import_react.useState)(() => sessionDocuments.get(sessionId) ?? []);
+  return (0, import_react.useEffect)(() => {
+    let refresh = () => setDocuments(sessionDocuments.get(sessionId) ?? []);
+    return refresh(), documentSubscribers.add(refresh), () => documentSubscribers.delete(refresh);
+  }, [sessionId]), documents;
+}
+function recordConversationDocuments(sessionId, documents) {
+  let next = documents.map((item) => ({ ...item, sessionId })), signature = next.map((item) => `${item.id}:${item.filename}`).join("|");
+  signature !== sessionDocumentSignatures.get(sessionId) && (sessionDocumentSignatures.set(sessionId, signature), sessionDocuments.set(sessionId, next), documentSubscribers.forEach((notify) => notify()));
+}
+function scanConversationDocuments(root) {
+  let selectors = '[data-message-id], [data-message-role="assistant"], [data-author-role="assistant"], article', seen = /* @__PURE__ */ new Set(), documents = [];
+  for (let node of root.querySelectorAll(selectors)) {
+    let source = extractMarkdownSource(node.textContent ?? "");
+    if (!source || seen.has(source)) continue;
+    seen.add(source);
+    let title = extractDocumentTitle(source, documents.length + 1), filename = title.toLowerCase().endsWith(".md") ? title : `${title}.md`;
+    documents.push({ id: `${documents.length}-${hashText(source)}`, filename, title, source, group: classifyConversationDocument(title, source), folder: classifyConversationFolder(title, source) });
+  }
+  return documents;
+}
+function extractMarkdownSource(text) {
+  let normalized = String(text).replace(/\r\n?/gu, `
+`).trim();
+  if (!normalized) return "";
+  let fenced = normalized.match(/```(?:markdown|md)?\s*\n([\s\S]*?)```/iu);
+  return fenced?.[1]?.trim() ? fenced[1].trim() : /【视频编号】|【镜头编号】|^#{1,3}\s+.+/mu.test(normalized) && normalized.length >= 40 || /\n\s*[-*+]\s+.+\n\s*[-*+]\s+/u.test(normalized) && normalized.length >= 160 ? normalized : "";
+}
+function extractDocumentTitle(source, index) {
+  let heading = source.match(/^#{1,3}\s+(.+)$/mu)?.[1]?.trim(), label = source.match(/【(?:项目名称|文档名称|集数|视频编号)】\s*[:：]?\s*(.+)/u)?.[1]?.trim();
+  return (heading || label || `\u5BF9\u8BDD\u6587\u6863 ${index}`).replace(/[\\/:*?"<>|]/gu, "-").slice(0, 72);
+}
+function classifyConversationDocument(title, source) {
+  let text = `${title}
+${source}`;
+  return /创作者决策|决策记录|decision|approved|批准/iu.test(text) ? "\u521B\u4F5C\u8005\u51B3\u7B56" : /第\s*\d+\s*集|EP\s*\d+|episode|剧本|screenplay|script|分镜|storyboard|视频编号|镜头编号/iu.test(text) ? "\u5267\u96C6" : /资产|asset|角色|场景|道具|服装|look|set|prop/iu.test(text) ? "\u9879\u76EE\u5F00\u53D1" : /输入|input|原始|source|brief/iu.test(text) ? "\u8F93\u5165" : "\u9879\u76EE\u5F00\u53D1";
+}
+function classifyConversationFolder(title, source) {
+  let text = `${title}
+${source}`, episode = text.match(/(?:第\s*(\d+)\s*集|\bEP\s*[-_ ]?(\d+)\b|\bepisode\s*(\d+)\b)/iu);
+  return episode ? `EP${String(Number(episode[1] ?? episode[2] ?? episode[3])).padStart(3, "0")}` : /创作者决策|决策记录|decision|approved|批准/iu.test(text) ? "\u51B3\u7B56\u8BB0\u5F55" : /资产|asset|角色|场景|道具|服装|look|set|prop/iu.test(text) ? "\u8D44\u4EA7\u4E0E\u8BBE\u5B9A" : /输入|input|原始|source|brief/iu.test(text) ? "\u539F\u59CB\u8F93\u5165" : "\u672A\u5F52\u6863";
+}
+function groupConversationDocuments(documents) {
+  return documents.reduce((groups, item) => {
+    let group = groups[item.group] ?? {}, folder = group[item.folder] ?? [];
+    return folder.push(item), group[item.folder] = folder, groups[item.group] = group, groups;
+  }, {});
+}
+function hashText(value) {
+  let hash = 2166136261;
+  for (let character of value) hash = Math.imul(hash ^ character.codePointAt(0), 16777619);
+  return (hash >>> 0).toString(36);
 }
 function DocumentView({ source, imported }) {
   return imported ? (0, import_react.createElement)("article", { className: "uwd-document" }, (0, import_react.createElement)("pre", null, source)) : (0, import_react.createElement)("section", { className: "uwd-empty" }, (0, import_react.createElement)("h1", null, "\u4ECE\u5206\u955C\u6587\u6863\u5F00\u59CB"), (0, import_react.createElement)("p", null, "\u5DE6\u4FA7\u70B9\u51FB\u201C\u5BFC\u5165\u5206\u955C\u201D\uFF0C\u76F4\u63A5\u9009\u62E9\u5206\u955C\u5BFC\u6F14\u751F\u6210\u7684 Markdown\u3001TXT \u6216 production-workbench.json\u3002"), (0, import_react.createElement)("p", null, "\u5BFC\u5165\u540E\uFF1A\u5DE6\u4FA7\u81EA\u52A8\u751F\u6210\u89C6\u9891/\u955C\u5934\u6811\uFF1B\u4E2D\u95F4\u4FDD\u7559\u539F\u59CB\u6587\u6863\uFF1B\u53F3\u4FA7\u7EE7\u7EED\u4F7F\u7528 Harness \u539F\u751F\u5BF9\u8BDD\uFF0C\u8BA9\u6A21\u578B\u4FEE\u6539\u3001\u7EED\u5199\u6216\u5BA1\u6838\u3002"));
@@ -347,9 +440,15 @@ function seconds(value) {
 function timerange(shot) {
   return shot.timeline_in_seconds === void 0 ? "\u672A\u6807\u6CE8" : seconds(shot.timeline_in_seconds) + "\u2013" + seconds(shot.timeline_out_seconds);
 }
-var styles = '.uwd-bridge-marker{display:none}.uwd-split{display:contents;font-family:var(--dsw-font-family,system-ui)}[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split){display:grid;grid-template-columns:clamp(170px,16%,210px) minmax(320px,1fr) clamp(360px,34%,500px);grid-template-rows:minmax(0,1fr);min-height:0;overflow:auto;position:relative;background:var(--dsw-alias-bg-base,#fff)}[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split)>[data-slot="conversation.session"]>:not(.uwd-split){grid-column:3;grid-row:1;min-width:0;min-height:100%;border-left:1px solid var(--dsw-alias-border-l2,#e5e7eb)}[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split)>[data-composer-seat]{grid-column:3;grid-row:1;align-self:end;min-width:0;width:100%;position:sticky;z-index:4}.uwd-tree,.uwd-editor{box-sizing:border-box;grid-row:1;position:sticky;top:0;align-self:start;min-width:0;height:100%;overflow:auto;color:var(--dsw-alias-label-primary,#172033);background:var(--dsw-alias-bg-base,#fff)}.uwd-tree{grid-column:1;border-right:1px solid var(--dsw-alias-border-l2,#e5e7eb);padding:13px 10px}.uwd-tree header{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:14px;font-size:13px}.uwd-import{border:1px solid var(--dsw-alias-border-l2,#d1d5db);border-radius:6px;padding:4px 6px;color:var(--dsw-alias-label-secondary,#596579);cursor:pointer;font-size:11px}.uwd-import input{display:none}.uwd-project{overflow:hidden;margin:0 0 6px;color:var(--dsw-alias-label-secondary,#596579);text-overflow:ellipsis;white-space:nowrap;font-size:11px}.uwd-tree button{display:block;width:100%;border:0;border-radius:5px;color:inherit;background:transparent;padding:7px 8px;text-align:left;cursor:pointer;font:12px/1.4 inherit}.uwd-tree button:hover,.uwd-tree button.selected{background:var(--dsw-alias-interactive-bg-hover,#edf4ff)}.uwd-tree button small{display:block;color:var(--dsw-alias-label-secondary,#596579);font-size:10px}.uwd-tree-videos{margin:5px 0 0 8px;border-left:1px solid var(--dsw-alias-border-l2,#e5e7eb);padding-left:4px}.uwd-tree .uwd-tree-shot{margin-left:5px;width:calc(100% - 5px);color:var(--dsw-alias-label-secondary,#596579);font-size:11px}.uwd-editor{grid-column:2;background:#fff}.uwd-editor-bar{position:sticky;top:0;z-index:2;display:flex;min-height:47px;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--dsw-alias-border-l2,#e5e7eb);background:var(--dsw-alias-bg-base,#fff);padding:7px 15px}.uwd-editor-bar b,.uwd-editor-bar small{display:block}.uwd-editor-bar small{color:var(--dsw-alias-label-secondary,#596579);font-size:11px}.uwd-tabs{display:flex;gap:2px}.uwd-tabs button{border:0;border-radius:5px;color:var(--dsw-alias-label-secondary,#596579);background:transparent;padding:6px 9px;cursor:pointer;font:12px inherit}.uwd-tabs button[aria-selected="true"]{color:var(--dsw-alias-label-primary,#172033);background:var(--dsw-alias-interactive-bg-hover,#edf4ff)}.uwd-error{margin:12px 16px;color:#c24152}.uwd-empty{max-width:580px;margin:100px auto;padding:30px;color:#374151}.uwd-empty h1{margin:0 0 12px;font-size:25px}.uwd-empty p{color:#64748b;line-height:1.8}.uwd-document{box-sizing:border-box;min-height:100%;padding:34px clamp(20px,6%,72px);color:#1f2937}.uwd-document pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.9 ui-monospace,SFMono-Regular,Menlo,monospace}.uwd-production{padding:18px clamp(16px,4%,44px) 80px;color:#1f2937}.uwd-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:16px}.uwd-summary div{border:1px solid #e5e7eb;border-radius:8px;padding:9px;background:#f8fafc}.uwd-summary b,.uwd-summary small{display:block}.uwd-summary b{font-size:18px}.uwd-summary small{color:#64748b;font-size:11px}.uwd-video-card,.uwd-shot-card{border:1px solid #e5e7eb;border-radius:10px;background:#fff;padding:18px;box-shadow:0 1px 3px rgb(15 23 42 / 5%)}.uwd-video-card small,.uwd-shot-card small{color:#64748b}.uwd-video-card h1{margin:7px 0 18px;font-size:20px}.uwd-video-card h2,.uwd-shot-card h2,.uwd-shot-card h3{margin:16px 0 6px;font-size:13px}.uwd-video-card p,.uwd-shot-card p{margin:0;white-space:pre-wrap;color:#374151;line-height:1.7}.uwd-section-title{margin:22px 0 10px;font-size:15px}.uwd-timeline{display:grid;gap:8px}.uwd-timeline button{border:1px solid #e5e7eb;border-radius:8px;background:#fff;padding:10px;text-align:left;cursor:pointer;color:#1f2937}.uwd-timeline button:hover,.uwd-timeline button.selected{border-color:#60a5fa;background:#eff6ff}.uwd-timeline b,.uwd-timeline small,.uwd-timeline span{display:block}.uwd-timeline small{color:#64748b;margin:2px 0 5px}.uwd-timeline span{overflow:hidden;color:#475569;text-overflow:ellipsis;white-space:nowrap;font-size:12px}.uwd-shot-card{margin-top:15px}@media(max-width:900px){[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split){grid-template-columns:170px minmax(280px,1fr)}[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split)>[data-slot="conversation.session"]>:not(.uwd-split),[data-conversation-scroll]:has(>[data-slot="conversation.session"]>.uwd-split)>[data-composer-seat]{grid-column:1/-1;grid-row:2}.uwd-tree,.uwd-editor{height:auto;min-height:520px}}';
+var nativeViewStyles = '.uwd-native-view{height:100%;min-height:0;font-family:var(--dsw-font-family,system-ui)}.uwd-workspace-panel{display:grid;grid-template-columns:minmax(190px,260px) minmax(0,1fr);height:100%;min-height:0;color:var(--dsw-alias-label-primary,#172033)}.uwd-tree,.uwd-editor{box-sizing:border-box;min-width:0;overflow:auto;background:var(--dsw-alias-bg-base,#fff)}.uwd-tree{border-right:1px solid var(--dsw-alias-border-l2,#e5e7eb);padding:13px 10px}.uwd-tree header{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:10px;font-size:13px}.uwd-import{display:inline-block;margin-bottom:8px;border:1px solid var(--dsw-alias-border-l2,#d1d5db);border-radius:6px;background:transparent;padding:4px 6px;color:var(--dsw-alias-label-secondary,#596579);cursor:pointer;font:11px inherit}.uwd-import input{display:none}.uwd-project{overflow:hidden;margin:0 0 6px;color:var(--dsw-alias-label-secondary,#596579);text-overflow:ellipsis;white-space:nowrap;font-size:11px}.uwd-tree button{display:block;width:100%;border:0;border-radius:5px;color:inherit;background:transparent;padding:7px 8px;text-align:left;cursor:pointer;font:12px/1.4 inherit}.uwd-tree button:hover,.uwd-tree button.selected{background:var(--dsw-alias-interactive-bg-hover,#edf4ff)}.uwd-tree-videos{margin:5px 0 0 8px;border-left:1px solid var(--dsw-alias-border-l2,#e5e7eb);padding-left:4px}.uwd-tree .uwd-tree-shot{margin-left:5px;width:calc(100% - 5px);color:var(--dsw-alias-label-secondary,#596579);font-size:11px}.uwd-editor-bar{position:sticky;top:0;z-index:2;display:flex;min-height:47px;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--dsw-alias-border-l2,#e5e7eb);background:var(--dsw-alias-bg-base,#fff);padding:7px 15px}.uwd-editor-bar b,.uwd-editor-bar small{display:block}.uwd-editor-bar small,.uwd-tree-caption small,.uwd-doc-group summary small,.uwd-doc-folder summary small{color:var(--dsw-alias-label-secondary,#64748b);font-size:10px}.uwd-tabs{display:flex;gap:2px}.uwd-tabs button{border:0;border-radius:5px;color:var(--dsw-alias-label-secondary,#596579);background:transparent;padding:6px 9px;cursor:pointer;font:12px inherit}.uwd-tabs button[aria-selected="true"]{color:var(--dsw-alias-label-primary,#172033);background:var(--dsw-alias-interactive-bg-hover,#edf4ff)}.uwd-error{margin:12px 16px;color:#c24152}.uwd-empty{max-width:580px;margin:100px auto;padding:30px;color:#374151}.uwd-empty h1{margin:0 0 12px;font-size:25px}.uwd-empty p{color:#64748b;line-height:1.8}.uwd-document{box-sizing:border-box;min-height:100%;padding:34px clamp(20px,6%,72px);color:#1f2937}.uwd-document pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.9 ui-monospace,SFMono-Regular,Menlo,monospace}.uwd-production{padding:18px clamp(16px,4%,44px) 80px;color:#1f2937}.uwd-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:16px}.uwd-summary div{border:1px solid #e5e7eb;border-radius:8px;padding:9px;background:#f8fafc}.uwd-summary b,.uwd-summary small{display:block}.uwd-summary b{font-size:18px}.uwd-video-card,.uwd-shot-card{border:1px solid #e5e7eb;border-radius:10px;background:#fff;padding:18px;box-shadow:0 1px 3px rgb(15 23 42 / 5%)}.uwd-video-card small,.uwd-shot-card small{color:#64748b}.uwd-video-card h1{margin:7px 0 18px;font-size:20px}.uwd-video-card h2,.uwd-shot-card h2,.uwd-shot-card h3{margin:16px 0 6px;font-size:13px}.uwd-video-card p,.uwd-shot-card p{margin:0;white-space:pre-wrap;color:#374151;line-height:1.7}.uwd-section-title{margin:22px 0 10px;font-size:15px}.uwd-timeline{display:grid;gap:8px}.uwd-timeline button{border:1px solid #e5e7eb;border-radius:8px;background:#fff;padding:10px;text-align:left;cursor:pointer;color:#1f2937}.uwd-timeline button:hover,.uwd-timeline button.selected{border-color:#60a5fa;background:#eff6ff}.uwd-timeline b,.uwd-timeline small,.uwd-timeline span{display:block}.uwd-timeline small{color:#64748b;margin:2px 0 5px}.uwd-timeline span{overflow:hidden;color:#475569;text-overflow:ellipsis;white-space:nowrap;font-size:12px}.uwd-shot-card{margin-top:15px}.uwd-conversation-files{margin:12px 0 14px;border-top:1px solid var(--dsw-alias-border-l2,#e5e7eb);border-bottom:1px solid var(--dsw-alias-border-l2,#e5e7eb);padding:9px 0}.uwd-tree-caption{display:flex;align-items:center;justify-content:space-between;padding:0 8px 6px;color:var(--dsw-alias-label-primary,#172033);font-size:12px;font-weight:600}.uwd-tree-hint{margin:0;padding:0 8px;color:var(--dsw-alias-label-secondary,#64748b);font-size:11px;line-height:1.5}.uwd-doc-group,.uwd-doc-folder{margin:2px 0}.uwd-doc-group summary,.uwd-doc-folder summary{display:flex;justify-content:space-between;cursor:pointer;padding:5px 8px;color:var(--dsw-alias-label-secondary,#596579);font-size:11px}.uwd-doc-folder{margin-left:7px;border-left:1px solid var(--dsw-alias-border-l2,#e5e7eb)}.uwd-doc-item{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:5px 8px!important;margin-left:6px;width:calc(100% - 6px)!important;color:var(--dsw-alias-label-primary,#172033)!important;font-size:11px!important}@media(max-width:900px){.uwd-workspace-panel{grid-template-columns:1fr;grid-template-rows:minmax(210px,38%) minmax(0,1fr)}.uwd-tree{border-right:0;border-bottom:1px solid var(--dsw-alias-border-l2,#e5e7eb)}}';
 function apply(context) {
-  assertP1Compatibility(context), context.slots.inject("shell.overlay", () => context.slots.register({ name: "shell.overlay", id: "us-vertical-drama-workbench", order: -100 }, HarnessBridge));
+  assertP1Compatibility(context), context.slots.inject("conversation.session.header.utilities", () => context.slots.register(
+    { name: "conversation.session.header.utilities", id: "us-vertical-drama-artifact-indexer", order: 100 },
+    SessionArtifactIndexer
+  )), context.slots.inject("conversation.view", () => context.slots.register(
+    { name: "conversation.view", id: "dramago", order: 100, label: "DramaGo" },
+    DramaGoView
+  ));
 }
 var client_default = { name, inject, apply };
 ;return module.exports;}});

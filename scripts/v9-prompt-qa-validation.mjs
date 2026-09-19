@@ -33,6 +33,7 @@ export function runPromptQA(pkg) {
   raw.push(...checkAssetIntegrity(pkg))
   raw.push(...checkDirectorEvidence(pkg))
   raw.push(...checkDialogueDuration(pkg))
+  raw.push(...checkModelFacingPromptLanguage(pkg))
   raw.push(...checkUnapprovedStoryFacts(pkg))
 
   const defects = assignStableDefectIds(raw)
@@ -307,6 +308,45 @@ function checkDialogueDuration(pkg) {
     }
   }
   return diagnostics
+}
+
+function checkModelFacingPromptLanguage(pkg) {
+  const diagnostics = []
+  const approvedDialogue = collectApprovedDialogue(pkg)
+  const fields = [
+    ...(Array.isArray(pkg?.videos) ? pkg.videos.flatMap(video => [
+      ['video_master_prompt', video?.video_master_prompt, video?.video_id],
+      ['video_negative_prompt', video?.video_negative_prompt, video?.video_id],
+    ]) : []),
+    ...(Array.isArray(pkg?.shots) ? pkg.shots.flatMap(shot => [
+      ['shot_delta_prompt', shot?.shot_delta_prompt, shot?.shot_id],
+      ['local_exclusions', shot?.local_exclusions, shot?.shot_id],
+    ]) : []),
+  ]
+  for (const [field, value, ref] of fields) {
+    if (typeof value !== 'string' || value.trim() === '') continue
+    const withoutApprovedDialogue = approvedDialogue.reduce((text, line) => text.replaceAll(line, ''), value)
+    if (/[㐀-鿿]/u.test(withoutApprovedDialogue)) {
+      diagnostics.push(defect('blocker', ref ?? 'PACKAGE', 'model_facing_prompt_not_english', `${field} contains non-English CJK text outside approved spoken dialogue.`, `Translate ${field} to English; preserve approved spoken dialogue verbatim.`, '08'))
+    }
+  }
+  return diagnostics
+}
+
+function collectApprovedDialogue(pkg) {
+  const values = []
+  const add = value => {
+    const text = typeof value === 'string' ? value : value?.text
+    if (typeof text === 'string' && text.trim()) values.push(text)
+  }
+  for (const item of Array.isArray(pkg?.dialogue_items) ? pkg.dialogue_items : []) add(item)
+  for (const shot of Array.isArray(pkg?.shots) ? pkg.shots : []) {
+    for (const item of Array.isArray(shot?.dialogue) ? shot.dialogue : []) add(item)
+  }
+  for (const shot of Array.isArray(pkg?.director_shots) ? pkg.director_shots : []) {
+    for (const item of Array.isArray(shot?.dialogue_items) ? shot.dialogue_items : []) add(item)
+  }
+  return [...new Set(values)].sort((a, b) => b.length - a.length)
 }
 
 function checkUnapprovedStoryFacts(pkg) {

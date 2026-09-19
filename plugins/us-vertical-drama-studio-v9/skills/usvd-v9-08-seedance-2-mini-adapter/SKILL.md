@@ -1,6 +1,6 @@
 ---
 name: usvd-v9-08-seedance-2-mini-adapter
-description: 当 Stage 06/07 已 APPROVED、资产与连续性已锁定，需要把导演计划翻译并压缩成仅面向 Seedance 2.0 Mini 的中文 VIDEO master + SHOT delta 视频生成提示词时调用；负责模型执行层，不改剧情、不改导演计划、不发明模型能力。
+description: 当 Stage 06/07 已 APPROVED、资产与连续性已锁定，需要把导演计划翻译并压缩成仅面向 Seedance 2.0 Mini 的英文 VIDEO master + SHOT delta 视频生成提示词时调用；负责模型执行层，不改剧情、不改导演计划、不发明模型能力。
 version: 0.2.0
 ---
 
@@ -70,7 +70,15 @@ Stage 08 只回答：**如何把已经批准的故事事实、资产锁、时序
 
 ## VIDEO master Prompt
 
-每个 `VIDEO-*` 必须输出一条 `video_master_prompt`，作为该 VIDEO 的完整模型提交入口。默认使用中文；approved English names 与 spoken English dialogue 保持原样。
+每个 `VIDEO-*` 必须输出一条 `video_master_prompt`，作为该 VIDEO 的完整模型提交入口。模型输入必须统一使用英文；approved English names 与 spoken dialogue 保持原样，不把其他语言混入模型提示词。
+
+### Model-facing language policy
+
+- `video_master_prompt`、`video_negative_prompt`、`shot_delta_prompt` 与 `local_exclusions` 必须全部使用英文；
+- 时间、动作、表演、摄影、灯光、声音、连续性和执行约束全部用英文表达；
+- approved spoken dialogue、character names、proper nouns 与 Asset IDs 原样保留；
+- 中文只允许出现在操作说明、诊断、界面标签和非模型-facing文档中，不得进入提交给 Seedance 的 Prompt 字段；
+- 如果 approved dialogue 本身不是英文，只能作为对白原文保留，不得翻译或改写。
 
 按以下顺序组织：
 

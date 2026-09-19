@@ -3,6 +3,12 @@
   "stage": "08-seedance-2-mini-adapter",
   "owner": "seedance-2-mini-prompt-adapter",
   "target_model": "Seedance 2.0 Mini",
+  "prompt_language_policy": {
+    "model_facing_prompts": "English only",
+    "preserve_approved_spoken_dialogue": true,
+    "preserve_proper_nouns_and_asset_ids": true,
+    "non_english_exception": "Approved spoken dialogue may remain in its source language; it must not be translated or rewritten."
+  },
   "requires": ["STAGE 06 APPROVED", "STAGE 07 APPROVED", "ASSETS LOCKED", "VERIFIED ENDPOINT CAPABILITY PROFILE"],
   "capability_profile": {
     "status_values": ["supported", "unsupported", "unknown"],
@@ -30,6 +36,6 @@
   "protected_content": ["story_critical_action", "ordered_timing", "asset_identity_and_state", "continuity_critical_direction_and_handoff", "approved_dialogue_and_timing", "motivated_camera_and_cut_direction"],
   "forbidden_quality_tokens": ["8K", "masterpiece", "cinematic-as-generic-quality-token"],
   "traceability": ["video_id", "shot_id", "event_id", "source_ref", "prompt_id", "asset_ids", "reference_id", "capability_status", "execution_owner", "degradation_log"],
-  "invariants": ["Do not alter story facts, asset identity, Stage 06 timing, or Stage 07 directing decisions.", "VIDEO master is the complete submission prompt; SHOT delta contains only local changes.", "Do not claim unsupported or unknown endpoint features as native.", "Every prompt is traceable to stable VIDEO/SHOT/Asset IDs and every shot event resolves to native_execution, external_execution_notes, or unused_with_reason.", "Approved English names/dialogue remain unchanged; production prompt language is Chinese by default.", "camera_movement and movement_motivation are inherited from Stage 07 and the adapter may not invent decorative movement."],
+  "invariants": ["Do not alter story facts, asset identity, Stage 06 timing, or Stage 07 directing decisions.", "VIDEO master is the complete submission prompt; SHOT delta contains only local changes.", "Do not claim unsupported or unknown endpoint features as native.", "Every prompt is traceable to stable VIDEO/SHOT/Asset IDs and every shot event resolves to native_execution, external_execution_notes, or unused_with_reason.", "All model-facing prompt fields are English only except approved spoken dialogue, which remains verbatim in its source language.", "camera_movement and movement_motivation are inherited from Stage 07 and the adapter may not invent decorative movement."],
   "handoff": {"gate": "STAGE 08 READY FOR QA", "next_stage": "09-prompt-qa"}
 }

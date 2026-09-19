@@ -4,7 +4,7 @@
   "version": "0.9.0-preview.1",
   "status": "preview",
   "generated_from": "core/usvd-v9/manifest.json",
-  "source_sha256": "bdef9b7221568de632e6280754123442eb747f5cb58c86880234b13d67e522b3",
+  "source_sha256": "64d602ad98b1608561fc9cdd15ca4fb931c1ad46f10454436e7918249ba44abd",
   "skill_count": 10,
   "skills": [
     {
@@ -14,7 +14,7 @@
       "description": "当用户要进行美国/欧美竖屏短剧、漫剧、微短剧创作，但不确定当前应进入 V9 哪个生产阶段时调用。只负责识别 Gate、检查缺失输入并指定唯一下一阶段；不直接代做被路由阶段。",
       "folder": "usvd-controller",
       "canonical_path": "core/usvd-v9/skills/controller/SKILL.md",
-      "sha256": "ca31bb38bc9aa4d58ca56efa04fa51330919c6cc34bd3a6ac5006ea7288383c1"
+      "sha256": "3f1e38d64e2e57ebc29e7f1181050b32cb627a1fc08f9b5e380ba67d83778a75"
     },
     {
       "id": "01-adaptation",
@@ -68,7 +68,7 @@
       "description": "当欧美竖屏短剧已经 SCRIPT DOCTOR PASS、CONTINUITY CLEAR、ASSETS LOCKED，需要把审核剧本拆成模型无关的 VIDEO/SHOT 分镜导演计划时调用；只负责来源覆盖、时序、叙事拍法和连续性，不编写最终视频模型 Prompt。",
       "folder": "usvd-v9-06-storyboard",
       "canonical_path": "core/usvd-v9/skills/06-storyboard/SKILL.md",
-      "sha256": "6785c6666f45a96bb0bb37798ebf615628414b43835b430ce795164a453cf1aa"
+      "sha256": "550135dd29b03727104a24a88599b1e0a66d01ba619901a353e289740d013da6"
     },
     {
       "id": "07-performance-cinematography",
@@ -77,16 +77,16 @@
       "description": "当 Stage 06 已经输出 APPROVED VIDEO/SHOT 分镜计划，需要把每个 SHOT 精确导演成可执行的表演、Blocking、视线、构图、摄影机、焦点、光线与 Cut 动机时调用；只做导演层精化，不改剧情、不改锁定资产、不写最终视频模型 Prompt。",
       "folder": "usvd-v9-07-performance-cinematography",
       "canonical_path": "core/usvd-v9/skills/07-performance-cinematography/SKILL.md",
-      "sha256": "3314710134adbc5f815f7fb966c50d9b4bfa642512470c23d18186a94f2afcdb"
+      "sha256": "c7df4e901e621f3c1bbf2c3c7d3cefe1d7115fcad906e355363eaec315518bb1"
     },
     {
       "id": "08-seedance-2-mini-adapter",
       "order": 8,
       "name": "usvd-v9-08-seedance-2-mini-adapter",
-      "description": "当 Stage 06/07 已 APPROVED、资产与连续性已锁定，需要把导演计划翻译并压缩成仅面向 Seedance 2.0 Mini 的中文 VIDEO master + SHOT delta 视频生成提示词时调用；负责模型执行层，不改剧情、不改导演计划、不发明模型能力。",
+      "description": "当 Stage 06/07 已 APPROVED、资产与连续性已锁定，需要把导演计划翻译并压缩成仅面向 Seedance 2.0 Mini 的英文 VIDEO master + SHOT delta 视频生成提示词时调用；负责模型执行层，不改剧情、不改导演计划、不发明模型能力。",
       "folder": "usvd-v9-08-seedance-2-mini-adapter",
       "canonical_path": "core/usvd-v9/skills/08-seedance-2-mini-adapter/SKILL.md",
-      "sha256": "0cb0a6e159f90eb196ce5651f7fd5bdfdc12ed38836785d5cfcb4f2d3491b835"
+      "sha256": "e9d31b06a69d04cac3d4d06293365db7c73bd6cf7d0fe96c921151015b0981de"
     },
     {
       "id": "09-prompt-qa",
@@ -95,7 +95,7 @@
       "description": "当 Stage 08 已输出 Seedance 2.0 Mini VIDEO master / SHOT delta Prompt，需要在交付生成前检查剧情覆盖、VIDEO/SHOT 时间闭合、资产漂移、视线/方向/动作连续性、Prompt 冲突与过载、对白时长和 endpoint capability 声明时调用；只诊断、定位和 Gate，不静默改写上游内容。",
       "folder": "usvd-v9-09-prompt-qa",
       "canonical_path": "core/usvd-v9/skills/09-prompt-qa/SKILL.md",
-      "sha256": "50b0096b0aca2b93d3a9f64afa8128b449489c80722c6ee0eb9c8c478838830b"
+      "sha256": "de7389241cc519ab234271bf673c750bf76ba3f54c685146130dcda71c47b803"
     }
   ]
 }

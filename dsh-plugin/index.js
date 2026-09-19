@@ -10,6 +10,7 @@
 import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { registerStage09ReviewTool } from './stage09-review-tool.js'
 
 export const name = 'us-vertical-drama-studio'
 export const inject = ['skills']
@@ -31,8 +32,19 @@ const skillFolders = V9_DISTRIBUTION_MANIFEST.skills.map(item => item.folder)
  * @param {import('@deepseek-ai/cordis').Context} ctx
  * @returns {() => void}
  */
-export function apply(ctx) {
-  return ctx.skills.registerProvider(() => createProvider())
+export function apply(ctx, config = {}) {
+  const disposeSkillProvider = ctx.skills.registerProvider(() => createProvider())
+  const reviewConfig = config.stage09ControlledReview
+  if (reviewConfig?.enabled !== true) return disposeSkillProvider
+
+  if (ctx.tools === undefined || ctx.subagents === undefined) {
+    throw new Error('Stage 09 controlled review requires DSH tools and subagents services')
+  }
+  const disposeReviewTool = registerStage09ReviewTool(ctx, { provider: reviewConfig.provider ?? 'spawn' })
+  return () => {
+    disposeReviewTool()
+    disposeSkillProvider()
+  }
 }
 
 /**
