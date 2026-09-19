@@ -1,0 +1,115 @@
+{
+  "schema_version": "v9-core-manifest-1",
+  "core_id": "usvd-v9",
+  "version": "0.9.0-preview.1",
+  "status": "canonical-source-preview",
+  "canonical_root": "core/usvd-v9",
+  "principles": {
+    "core_is_truth": true,
+    "plugins_are_not_truth": true,
+    "distribution_sync_implemented": true,
+    "distribution_sync_script": "scripts/sync-v9-distributions.mjs"
+  },
+  "skill_order": [
+    "controller",
+    "01-adaptation",
+    "02-story-architecture",
+    "03-screenwriter",
+    "04-review-continuity",
+    "05-asset-lock",
+    "06-storyboard",
+    "07-performance-cinematography",
+    "08-seedance-2-mini-adapter",
+    "09-prompt-qa"
+  ],
+  "skills": [
+    {
+      "id": "controller",
+      "order": 0,
+      "responsibility": "Identify the current gate, validate required inputs, and route to exactly one next skill.",
+      "canonical_path": "skills/controller/SKILL.md",
+      "baseline_source": "tabbit/v2/skills/usvd-controller/SKILL.md",
+      "status": "baseline-copied"
+    },
+    {
+      "id": "01-adaptation",
+      "order": 1,
+      "responsibility": "Create a US-facing Adaptation Brief while preserving the source promise and rebuilding social logic.",
+      "canonical_path": "skills/01-adaptation/SKILL.md",
+      "baseline_source": "tabbit/v2/skills/usvd-01-adaptation/SKILL.md",
+      "status": "baseline-copied"
+    },
+    {
+      "id": "02-story-architecture",
+      "order": 2,
+      "responsibility": "Create or extend approved Story Bible, season/arc structure, and episode beats.",
+      "canonical_path": "skills/02-story-architecture/SKILL.md",
+      "baseline_source": "tabbit/v2/skills/usvd-02-story-architecture/SKILL.md",
+      "status": "baseline-copied"
+    },
+    {
+      "id": "03-screenwriter",
+      "order": 3,
+      "responsibility": "Turn approved beats into a screenplay draft and beat-to-scene trace.",
+      "canonical_path": "skills/03-screenwriter/SKILL.md",
+      "baseline_source": "tabbit/v2/skills/usvd-03-screenwriter/SKILL.md",
+      "status": "baseline-copied"
+    },
+    {
+      "id": "04-review-continuity",
+      "order": 4,
+      "responsibility": "Independently review the screenplay, issue a gate, and maintain continuity state after PASS.",
+      "canonical_path": "skills/04-review-continuity/SKILL.md",
+      "baseline_source": "tabbit/v2/skills/usvd-04-review-continuity/SKILL.md",
+      "status": "baseline-copied"
+    },
+    {
+      "id": "05-asset-lock",
+      "order": 5,
+      "responsibility": "Lock approved character, look, set, and prop assets before visual planning.",
+      "canonical_path": "skills/05-asset-lock/SKILL.md",
+      "baseline_source": "tabbit/v2/skills/usvd-05-asset-lock/SKILL.md",
+      "status": "baseline-copied"
+    },
+    {
+      "id": "06-storyboard",
+      "order": 6,
+      "responsibility": "Convert cleared screenplay and locked assets into VIDEO/SHOT coverage and a director package; never emit the final model prompt.",
+      "canonical_path": "skills/06-storyboard/SKILL.md",
+      "contract_path": "contracts/stage-06-storyboard.json",
+      "status": "implemented"
+    },
+    {
+      "id": "07-performance-cinematography",
+      "order": 7,
+      "responsibility": "Add motivated blocking, performance, composition, camera, focus, light, and cut direction to approved shots.",
+      "canonical_path": "skills/07-performance-cinematography/SKILL.md",
+      "contract_path": "contracts/stage-07-performance-cinematography.json",
+      "status": "implemented"
+    },
+    {
+      "id": "08-seedance-2-mini-adapter",
+      "order": 8,
+      "responsibility": "Translate the approved director package into Seedance 2.0 Mini model-facing prompt fields using a verified capability profile.",
+      "canonical_path": "skills/08-seedance-2-mini-adapter/SKILL.md",
+      "contract_path": "contracts/stage-08-seedance-2-mini-adapter.json",
+      "status": "implemented"
+    },
+    {
+      "id": "09-prompt-qa",
+      "order": 9,
+      "responsibility": "Find coverage, timing, continuity, contradiction, capability, and overload defects and map them to stable IDs.",
+      "canonical_path": "skills/09-prompt-qa/SKILL.md",
+      "contract_path": "contracts/stage-09-prompt-qa.json",
+      "status": "implemented"
+    }
+  ],
+  "distribution_targets": [
+    { "id": "chatgpt-plugin", "path": "plugins/us-vertical-drama-studio-v9", "status": "generated-preview" },
+    { "id": "chatgpt-direct-upload", "path": "direct-upload/v9/chatgpt", "status": "generated-preview" },
+    { "id": "claude-direct-upload", "path": "direct-upload/v9/claude", "status": "generated-preview" },
+    { "id": "deepseek-harness", "path": "dsh-plugin", "status": "generated-catalog-consumer" },
+    { "id": "tabbit", "path": "tabbit/v9", "status": "generated-preview" },
+    { "id": "mediago", "path": "mediago/v9", "status": "generated-source-native-mgpack-pending" }
+  ]
+}

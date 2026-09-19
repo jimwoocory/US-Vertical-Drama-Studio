@@ -137,9 +137,27 @@ test('P1 declares exact rc.1 peers and ships a DSH module-loader bundle', () => 
   assert.match(bundle, /window\.__ModuleLoader__\.load/)
 })
 
-test('workbench portals into the native DSH session instead of covering the shell', () => {
+test('workbench is a native session view and never takes over the DSH conversation layout', () => {
   const client = readFileSync(fileURLToPath(new URL('../client.js', import.meta.url)), 'utf8')
-  assert.match(client, /createPortal\(h\(WorkbenchPanel\), target\)/)
   assert.match(client, /data-conversation-scroll/)
-  assert.doesNotMatch(client, /\.uwd-workspace\{position:fixed/)
+  assert.match(client, /conversation\.view/)
+  assert.match(client, /conversation\.session\.header\.utilities/)
+  assert.match(client, /id: 'dramago'/)
+  assert.match(client, /label: 'DramaGo'/)
+  assert.doesNotMatch(client, /createPortal/)
+  assert.doesNotMatch(client, /shell\.overlay/)
+  assert.doesNotMatch(client, /\[data-conversation-scroll\]:has/)
+  assert.doesNotMatch(client, /data-composer-seat/)
+})
+
+test('workbench auto-indexes generated Markdown from the conversation into categorized document groups', () => {
+  const client = readFileSync(fileURLToPath(new URL('../client.js', import.meta.url)), 'utf8')
+  assert.match(client, /useConversationDocuments/)
+  assert.match(client, /scanConversationDocuments/)
+  assert.match(client, /classifyConversationDocument/)
+  assert.match(client, /classifyConversationFolder/)
+  assert.match(client, /recordConversationDocuments/)
+  assert.match(client, /SessionArtifactIndexer/)
+  assert.match(client, /uwd-conversation-files/)
+  assert.match(client, /MutationObserver/)
 })
