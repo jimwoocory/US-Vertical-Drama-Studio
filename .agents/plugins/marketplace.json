@@ -15,6 +15,18 @@
         "path": "./plugins/us-vertical-drama-studio",
         "source": "local"
       }
+    },
+    {
+      "category": "Creative",
+      "name": "us-vertical-drama-studio-v9",
+      "policy": {
+        "authentication": "ON_INSTALL",
+        "installation": "AVAILABLE"
+      },
+      "source": {
+        "path": "./plugins/us-vertical-drama-studio-v9",
+        "source": "local"
+      }
     }
   ]
 }

@@ -1,13 +1,15 @@
 {
   "name": "@jimwoocory/dsh-us-vertical-drama-studio",
-  "version": "0.2.4",
-  "description": "DeepSeek Harness plugin for the US Vertical Drama Studio eight-skill workflow.",
+  "version": "0.3.0-v9-preview.1",
+  "description": "DeepSeek Harness plugin for the generated US Vertical Drama Studio V9 preview workflow.",
   "type": "module",
   "license": "MIT",
   "main": "./dsh-plugin/index.js",
   "exports": {
     ".": "./dsh-plugin/index.js",
-    "./client": "./dsh-plugin/client.bundle.cjs"
+    "./client": "./dsh-plugin/client.bundle.cjs",
+    "./controlled-review": "./dsh-plugin/controlled-review.js",
+    "./stage09-review-executor": "./dsh-plugin/stage09-review-executor.js"
   },
   "engines": {
     "node": ">=24"
@@ -32,7 +34,8 @@
   },
   "files": [
     "dsh-plugin",
-    "plugins/us-vertical-drama-studio/skills",
+    "plugins/us-vertical-drama-studio-v9",
+    "core/usvd-v9",
     "fixtures",
     "cordis.patch.yml",
     "README.md",
@@ -40,7 +43,9 @@
   ],
   "scripts": {
     "build:client": "node scripts/build-dsh-client.mjs",
-    "test": "node --test dsh-plugin/test/*.test.mjs && node --check dsh-plugin/client.bundle.cjs"
+    "build:v9": "node scripts/sync-v9-distributions.mjs",
+    "check:v9": "node scripts/sync-v9-distributions.mjs --check",
+    "test": "node scripts/sync-v9-distributions.mjs --check && node --test dsh-plugin/test/*.test.mjs && node --check dsh-plugin/client.bundle.cjs"
   },
   "devDependencies": {
     "esbuild": "0.28.2"

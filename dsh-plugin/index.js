@@ -1,32 +1,25 @@
 /**
- * DeepSeek Harness adapter for US Vertical Drama Studio.
+ * DeepSeek Harness adapter for US Vertical Drama Studio V9 preview.
  *
- * The canonical Skill files remain in this repository's plugin directory.
- * At profile startup this adapter exposes them through DSH's `ctx.skills`
- * registry, so DSH's normal skill tool and slash invocation load the same
- * eight instructions and references used by the ChatGPT/Codex distribution.
+ * V9 authoring truth lives only under core/usvd-v9. The checked-in
+ * plugins/us-vertical-drama-studio-v9 tree is generated from that Core by
+ * scripts/sync-v9-distributions.mjs. DSH reads the generated manifest rather
+ * than maintaining another hard-coded skill catalog.
  */
 
 import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { registerStage09ReviewTool } from './stage09-review-tool.js'
 
 export const name = 'us-vertical-drama-studio'
 export const inject = ['skills']
 
 const moduleDirectory = dirname(fileURLToPath(import.meta.url))
-const skillsDirectory = join(moduleDirectory, '..', 'plugins', 'us-vertical-drama-studio', 'skills')
-
-const skillFolders = [
-  'us-vertical-drama-studio',
-  'us-vertical-drama-adapter',
-  'us-vertical-drama-showrunner',
-  'us-vertical-drama-episode-architect',
-  'us-vertical-drama-screenwriter',
-  'us-vertical-drama-script-doctor',
-  'us-vertical-drama-continuity-editor',
-  'us-vertical-drama-storyboard-director',
-]
+const distributionDirectory = join(moduleDirectory, '..', 'plugins', 'us-vertical-drama-studio-v9')
+const skillsDirectory = join(distributionDirectory, 'skills')
+export const V9_DISTRIBUTION_MANIFEST = JSON.parse(readFileSync(join(distributionDirectory, 'manifest.json'), 'utf8'))
+const skillFolders = V9_DISTRIBUTION_MANIFEST.skills.map(item => item.folder)
 
 /**
  * Register a native DSH skill provider.
@@ -39,8 +32,19 @@ const skillFolders = [
  * @param {import('@deepseek-ai/cordis').Context} ctx
  * @returns {() => void}
  */
-export function apply(ctx) {
-  return ctx.skills.registerProvider(() => createProvider())
+export function apply(ctx, config = {}) {
+  const disposeSkillProvider = ctx.skills.registerProvider(() => createProvider())
+  const reviewConfig = config.stage09ControlledReview
+  if (reviewConfig?.enabled !== true) return disposeSkillProvider
+
+  if (ctx.tools === undefined || ctx.subagents === undefined) {
+    throw new Error('Stage 09 controlled review requires DSH tools and subagents services')
+  }
+  const disposeReviewTool = registerStage09ReviewTool(ctx, { provider: reviewConfig.provider ?? 'spawn' })
+  return () => {
+    disposeReviewTool()
+    disposeSkillProvider()
+  }
 }
 
 /**
@@ -56,7 +60,7 @@ export function createProvider() {
   }))
 
   return {
-    name: 'us-vertical-drama-studio-bundled',
+    name: 'us-vertical-drama-studio-v9-bundled',
     async list() {
       return [...catalog.values()].map(toCandidate)
     },
@@ -86,7 +90,7 @@ function toCandidate(entry) {
   return {
     name: entry.name,
     description: entry.description,
-    provider: 'us-vertical-drama-studio-bundled',
+    provider: 'us-vertical-drama-studio-v9-bundled',
     source: 'bundled',
     rank: 600,
     path: join(entry.skillDirectory, 'SKILL.md'),
