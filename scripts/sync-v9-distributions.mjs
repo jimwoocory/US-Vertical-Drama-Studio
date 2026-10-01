@@ -17,6 +17,10 @@ const managedRoots = [
 ]
 
 const resourceMap = {
+  '01-adaptation': ['skills/01-adaptation/references/us-writing-contract.md'],
+  '02-story-architecture': ['skills/02-story-architecture/references/us-writing-contract.md'],
+  '03-screenwriter': ['skills/03-screenwriter/references/us-writing-review.md'],
+  '04-review-continuity': ['skills/04-review-continuity/references/us-writing-review.md'],
   '06-storyboard': ['contracts/stage-06-storyboard.json'],
   '07-performance-cinematography': ['contracts/stage-07-performance-cinematography.json'],
   '08-seedance-2-mini-adapter': ['contracts/stage-08-seedance-2-mini-adapter.json'],

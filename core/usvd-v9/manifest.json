@@ -4,6 +4,15 @@
   "version": "0.9.0-preview.1",
   "status": "canonical-source-preview",
   "canonical_root": "core/usvd-v9",
+  "writing_profile": {
+    "id": "us-writing-2.1.0",
+    "market": "US",
+    "scope": "source-only-writing-upgrade",
+    "audience_validation": "not-run",
+    "commercial_validation": "not-run",
+    "distribution_sync": "pending-user-paused-packaging",
+    "documentation": "docs/us-writing/README.md"
+  },
   "principles": {
     "core_is_truth": true,
     "plugins_are_not_truth": true,
@@ -29,7 +38,7 @@
       "responsibility": "Identify the current gate, validate required inputs, and route to exactly one next skill.",
       "canonical_path": "skills/controller/SKILL.md",
       "baseline_source": "tabbit/v2/skills/usvd-controller/SKILL.md",
-      "status": "baseline-copied"
+      "status": "us-writing-scoped"
     },
     {
       "id": "01-adaptation",
@@ -37,7 +46,7 @@
       "responsibility": "Create a US-facing Adaptation Brief while preserving the source promise and rebuilding social logic.",
       "canonical_path": "skills/01-adaptation/SKILL.md",
       "baseline_source": "tabbit/v2/skills/usvd-01-adaptation/SKILL.md",
-      "status": "baseline-copied"
+      "status": "us-writing-upgraded"
     },
     {
       "id": "02-story-architecture",
@@ -45,7 +54,7 @@
       "responsibility": "Create or extend approved Story Bible, season/arc structure, and episode beats.",
       "canonical_path": "skills/02-story-architecture/SKILL.md",
       "baseline_source": "tabbit/v2/skills/usvd-02-story-architecture/SKILL.md",
-      "status": "baseline-copied"
+      "status": "us-writing-upgraded"
     },
     {
       "id": "03-screenwriter",
@@ -53,7 +62,7 @@
       "responsibility": "Turn approved beats into a screenplay draft and beat-to-scene trace.",
       "canonical_path": "skills/03-screenwriter/SKILL.md",
       "baseline_source": "tabbit/v2/skills/usvd-03-screenwriter/SKILL.md",
-      "status": "baseline-copied"
+      "status": "us-writing-upgraded"
     },
     {
       "id": "04-review-continuity",
@@ -61,7 +70,7 @@
       "responsibility": "Independently review the screenplay, issue a gate, and maintain continuity state after PASS.",
       "canonical_path": "skills/04-review-continuity/SKILL.md",
       "baseline_source": "tabbit/v2/skills/usvd-04-review-continuity/SKILL.md",
-      "status": "baseline-copied"
+      "status": "us-writing-upgraded"
     },
     {
       "id": "05-asset-lock",
