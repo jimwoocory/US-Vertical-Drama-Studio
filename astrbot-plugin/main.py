@@ -7,12 +7,18 @@ from astrbot.api import logger
 from astrbot.api.event import AstrMessageEvent, filter
 from astrbot.api.star import Context, Star
 
-HELP = """USVD 美国短剧写作（技能 2.1.0）
+HELP = """USVD 美国短剧全流程（总控 + 01–09，共10个技能）
+/usvd route 项目材料、交付范围与当前批准状态
 /usvd adapt 原作素材与改编要求
 /usvd bible 原创设定或改编 Brief
 /usvd beats 已批准的 Story Bible 正文与目标集要求
 /usvd write 已批准的 Bible、Beat Sheet、目标集时长及前集连续性
 /usvd review 剧本正文、已批准的 Bible 与 Beat Sheet
+/usvd assets 已审核剧本、连续性台账与资产要求
+/usvd storyboard 已锁定资产、审核剧本与连续性台账
+/usvd camera 已批准 Stage 06 分镜与资产台账
+/usvd seedance 已批准 Stage 06/07 包与当前 endpoint 能力档案
+/usvd qa Stage 06/07/08 包、资产台账与能力档案
 
 每条指令只执行一个阶段。指令模式不会读取其他聊天或自动保存项目，
 请把所需正文放在同一条消息中，可换行粘贴。确认后再进入下一阶段。
@@ -20,6 +26,7 @@ HELP = """USVD 美国短剧写作（技能 2.1.0）
 """
 
 STAGES = {
+    "route": ("controller", "只识别当前 Gate 并指定唯一下一技能，不代做阶段。"),
     "adapt": ("01-adaptation", "只做美国本土化 Adaptation Brief。"),
     "bible": (
         "02-story-architecture",
@@ -33,6 +40,20 @@ STAGES = {
     "review": (
         "04-review-continuity",
         "独立审稿；缺已批准上游正文时 BLOCKED，不得编造。",
+    ),
+    "assets": (
+        "05-asset-lock",
+        "只锁定 CHAR/LOOK/SET/PROP 资产与图像提示词，不做分镜。",
+    ),
+    "storyboard": ("06-storyboard", "只做 Stage 06 分镜与时序，不写最终视频提示词。"),
+    "camera": ("07-performance-cinematography", "只做 Stage 07 表演与摄影导演包。"),
+    "seedance": (
+        "08-seedance-2-mini-adapter",
+        "只做 Stage 08 Seedance 2.0 Mini 提示词适配；不调用视频生成服务。",
+    ),
+    "qa": (
+        "09-prompt-qa",
+        "只做 Stage 09 QA 诊断。没有真实机器检查结果时标记 NOT RUN/BLOCKED，不得声称机器 QA PASS。",
     ),
 }
 
@@ -64,15 +85,23 @@ class Main(Star):
                 )
                 return
             skill, scope = STAGES[stage]
-            folder = self.root / "skills" / f"usvd-{skill}"
+            name = (
+                f"usvd-v9-{skill}"
+                if skill[:2] in ("06", "07", "08", "09")
+                else f"usvd-{skill}"
+            )
+            folder = self.root / "skills" / name
             instruction = (folder / "SKILL.md").read_text(encoding="utf-8")
             references = "\n\n".join(
                 f"# Reference: references/{ref.name}\n{ref.read_text(encoding='utf-8')}"
-                for ref in sorted((folder / "references").glob("*.md"))
+                for ref in sorted((folder / "references").glob("*"))
+                if ref.is_file() and ref.suffix in (".md", ".json")
             )
             system = (
-                "你是 USVD 美国竖屏短剧写作助手。仅执行用户选择的当前阶段。\n"
-                "不生成界面、资产、分镜或视频提示词。缺必要输入时按技能要求询问或 BLOCKED。\n"
+                "你是 USVD 美国竖屏短剧全流程助手。仅执行用户选择的当前阶段。\n"
+                "不生成工作界面。不跨阶段连跑。缺必要输入时按技能要求询问或 BLOCKED。\n"
+                "提供制作文档与提示词，不宣称已经生成图像/视频或执行机器检查。\n"
+                "默认交付范围 full-production；用户明确只要写作时尊重 writing-only。\n"
                 "审稿分数是内部启发式，不能声称已做真实观众或商业验证。\n"
                 f"本次阶段：{stage}。{scope}\n\n{instruction}\n\n{references}"
             )

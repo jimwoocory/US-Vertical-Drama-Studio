@@ -13,10 +13,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SKILLS = (
+    "controller",
     "01-adaptation",
     "02-story-architecture",
     "03-screenwriter",
     "04-review-continuity",
+    "05-asset-lock",
+    "06-storyboard",
+    "07-performance-cinematography",
+    "08-seedance-2-mini-adapter",
+    "09-prompt-qa",
 )
 
 
@@ -35,23 +41,54 @@ class PackageTests(unittest.TestCase):
                 self.assertIn("metadata.yaml", z.namelist())
                 self.assertIn("LICENSE", z.namelist())
                 self.assertFalse(any(".." in Path(n).parts for n in z.namelist()))
-                self.assertEqual(sum(n.endswith("/SKILL.md") for n in z.namelist()), 4)
+                self.assertEqual(sum(n.endswith("/SKILL.md") for n in z.namelist()), 10)
                 for skill in SKILLS:
                     original = ROOT / "core/usvd-v9/skills" / skill
+                    skill_name = (
+                        re.search(
+                            r"^name: (.+)$",
+                            (original / "SKILL.md").read_text(encoding="utf-8"),
+                            re.MULTILINE,
+                        )
+                        .group(1)
+                        .strip()
+                    )
                     for f in original.rglob("*"):
                         if f.is_file():
                             name = (
-                                "skills/usvd-"
-                                + skill
+                                "skills/"
+                                + skill_name
                                 + "/"
                                 + f.relative_to(original).as_posix()
                             )
                             self.assertEqual(z.read(name), f.read_bytes(), name)
-                    name = "skills/usvd-" + skill + "/SKILL.md"
+                    name = "skills/" + skill_name + "/SKILL.md"
                     for link in re.findall(
                         r"\]\((references/[^)]+)\)", z.read(name).decode("utf-8")
                     ):
-                        self.assertIn("skills/usvd-" + skill + "/" + link, z.namelist())
+                        self.assertIn("skills/" + skill_name + "/" + link, z.namelist())
+                for stage in (
+                    "06-storyboard",
+                    "07-performance-cinematography",
+                    "08-seedance-2-mini-adapter",
+                    "09-prompt-qa",
+                ):
+                    contract = (
+                        ROOT / "core/usvd-v9/contracts" / ("stage-" + stage + ".json")
+                    )
+                    self.assertEqual(
+                        z.read(
+                            "skills/usvd-v9-" + stage + "/references/" + contract.name
+                        ),
+                        contract.read_bytes(),
+                    )
+                checklist = (
+                    ROOT / "core/usvd-v9/references/prompt-qa-human-checklist.md"
+                )
+                self.assertEqual(
+                    z.read("skills/usvd-v9-09-prompt-qa/references/" + checklist.name),
+                    checklist.read_bytes(),
+                )
                 z.extractall(tmp)
             # Framework boundary is stubbed; actual packaged module is imported.
             event_module = types.ModuleType("astrbot.api.event")
@@ -126,6 +163,12 @@ class PackageTests(unittest.TestCase):
                         ("beats", "02-story-architecture"),
                         ("write", "03-screenwriter"),
                         ("review", "04-review-continuity"),
+                        ("route", "controller"),
+                        ("assets", "05-asset-lock"),
+                        ("storyboard", "06-storyboard"),
+                        ("camera", "07-performance-cinematography"),
+                        ("seedance", "08-seedance-2-mini-adapter"),
+                        ("qa", "09-prompt-qa"),
                     ]:
                         self.assertEqual(
                             await invoke("/usvd " + stage + " First line\nsecond line"),
@@ -140,6 +183,27 @@ class PackageTests(unittest.TestCase):
                             ROOT / "core/usvd-v9/skills" / skill / "SKILL.md"
                         ).read_text(encoding="utf-8")
                         self.assertIn(skill_text, request["system_prompt"])
+                        if stage in (
+                            "assets",
+                            "storyboard",
+                            "camera",
+                            "seedance",
+                            "qa",
+                        ):
+                            self.assertNotIn(
+                                "不生成界面、资产、分镜或视频提示词",
+                                request["system_prompt"],
+                            )
+                        if stage in ("storyboard", "camera", "seedance", "qa"):
+                            contract = (
+                                ROOT
+                                / "core/usvd-v9/contracts"
+                                / ("stage-" + skill + ".json")
+                            )
+                            self.assertIn(
+                                contract.read_text(encoding="utf-8"),
+                                request["system_prompt"],
+                            )
                         for ref in (
                             ROOT / "core/usvd-v9/skills" / skill / "references"
                         ).glob("*.md"):

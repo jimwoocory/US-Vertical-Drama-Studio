@@ -1,16 +1,34 @@
 """Build a root-level AstrBot plugin ZIP from canonical writing resources."""
 
 import argparse
+import re
 import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = (
+    "controller",
     "01-adaptation",
     "02-story-architecture",
     "03-screenwriter",
     "04-review-continuity",
+    "05-asset-lock",
+    "06-storyboard",
+    "07-performance-cinematography",
+    "08-seedance-2-mini-adapter",
+    "09-prompt-qa",
 )
+RESOURCES = {
+    "06-storyboard": ["contracts/stage-06-storyboard.json"],
+    "07-performance-cinematography": [
+        "contracts/stage-07-performance-cinematography.json"
+    ],
+    "08-seedance-2-mini-adapter": ["contracts/stage-08-seedance-2-mini-adapter.json"],
+    "09-prompt-qa": [
+        "contracts/stage-09-prompt-qa.json",
+        "references/prompt-qa-human-checklist.md",
+    ],
+}
 
 
 def build(output: Path):
@@ -24,11 +42,21 @@ def build(output: Path):
         files.append((notice, "NOTICE"))
     for skill in SKILLS:
         source = ROOT / "core/usvd-v9/skills" / skill
+        skill_name = (
+            re.search(
+                r"^name: (.+)$", (source / "SKILL.md").read_text(encoding="utf-8"), re.MULTILINE
+            )
+            .group(1)
+            .strip()
+        )
         for f in sorted(source.rglob("*")):
             if f.is_file() and f.suffix == ".md":
                 files.append(
-                    (f, "skills/usvd-" + skill + "/" + f.relative_to(source).as_posix())
+                    (f, "skills/" + skill_name + "/" + f.relative_to(source).as_posix())
                 )
+        for resource in RESOURCES.get(skill, []):
+            f = ROOT / "core/usvd-v9" / resource
+            files.append((f, "skills/" + skill_name + "/references/" + f.name))
         if not (source / "SKILL.md").is_file():
             raise FileNotFoundError(source / "SKILL.md")
     # Read every source before creating the output, so a missing source cannot

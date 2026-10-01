@@ -1,7 +1,7 @@
 name: astrbot_plugin_usvd_writer
 display_name: USVD 美国短剧写作
-desc: 美国竖屏短剧核心写作技能：本土化、故事架构、剧本写作与连续性审稿。聊天指令入口，无工作界面。
-version: v1.0.0
+desc: 美国竖屏短剧全流程：总控与01–09共10个技能，含资产、分镜、表演摄影、Seedance提示词及QA。无工作界面。
+version: v1.1.0
 author: jimwoocory
 repo: ""
 astrbot_version: ">=4.5.7,<5"

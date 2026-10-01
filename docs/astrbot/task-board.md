@@ -9,3 +9,11 @@ AST-01 — READY → IN_PROGRESS → REVIEW; Owner: Codex /root.
 - Final state remains REVIEW until main integration and retest (main has pre-existing staged changes and must be preserved).
 
 Implementation and ZIP delivered; validation evidence: validation.md. Business source committed on codex/ast-01-astrbot-writing, not merged into main.
+
+## AST-02 — restore full skill set
+
+READY → IN_PROGRESS → REVIEW. Owner: Codex /root, existing isolated worktree codex/ast-01-astrbot-writing, base 95f050b.
+User approved restoring Controller + 01–09 with no work interface.
+Allowed Paths: astrbot-plugin/**, scripts/package-astrbot.py, scripts/tests/test_astrbot_package.py, docs/astrbot/**; output delivery/astrbot_plugin_usvd_writer-v1.1.0.zip.
+Dependencies: AST-01 package; canonical V9 stage resources.
+Acceptance: exactly ten correctly named native Skills; all canonical instructions and stage contracts/checklists included; all stages selectable from chat; no global instruction forbids 05–09 outputs; preserve one-stage gates and no UI/execution claim. Archive/import/routes/resource checks pass. Deliver updated ZIP. REVIEW until main integration/retest.
