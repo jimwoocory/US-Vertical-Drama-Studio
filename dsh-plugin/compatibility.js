@@ -6,7 +6,7 @@
  * boundary. Do not probe undeclared context properties here: Cordis correctly
  * rejects those reads before the plugin can load.
  */
-export const P1_DSH_VERSION = '0.1.5-rc.1'
+export const P1_DSH_VERSION = '0.2.0-rc.2'
 
 export function assertP1Compatibility(context) {
   if (context?.slots === undefined || typeof context.slots.inject !== 'function' || typeof context.slots.register !== 'function') {
