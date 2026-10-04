@@ -1,15 +1,12 @@
 {
   "name": "@jimwoocory/dsh-us-vertical-drama-studio",
-  "version": "0.3.0-v9-preview.1",
-  "description": "DeepSeek Harness plugin for the generated US Vertical Drama Studio V9 preview workflow.",
+  "version": "0.4.0-v9-preview.1",
+  "description": "No-UI DeepSeek Harness plugin for the US Vertical Drama Studio V9 full workflow: controller and stages 01–09.",
   "type": "module",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "./dsh-plugin/index.js",
   "exports": {
-    ".": "./dsh-plugin/index.js",
-    "./client": "./dsh-plugin/client.bundle.cjs",
-    "./controlled-review": "./dsh-plugin/controlled-review.js",
-    "./stage09-review-executor": "./dsh-plugin/stage09-review-executor.js"
+    ".": "./dsh-plugin/index.js"
   },
   "engines": {
     "node": ">=24"
@@ -17,38 +14,26 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
-    },
-    "client": {
-      "inject": [
-        "@deepseek-ai/dsh-client-ui-slots"
-      ],
-      "platform": "web"
     }
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "4.0.2",
     "@deepseek-ai/dsh": "0.1.5-rc.1",
-    "@deepseek-ai/dsh-client-ui-slots": "0.1.5-rc.1",
-    "@deepseek-ai/dsh-skill": "0.1.5-rc.1",
-    "react": "18.3.1"
+    "@deepseek-ai/dsh-skill": "0.1.5-rc.1"
   },
   "files": [
-    "dsh-plugin",
+    "dsh-plugin/index.js",
     "plugins/us-vertical-drama-studio-v9",
     "core/usvd-v9",
-    "fixtures",
     "cordis.patch.yml",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "build:client": "node scripts/build-dsh-client.mjs",
     "build:v9": "node scripts/sync-v9-distributions.mjs",
+    "build:dsh-v9": "node scripts/sync-dsh-v9.mjs",
     "check:v9": "node scripts/sync-v9-distributions.mjs --check",
     "test": "node scripts/sync-v9-distributions.mjs --check && node --test dsh-plugin/test/*.test.mjs && node --check dsh-plugin/client.bundle.cjs"
-  },
-  "devDependencies": {
-    "esbuild": "0.28.2"
   },
   "keywords": [
     "dsh-plugin",

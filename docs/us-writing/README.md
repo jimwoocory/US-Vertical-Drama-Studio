@@ -4,9 +4,9 @@
 
 权威源码：`core/usvd-v9/skills/01-adaptation`、`02-story-architecture`、`03-screenwriter`、`04-review-continuity`。版本2.1.0。总控为`core/usvd-v9/skills/controller/SKILL.md`。
 
-本次不生成ZIP、AstrBot适配器或其他分发包。`plugins/`、`direct-upload/`、`tabbit/`、`mediago/`仍是原有基线分发，不能用它们验证升级已加载。常规`npm test`先检查全量分发同步，因此在这份source-only分支不能作为“全部通过”的证据。
+核心写作任务完成后，用户另行授权制作 AstrBot 全流程版及 DSH 全阶段版。AstrBot ZIP 含总控和01–09；DSH 包使用同一 V9 Core 与全流程原生技能目录，不加载工作台 UI。其他生成平台分发仍保持基线；不能用它们验证升级已加载。常规`npm test`先检查全量分发同步，因此单平台构建后不能把该命令结果当作“全部平台已同步”的证据。
 
-可直接在支持技能的运行时加载上述核心SKILL.md；后续适配AstrBot时需映射这些合同，不能只复制旧DSH分发目录。新增引用文件也须随对应技能一起加载；核心文件不是已安装AstrBot插件。
+每个目标运行时都必须加载新增的写作合同与审稿参考文件。AstrBot与DSH版本已分别映射这些文件；核心目录本身仍不是可直接安装的插件。
 
 ## 验收边界
 
