@@ -11,7 +11,7 @@
 export const PRODUCTION_WORKBENCH_SCHEMA = 'us-vertical-drama-workbench/v1'
 
 const assetKinds = new Set(['character', 'look', 'set', 'prop'])
-const assetStatuses = new Set(['draft', 'pending_approval', 'approved', 'blocked'])
+const assetStatuses = new Set(['draft', 'pending_approval', 'review_required', 'approved', 'blocked'])
 const shotStatuses = new Set(['draft', 'blocked', 'ready_to_generate', 'generating', 'review_required', 'approved'])
 const taskStatuses = new Set(['todo', 'in_progress', 'blocked', 'review', 'done'])
 const mediaExecutionStatuses = new Set([

@@ -342,7 +342,7 @@ test('video job progresses through generating and succeeds only to review_requir
   assert.equal(completed.manifest.videos[0].generation_result_id, 'media-video-001')
 })
 
-test('image success becomes pending_approval and never auto-approves the USVDS asset', async () => {
+test('image success becomes review_required and never auto-approves the USVDS asset', async () => {
   const client = new FakeMediaMcpClient()
   const submitted = await submitAssetImage({
     client,
@@ -369,7 +369,7 @@ test('image success becomes pending_approval and never auto-approves the USVDS a
   })
 
   const target = completed.manifest.assets.find(item => item.id === 'CHAR-EVE')
-  assert.equal(target.status, 'pending_approval')
+  assert.equal(target.status, 'review_required')
   assert.notEqual(target.status, 'approved')
   assert.deepEqual(target.candidate_media_asset_ids, ['media-image-001'])
 })

@@ -459,7 +459,7 @@ function applySuccessfulResult(manifest, execution) {
       `${asset.id} was approved while generation was running; refusing to replace approval`,
     )
   }
-  asset.status = 'pending_approval'
+  asset.status = 'review_required'
   asset.generation_status = 'succeeded'
   asset.generation_result_id = execution.output_asset_ids[0]
   asset.candidate_media_asset_ids = [...execution.output_asset_ids]

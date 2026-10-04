@@ -49,7 +49,7 @@ Execution state and creative approval are separate:
 
 - active Media MCP job → VIDEO may be `generating`;
 - successful VIDEO job + ready Asset → VIDEO becomes `review_required`;
-- successful asset-image job + ready Asset → asset becomes `pending_approval`;
+- successful asset-image job + ready Asset → asset becomes `review_required`;
 - **never** set `approved` automatically.
 
 ## Idempotency and stale-result safety

@@ -52,7 +52,7 @@ The readable Markdown/TXT package can now be imported directly as well. Keep the
 }
 ```
 
-Use `character`, `look`, `set`, or `prop` for asset kinds. Asset status is `draft`, `pending_approval`, `approved`, or `blocked`. Shot status is `draft`, `blocked`, `ready_to_generate`, `generating`, `review_required`, or `approved`. Task status is `todo`, `in_progress`, `blocked`, `review`, or `done`.
+Use `character`, `look`, `set`, or `prop` for asset kinds. Asset status is `draft`, `pending_approval`, `review_required`, `approved`, or `blocked`. Shot status is `draft`, `blocked`, `ready_to_generate`, `generating`, `review_required`, or `approved`. Task status is `todo`, `in_progress`, `blocked`, `review`, or `done`.
 
 ## Media MCP additive execution fields
 
@@ -98,13 +98,15 @@ The USVDS-side adapter appends `media_executions[]` records:
 
 `execution_status` mirrors Media MCP Job state: `queued`, `submitting`, `submitted`, `running`, `unknown`, `reconciling`, `cancel_requested`, `cancelled`, `succeeded`, or `failed`.
 
-Execution state and creative approval are separate. A successful VIDEO job may move its VIDEO record only to `review_required`; a successful asset-image job may move its asset only to `pending_approval`. Media MCP output must never set USVDS `approved` automatically. The user/director approval gate remains authoritative.
+Execution state and creative approval are separate. A successful VIDEO job may move its VIDEO record only to `review_required`; a successful asset-image job likewise moves its asset only to `review_required`. Media MCP output must never set USVDS `approved` automatically. The user/director approval gate remains authoritative.
 
 For operator convenience the adapter may mirror the latest execution into
 `generation_status` and, after a successful Asset ingest, write
 `generation_result_id` plus `generated_media_asset_ids[]` (VIDEO) or
 `candidate_media_asset_ids[]` (asset). These are execution/result pointers,
-not approval fields.
+not approval fields. A generated asset candidate must not become
+`reference_media_asset_id` merely because generation succeeded; promotion to
+an approved reference belongs to the human/USVDS approval gate.
 
 Every execution stores the generation-input `workbench_revision`. If prompt, timing, asset linkage, target model, aspect ratio, or other generation inputs change before a result is synchronized, the old Media MCP result is stale and must not be attached to the new creative state.
 
