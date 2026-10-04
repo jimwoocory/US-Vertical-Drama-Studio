@@ -25,6 +25,33 @@ test('reports a generation-ready, traceable shot', () => {
   assert.equal(snapshot.summary.errors, 0)
 })
 
+test('preserves additive Media MCP execution records in the workbench snapshot', () => {
+  const manifest = structuredClone(ready)
+  manifest.media_executions = [{
+    schema: 'usvd.media-execution/v1',
+    execution_id: 'MEDIA-EXEC-001',
+    target_type: 'asset',
+    target_id: 'CHAR-EVE',
+    kind: 'image_generation',
+    public_model_id: 'chatgpt-web-image',
+    workbench_revision: 'revision-001',
+    request_hash: 'request-hash-001',
+    request_key: 'request-key-001',
+    quote_id: 'quote-001',
+    media_job_id: 'job-001',
+    execution_status: 'queued',
+    output_asset_ids: [],
+    created_at: '2030-01-01T00:00:00Z',
+    updated_at: '2030-01-01T00:00:00Z',
+  }]
+  const snapshot = buildProductionSnapshot(manifest)
+  assert.equal(snapshot.media_executions.length, 1)
+  assert.equal(snapshot.media_executions[0].media_job_id, 'job-001')
+  assert.equal(snapshot.summary.media_executions, 1)
+  assert.equal(snapshot.summary.errors, 0)
+  assert.equal(snapshot.assets[0].status, 'approved')
+})
+
 test('blocks video work when an asset is not approved or a shot exceeds 15 seconds', () => {
   const manifest = structuredClone(ready)
   manifest.assets[0].status = 'pending_approval'

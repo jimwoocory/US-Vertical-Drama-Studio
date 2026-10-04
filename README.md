@@ -28,6 +28,21 @@ npx -y @deepseek-ai/dsh@0.1.5-rc.1 --profile us-drama
 
 In the profile, enable the **US Vertical Drama Studio** plugin and use its Skills in chat. The controller routes one stage at a time. Provide the upstream approved materials required by each stage; never ask the agent to skip approval gates.
 
+## Xiaoshuren Media MCP integration
+
+V10 includes a thin USVDS-side Media MCP adapter at the package subpath
+`@jimwoocory/dsh-us-vertical-drama-studio/media-mcp`.
+
+It maps approved Stage 05 asset-generation facts and Stage 08 video-execution
+facts into the Media MCP P0 tools `quote_create`, `generate_image`,
+`generate_video`, `job_get`, and `asset_get`. It keeps Media MCP execution
+state separate from USVDS creative approval: a successful media job becomes
+`pending_approval` / `review_required`, never `approved` automatically.
+
+The adapter is transport-neutral. `createMediaMcpToolClient(callTool)` can wrap
+an MCP SDK transport when the Remote MCP endpoint is connected; the domain
+mapping and Workbench writeback code do not depend on that transport.
+
 ## Source and package
 
 Canonical truth lives in `core/usvd-v9/`. The DSH plugin reads the generated catalog from `plugins/us-vertical-drama-studio-v9/manifest.json`. Run `npm run build:dsh-v9` after changing Core to refresh that DSH catalog without rewriting the other platform distributions.

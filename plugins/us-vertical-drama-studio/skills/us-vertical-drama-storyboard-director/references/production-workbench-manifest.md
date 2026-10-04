@@ -54,6 +54,60 @@ The readable Markdown/TXT package can now be imported directly as well. Keep the
 
 Use `character`, `look`, `set`, or `prop` for asset kinds. Asset status is `draft`, `pending_approval`, `approved`, or `blocked`. Shot status is `draft`, `blocked`, `ready_to_generate`, `generating`, `review_required`, or `approved`. Task status is `todo`, `in_progress`, `blocked`, `review`, or `done`.
 
+## Media MCP additive execution fields
+
+Keep `schema_version: us-vertical-drama-workbench/v1`. Media execution support is additive and must not replace the existing Asset/VIDEO/SHOT approval model.
+
+An asset that is intended for image generation may additionally carry:
+
+- `image_prompt`
+- `negative_prompt`
+- `aspect_ratio`
+- `public_model_id` for Media MCP execution; `target_model` may remain a separate operator-facing target label
+- `reference_media_asset_ids[]` when approved Media MCP input Assets already exist
+
+A VIDEO record that is intended for Media MCP generation may additionally carry:
+
+- `media_prompt` and `media_negative_prompt` when Stage 08 has produced model-facing execution prompts; do not overwrite the upstream director `video_master_prompt`
+- `public_model_id` for Media MCP execution; keep `target_model` as a separate USVDS target/display label
+- `aspect_ratio`
+- `video_resolution`
+- optional `media_mode` such as `text2video`
+
+The USVDS-side adapter appends `media_executions[]` records:
+
+```json
+{
+  "schema": "usvd.media-execution/v1",
+  "execution_id": "MEDIA-EXEC-...",
+  "target_type": "asset",
+  "target_id": "CHAR-EVE",
+  "kind": "image_generation",
+  "public_model_id": "chatgpt-web-image",
+  "workbench_revision": "...",
+  "request_hash": "...",
+  "request_key": "...",
+  "quote_id": "...",
+  "media_job_id": "...",
+  "execution_status": "queued",
+  "output_asset_ids": [],
+  "created_at": "...",
+  "updated_at": "..."
+}
+```
+
+`execution_status` mirrors Media MCP Job state: `queued`, `submitting`, `submitted`, `running`, `unknown`, `reconciling`, `cancel_requested`, `cancelled`, `succeeded`, or `failed`.
+
+Execution state and creative approval are separate. A successful VIDEO job may move its VIDEO record only to `review_required`; a successful asset-image job may move its asset only to `pending_approval`. Media MCP output must never set USVDS `approved` automatically. The user/director approval gate remains authoritative.
+
+For operator convenience the adapter may mirror the latest execution into
+`generation_status` and, after a successful Asset ingest, write
+`generation_result_id` plus `generated_media_asset_ids[]` (VIDEO) or
+`candidate_media_asset_ids[]` (asset). These are execution/result pointers,
+not approval fields.
+
+Every execution stores the generation-input `workbench_revision`. If prompt, timing, asset linkage, target model, aspect ratio, or other generation inputs change before a result is synchronized, the old Media MCP result is stale and must not be attached to the new creative state.
+
 A video package may not exceed 15 seconds in V8-compatible mode. Every explicit `videos[]` record requires `video_prompt_id`, `video_master_prompt`, and `video_negative_prompt`. The master prompt is a Chinese, directly usable VIDEO-level submission: it must cover the entire package timeline, cuts/shot progression, locked assets, camera, light, sound/voice plan, continuity, and exclusions. The child `SHOT-*` prompt is local replacement guidance, not the only video prompt. Its child shots are time-coded micro-shots: each must fit inside its parent video, their ranges must be contiguous with no overlap, and each should be 0.5–3 seconds. A longer micro-shot requires `duration_exception_reason_zh`; a shorter one requires `short_duration_reason_zh` when it is under 0.5 seconds. `shot_type` and `generation_mode` must use Chinese production terms (for example `反应`, `特写插入`, `动作`, `对白`; `independent`, `extend`, `image_to_video` respectively). `display_name_zh` is required for every human-visible video and shot.
 
 A shot may move to `ready_to_generate` only after every bound asset is `approved`, its local three prompt layers are present, source/trace IDs are present, its parent video has all three VIDEO prompt fields and is valid, and the micro-shot has a valid timeline. Do not turn unresolved items green: retain them as `blocked` with an explicit task or continuity warning.
