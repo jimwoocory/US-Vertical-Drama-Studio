@@ -23,6 +23,7 @@
   },
   "files": [
     "dsh-plugin/index.js",
+    "dsh-plugin/model-routing",
     "plugins/us-vertical-drama-studio-v9",
     "core/usvd-v9",
     "cordis.patch.yml",

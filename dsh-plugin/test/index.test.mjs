@@ -16,7 +16,7 @@ test('registers a native provider and exposes the generated V9 skill catalog', a
     providerFactory = factory
     return () => { disposed = true }
   } } }
-  const dispose = apply(ctx)
+  const dispose = apply(ctx, { modelRouting: { enabled: false } })
   const provider = providerFactory()
   const candidates = await provider.list()
   assert.equal(provider.name, 'us-vertical-drama-studio-v9-bundled')

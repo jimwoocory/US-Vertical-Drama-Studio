@@ -10,9 +10,10 @@
 import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { registerStageModelRoutingHook } from './model-routing/tool.js'
 
 export const name = 'us-vertical-drama-studio'
-export const inject = ['skills']
+export const inject = ['skills', 'tools', 'sessionController', 'agentDefaultModel', 'sessionProjections']
 
 const moduleDirectory = dirname(fileURLToPath(import.meta.url))
 const distributionDirectory = join(moduleDirectory, '..', 'plugins', 'us-vertical-drama-studio-v9')
@@ -31,8 +32,16 @@ const skillFolders = V9_DISTRIBUTION_MANIFEST.skills.map(item => item.folder)
  * @param {import('@deepseek-ai/cordis').Context} ctx
  * @returns {() => void}
  */
-export function apply(ctx) {
-  return ctx.skills.registerProvider(() => createProvider())
+export function apply(ctx, config = {}) {
+  const disposers = [ctx.skills.registerProvider(() => createProvider())]
+  if (config.modelRouting?.enabled !== false) {
+    disposers.push(registerStageModelRoutingHook(ctx, {
+      log: config.modelRouting?.log,
+    }))
+  }
+  return () => {
+    for (const dispose of disposers.reverse()) dispose()
+  }
 }
 
 /**
