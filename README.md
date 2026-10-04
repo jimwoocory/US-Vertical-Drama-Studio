@@ -34,9 +34,20 @@ Canonical truth lives in `core/usvd-v9/`. The DSH plugin reads the generated cat
 
 Package version: `0.4.0-v9-preview.1`. DSH's browser UI injection and client bundle are excluded. The standard npm package archive can be produced with `npm pack`.
 
+## Stage model routing
+
+V10 uses DSH's real Session model-selection API for the writing/review stages:
+
+- 01 Adaptation → **Claude Sonnet 5.5**
+- 02 Story Architecture → **Claude Opus 5.5**
+- 03 Screenwriter → **Claude Opus 5.5**
+- 04 Review and Continuity → **GPT-6.1 Sol**
+
+The router resolves the required target against the live DSH model catalog and fails closed when that exact target is unavailable. It does not silently substitute another model. Stages 05–09 keep the current session model unless another explicit production route owns them.
+
 ## Limits
 
-Stage 08 writes Seedance 2.0 Mini prompts; it does not submit video-generation requests. Stage 09 can report machine QA as PASS only when it receives actual machine-check results. It does not claim audience or commercial validation. The plugin uses the current DSH conversation model; stage-specific model routing is not included.
+Stage 08 writes Seedance 2.0 Mini prompts; it does not submit video-generation requests. Stage 09 can report machine QA as PASS only when it receives actual machine-check results. It does not claim audience or commercial validation.
 
 ## License
 

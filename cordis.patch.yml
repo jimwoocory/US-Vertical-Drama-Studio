@@ -2,4 +2,4 @@
 - insert:
     - id: us-vertical-drama-studio
       name: '@jimwoocory/dsh-us-vertical-drama-studio'
-      inject: [skills]
+      inject: [skills, tools, sessionController, agentDefaultModel, sessionProjections]
