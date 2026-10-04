@@ -30,12 +30,18 @@ V9 使用严格单向链路：
 
 ## 路由规则
 
+### 用户交付范围
+
+路由前记录 `【交付范围】writing-only | full-production` 到下一阶段输入。用户只要核心写作技能/剧本且不要资产、分镜、视频或工作界面时，使用 `writing-only`；用户明确请求完整制作时使用 `full-production`。没有范围信息时保留既有完整链路，但不得自动执行下游。
+
+`writing-only` 项目在 `SCRIPT DOCTOR PASS + CONTINUITY CLEAR` 后完成写作交付，`【下一步唯一Skill】` 写 `none — 写作完成`；若篇章/季终审计尚未覆盖，明确列出未验证范围，不能宣称整季通过。市场/观众验证未完成不伪装成剧作 Gate 失败，也不能宣称商业效果已验证。只有用户扩大交付范围后才路由05–09。
+
 - 有非美国来源素材、但没有 `ADAPTATION APPROVED` → 01。
 - 已有欧美化创意/原创 premise，但没有 `BIBLE APPROVED` → 02。
 - 已有 `BIBLE APPROVED`，没有目标集 `BEATS APPROVED` → 02。
 - 已有 `BIBLE APPROVED + BEATS APPROVED`，需要正式剧本 → 03。
 - 已有 `SCRIPT DRAFT`，没有 `SCRIPT DOCTOR PASS + CONTINUITY CLEAR` → 04。
-- 已有 `SCRIPT DOCTOR PASS + CONTINUITY CLEAR`，没有 `ASSETS LOCKED` → 05。
+- `full-production` 且已有 `SCRIPT DOCTOR PASS + CONTINUITY CLEAR`，没有 `ASSETS LOCKED` → 05。
 - 已有 `ASSETS LOCKED`，没有 `STAGE 06 APPROVED` → 06。
 - 已有 `STAGE 06 APPROVED`，没有 `STAGE 07 APPROVED` → 07。
 - 已有 `STAGE 07 APPROVED`：
