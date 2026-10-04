@@ -11,9 +11,21 @@
 export const PRODUCTION_WORKBENCH_SCHEMA = 'us-vertical-drama-workbench/v1'
 
 const assetKinds = new Set(['character', 'look', 'set', 'prop'])
-const assetStatuses = new Set(['draft', 'pending_approval', 'approved', 'blocked'])
+const assetStatuses = new Set(['draft', 'pending_approval', 'review_required', 'approved', 'blocked'])
 const shotStatuses = new Set(['draft', 'blocked', 'ready_to_generate', 'generating', 'review_required', 'approved'])
 const taskStatuses = new Set(['todo', 'in_progress', 'blocked', 'review', 'done'])
+const mediaExecutionStatuses = new Set([
+  'queued',
+  'submitting',
+  'submitted',
+  'running',
+  'unknown',
+  'reconciling',
+  'cancel_requested',
+  'cancelled',
+  'succeeded',
+  'failed',
+])
 const timelineTolerance = 0.05
 
 /** Validate a manifest and produce the UI-ready production snapshot. */
@@ -23,9 +35,15 @@ export function buildProductionSnapshot(manifest) {
   const shots = Array.isArray(manifest?.shots) ? manifest.shots : []
   const tasks = Array.isArray(manifest?.tasks) ? manifest.tasks : []
   const suppliedVideos = Array.isArray(manifest?.videos) ? manifest.videos : []
+  const mediaExecutions = manifest?.media_executions === undefined
+    ? []
+    : Array.isArray(manifest.media_executions)
+      ? manifest.media_executions
+      : []
 
   if (manifest?.schema_version !== PRODUCTION_WORKBENCH_SCHEMA) diagnostics.push(issue('error', 'invalid_schema', '清单版本必须为 us-vertical-drama-workbench/v1'))
   if (!string(manifest?.episode_id)) diagnostics.push(issue('error', 'missing_episode_id', '缺少集编号'))
+  if (manifest?.media_executions !== undefined && !Array.isArray(manifest.media_executions)) diagnostics.push(issue('error', 'invalid_media_executions', 'media_executions 必须为数组'))
 
   const assetById = uniqueById(assets, 'asset', diagnostics)
   const suppliedVideoById = uniqueById(suppliedVideos, 'video', diagnostics)
@@ -44,6 +62,7 @@ export function buildProductionSnapshot(manifest) {
   validateMicroShotTimelines(normalizedShots, videoById, diagnostics, suppliedVideos.length > 0)
   applyTimelineBlocks(normalizedShots, diagnostics)
   for (const task of tasks) validateTask(task, assetById, shotById, taskById, videoById, diagnostics)
+  for (const execution of mediaExecutions) validateMediaExecution(execution, assetById, videoById, diagnostics)
 
   const totalSeconds = videos.reduce((sum, video) => sum + (video.duration_seconds ?? 0), 0)
   const states = countStates(normalizedShots)
@@ -55,6 +74,7 @@ export function buildProductionSnapshot(manifest) {
     videos,
     shots: normalizedShots,
     tasks,
+    media_executions: mediaExecutions,
     diagnostics,
     summary: {
       assets: assets.length,
@@ -69,6 +89,7 @@ export function buildProductionSnapshot(manifest) {
       blocked: states.blocked ?? 0,
       errors: diagnostics.filter(item => item.severity === 'error').length,
       warnings: diagnostics.filter(item => item.severity === 'warning').length,
+      media_executions: mediaExecutions.length,
     },
   }
 }
@@ -251,6 +272,28 @@ function validateTask(task, assetById, shotById, taskById, videoById, diagnostic
   if (!taskStatuses.has(task.status)) diagnostics.push(issue('error', 'invalid_task_status', `${task.id} 的任务状态无效`, task.id))
   for (const target of Array.isArray(task.targets) ? task.targets : []) {
     if (!assetById.has(target) && !shotById.has(target) && !taskById.has(target) && !videoById.has(target)) diagnostics.push(issue('warning', 'unknown_task_target', `${task.id} 关联了不存在的对象 ${target}`, task.id))
+  }
+}
+
+function validateMediaExecution(execution, assetById, videoById, diagnostics) {
+  const id = execution?.execution_id
+  if (!string(id)) {
+    diagnostics.push(issue('error', 'missing_media_execution_id', 'Media MCP 执行记录缺少 execution_id'))
+    return
+  }
+  if (execution?.schema !== 'usvd.media-execution/v1') diagnostics.push(issue('error', 'invalid_media_execution_schema', `${id} 的 Media MCP 执行记录版本无效`, id))
+  if (execution?.target_type !== 'asset' && execution?.target_type !== 'video') diagnostics.push(issue('error', 'invalid_media_execution_target_type', `${id} 的 target_type 无效`, id))
+  if (!string(execution?.target_id)) {
+    diagnostics.push(issue('error', 'missing_media_execution_target', `${id} 缺少 target_id`, id))
+  } else if (execution.target_type === 'asset' && !assetById.has(execution.target_id)) {
+    diagnostics.push(issue('error', 'unknown_media_execution_asset', `${id} 指向不存在的资产 ${execution.target_id}`, id))
+  } else if (execution.target_type === 'video' && !videoById.has(execution.target_id)) {
+    diagnostics.push(issue('error', 'unknown_media_execution_video', `${id} 指向不存在的视频包 ${execution.target_id}`, id))
+  }
+  if (execution?.kind !== 'image_generation' && execution?.kind !== 'video_generation') diagnostics.push(issue('error', 'invalid_media_execution_kind', `${id} 的生成类型无效`, id))
+  if (!mediaExecutionStatuses.has(execution?.execution_status)) diagnostics.push(issue('error', 'invalid_media_execution_status', `${id} 的 execution_status 无效`, id))
+  for (const field of ['public_model_id', 'workbench_revision', 'request_hash', 'request_key', 'media_job_id']) {
+    if (!string(execution?.[field])) diagnostics.push(issue('error', 'missing_media_execution_field', `${id} 缺少 ${field}`, id))
   }
 }
 
