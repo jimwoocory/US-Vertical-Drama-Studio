@@ -4,7 +4,7 @@ The DSH package consumes the generated `plugins/us-vertical-drama-studio-v9` cat
 
 This package build removes the DSH client UI injection, slot-service peer, React peer, and browser client exports. The plugin registers only the native skill provider. Reference resources are generated beside their owning skills.
 
-Only the DSH source tree is synchronized; ChatGPT/Codex direct-upload, Tabbit, and MediaGo generated surfaces remain at their prior revision. The package uses DSH 0.1.5-rc.1's public skill-provider interface and keeps that peer-version pin.
+Only the DSH source tree is synchronized; ChatGPT/Codex direct-upload, Tabbit, and MediaGo generated surfaces remain at their prior revision. The package uses DSH 0.2.0-rc.2's public skill-provider interface and keeps that peer-version pin.
 
 Local deliverable: `delivery/jimwoocory-dsh-us-vertical-drama-studio-0.4.0-v9-preview.1.tgz`.
 

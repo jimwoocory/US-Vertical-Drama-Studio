@@ -126,7 +126,7 @@ test('P1 uses only its declared slot-service injection surface', () => {
   assert.throws(() => assertP1Compatibility({}), /slot service/)
 })
 
-test('P1 declares exact rc.1 peers and ships a DSH module-loader bundle', () => {
+test('P1 declares exact DSH peers and ships a DSH module-loader bundle', () => {
   const packageUrl = new URL('../../package.json', import.meta.url)
   const pkg = JSON.parse(readFileSync(packageUrl, 'utf8'))
   assert.equal(pkg.peerDependencies['@deepseek-ai/dsh'], P1_DSH_VERSION)

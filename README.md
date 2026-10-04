@@ -18,12 +18,12 @@ The V9 Skills are generated into `plugins/us-vertical-drama-studio-v9/`. Build t
 npm run build:dsh-v9
 ```
 
-Use DSH `0.1.5-rc.1` for this preview. Create a web profile and install the repository branch that contains this package:
+Use DSH `0.2.0-rc.2` for this preview. Create a web profile and install the repository branch that contains this package:
 
 ```sh
-npx -y @deepseek-ai/dsh@0.1.5-rc.1 --profile us-drama --from-default-profile web --no-open
-npx -y --package pnpm@11.7.0 --package @deepseek-ai/dsh@0.1.5-rc.1 dsh plugin --profile us-drama add github:jimwoocory/US-Vertical-Drama-Studio#v10
-npx -y @deepseek-ai/dsh@0.1.5-rc.1 --profile us-drama
+npx -y @deepseek-ai/dsh@0.2.0-rc.2 --profile us-drama --from-default-profile web --no-open
+npx -y --package pnpm@11.7.0 --package @deepseek-ai/dsh@0.2.0-rc.2 dsh plugin --profile us-drama add github:jimwoocory/US-Vertical-Drama-Studio#v10
+npx -y @deepseek-ai/dsh@0.2.0-rc.2 --profile us-drama
 ```
 
 In the profile, enable the **US Vertical Drama Studio** plugin and use its Skills in chat. The controller routes one stage at a time. Provide the upstream approved materials required by each stage; never ask the agent to skip approval gates.

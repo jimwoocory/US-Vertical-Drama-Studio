@@ -1,4 +1,4 @@
-/** Build the optional P1 browser entry against DSH 0.1.5-rc.1 only. */
+/** Build the optional P1 browser entry against DSH 0.2.0-rc.2 only. */
 import { build } from 'esbuild'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'

@@ -1,4 +1,4 @@
-/** Native, session-scoped DramaGo view for DSH 0.1.5-rc.1. */
+/** Native, session-scoped DramaGo view for DSH 0.2.0-rc.2. */
 import { createElement as h, useEffect, useMemo, useState } from 'react'
 import { assertP1Compatibility, P1_DSH_VERSION } from './compatibility.js'
 import { buildProductionSnapshot, parseStoryboardText } from './production-workbench.js'
