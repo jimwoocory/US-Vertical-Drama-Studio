@@ -43,7 +43,7 @@
     "build:v9": "node scripts/sync-v9-distributions.mjs",
     "build:dsh-v9": "node scripts/sync-dsh-v9.mjs",
     "check:v9": "node scripts/sync-v9-distributions.mjs --check",
-    "test": "node scripts/sync-v9-distributions.mjs --check && node --test dsh-plugin/test/*.test.mjs && node --check dsh-plugin/client.bundle.cjs"
+    "test": "node scripts/sync-v9-distributions.mjs --check && node --test dsh-plugin/test/*.test.mjs integrations/media-mcp/test/*.test.mjs && node --check dsh-plugin/client.bundle.cjs"
   },
   "keywords": [
     "dsh-plugin",
