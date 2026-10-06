@@ -33,15 +33,21 @@ Allowed path: `docs/v10-architecture.md` only. Produce the V9 source/ownership m
 
 Acceptance: document cites actual repository paths and tests; distinguishes deterministic structural invariants from semantic review; identifies one Story Truth and derived Continuity Ledger; calls out runtime enforcement risks; gives a V10-01 starting contract. Owner creates a commit; Integrator reviews it. Baseline remains `6764757`.
 
-### Task 2 — V10-01 Core isolation and approval enforcement
+### Task 2A — V10-01A Core isolation and manifest
 
-Allowed paths: `core/usvd-v10/**`, V10-only code/tests under `dsh-plugin/**` and `scripts/**`, and V10 planning docs. Create V10 Core/manifest without touching V9. Implement version/digest-bound human approval, Story Change Request revision/invalidation, and controller enforcement only after the architecture audit confirms a feasible DSH runtime mechanism. Add tests for forged AI approval, digest mismatch, stale approval after SCR, and allowed transition after human approval.
+Allowed paths: `core/usvd-v10/README.md`, `core/usvd-v10/manifest.json`, `scripts/check-v10-v9-isolation.mjs`, and `dsh-plugin/test/v10-core-isolation.test.mjs`. Create a clearly in-development V10 Core manifest using the approved stage IDs and routing roles. Prove the checker detects V9-owned tree drift without modifying V9. No DSH approval runtime code.
 
-Acceptance: V9 trees remain byte-identical; tests demonstrate each forbidden transition is blocked and an explicitly approved matching revision is allowed. If DSH cannot enforce this without a product-level architecture decision, add an ND item and stop this task before claiming a hard gate.
+Acceptance: manifest checks pass; V9 Core and generated roots match the exact Git base inventory and working tree; V9 `check:v9` remains unchanged. Tests demonstrate the checker detects changed and extra files in protected V9 paths.
+
+### Task 2B — V10-01B Trusted approval and state gate
+
+Allowed paths: V10-only DSH gate/domain modules, `core/usvd-v10/contracts/**`, and V10 tests/docs. This task is BLOCKED on ND-001. Implement revision/digest-bound human approval, SCR invalidation, and controller enforcement only after a trusted actor boundary is selected and verified against exact DSH `0.2.0-rc.2`. Add tests for forged AI approval, machine answerer, digest mismatch, stale approval after SCR, slash bypass, and allowed transition after verified human approval.
+
+Acceptance: V9 trees remain unchanged; tests demonstrate each forbidden transition is blocked and an explicitly approved matching revision is allowed. If exact DSH runtime cannot provide the selected trust contract, fail closed and revise ND before writing skills that depend on the hard gate.
 
 ### Task 3 — V10-02 Story and episode architecture
 
-Allowed paths: V10 Core Intake/Adaptation, Story Architect, Episode Architect skills/contracts, and V10 story tests. Implement only the smallest set of independently owned skills. Include Story Architecture review evidence and Golden Cases for original idea, adaptation, existing screenplay reverse outline, SCR, continuity contradiction, and mandatory failure.
+Allowed paths: V10 Core Intake/Adaptation, Story Architect, Episode Architect skills/contracts, and V10 story tests. Implement only the smallest set of independently owned skills after V10-01A/B. Include Story Architecture review evidence and Golden Cases for original idea, adaptation, existing screenplay reverse outline, SCR, continuity contradiction, and mandatory failure.
 
 Acceptance: deterministic validators enforce structure only; semantic findings include reviewer evidence. Screenplay transition remains blocked until the exact Story Package revision is human-approved.
 
