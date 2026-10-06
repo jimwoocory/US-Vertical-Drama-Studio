@@ -18,33 +18,27 @@ import {
 const catalog = {
   groups: [
     {
-      id: 'anthropic',
+      id: 'zai',
       models: [
-        { id: 'claude-sonnet-5', name: 'Claude Sonnet 5.5' },
-        { id: 'claude-opus-5', name: 'Claude Opus 5.5' },
-      ],
-    },
-    {
-      id: 'openai',
-      models: [
-        { id: 'deployment-sol-prod', name: 'GPT-6.1 Sol' },
+        { id: 'glm-5.3-flashx', name: 'GLM 5.3 FlashX' },
+        { id: 'glm-5.3', name: 'GLM 5.3' },
       ],
     },
   ],
 }
 
 test('V10 fixes stages 01-04 to the requested model contract', () => {
-  assert.equal(stageRouteFor('usvd-01-adaptation').target, 'Claude Sonnet 5.5')
-  assert.equal(stageRouteFor('usvd-02-story-architecture').target, 'Claude Opus 5.5')
-  assert.equal(stageRouteFor('usvd-03-screenwriter').target, 'Claude Opus 5.5')
-  assert.equal(stageRouteFor('usvd-04-review-continuity').target, 'GPT-6.1 Sol')
+  assert.equal(stageRouteFor('usvd-01-adaptation').target, 'GLM 5.3 FlashX')
+  assert.equal(stageRouteFor('usvd-02-story-architecture').target, 'GLM 5.3')
+  assert.equal(stageRouteFor('usvd-03-screenwriter').target, 'GLM 5.3')
+  assert.equal(stageRouteFor('usvd-04-review-continuity').target, 'GLM 5.3')
   assert.equal(stageRouteFor('usvd-05-asset-lock'), undefined)
 
   const expectations = [
-    ['usvd-01-adaptation', 'anthropic', 'claude-sonnet-5', 'Claude Sonnet 5.5'],
-    ['usvd-02-story-architecture', 'anthropic', 'claude-opus-5', 'Claude Opus 5.5'],
-    ['usvd-03-screenwriter', 'anthropic', 'claude-opus-5', 'Claude Opus 5.5'],
-    ['usvd-04-review-continuity', 'openai', 'deployment-sol-prod', 'GPT-6.1 Sol'],
+    ['usvd-01-adaptation', 'zai', 'glm-5.3-flashx', 'GLM 5.3 FlashX'],
+    ['usvd-02-story-architecture', 'zai', 'glm-5.3', 'GLM 5.3'],
+    ['usvd-03-screenwriter', 'zai', 'glm-5.3', 'GLM 5.3'],
+    ['usvd-04-review-continuity', 'zai', 'glm-5.3', 'GLM 5.3'],
   ]
 
   for (const [skill, provider, model, target] of expectations) {
@@ -65,7 +59,29 @@ test('V10 fixes stages 01-04 to the requested model contract', () => {
   ])
 })
 
-test('legacy-looking ids are not accepted unless live catalog proves the required version', () => {
+test('GLM 5.3 stages never substitute FlashX when the exact target is absent', () => {
+  const flashxOnly = {
+    groups: [{
+      id: 'zai',
+      models: [{ id: 'glm-5.3-flashx', name: 'GLM 5.3 FlashX' }],
+    }],
+  }
+
+  for (const skill of [
+    'usvd-02-story-architecture',
+    'usvd-03-screenwriter',
+    'usvd-04-review-continuity',
+  ]) {
+    assert.deepEqual(resolveStageModel(flashxOnly, skill), {
+      kind: 'unavailable',
+      skill,
+      target: 'GLM 5.3',
+      reason: 'REQUIRED_MODEL_UNAVAILABLE',
+    })
+  }
+})
+
+test('old Anthropic models are not accepted as the new GLM stage targets', () => {
   const misleading = {
     groups: [{
       id: 'anthropic',
@@ -81,7 +97,7 @@ test('legacy-looking ids are not accepted unless live catalog proves the require
     {
       kind: 'unavailable',
       skill: 'usvd-02-story-architecture',
-      target: 'Claude Opus 5.5',
+      target: 'GLM 5.3',
       reason: 'REQUIRED_MODEL_UNAVAILABLE',
     },
   )
@@ -91,7 +107,7 @@ test('legacy-looking ids are not accepted unless live catalog proves the require
     {
       kind: 'unavailable',
       skill: 'usvd-01-adaptation',
-      target: 'Claude Sonnet 5.5',
+      target: 'GLM 5.3 FlashX',
       reason: 'REQUIRED_MODEL_UNAVAILABLE',
     },
   )
@@ -101,7 +117,7 @@ test('missing fixed target fails closed and never calls selectModel', async () =
   let selects = 0
   const deps = {
     async modelCatalog() {
-      return { groups: [{ id: 'anthropic', models: [{ id: 'other', name: 'Claude Fable 5.5' }] }] }
+      return { groups: [{ id: 'zai', models: [{ id: 'other', name: 'GLM 5.3 FlashX' }] }] }
     },
     async selectModel() {
       selects += 1
@@ -123,7 +139,7 @@ test('missing fixed target fails closed and never calls selectModel', async () =
   assert.equal(decision.schema, ROUTING_SCHEMA)
   assert.equal(decision.status, 'blocked')
   assert.equal(decision.reason, 'REQUIRED_MODEL_UNAVAILABLE')
-  assert.equal(decision.target, 'Claude Opus 5.5')
+  assert.equal(decision.target, 'GLM 5.3')
   assert.equal(decision.selected, null)
   assert.equal(selects, 0)
 })
@@ -157,16 +173,16 @@ test('routing uses DSH selectModel, restores global default, and reports exact s
 
   assert.equal(decision.status, 'routed')
   assert.equal(decision.reason, 'FIXED_STAGE_ROUTE')
-  assert.equal(decision.target, 'GPT-6.1 Sol')
+  assert.equal(decision.target, 'GLM 5.3')
   assert.deepEqual(decision.selected, {
-    provider: 'openai',
-    model: 'deployment-sol-prod',
-    name: 'GPT-6.1 Sol',
+    provider: 'zai',
+    model: 'glm-5.3',
+    name: 'GLM 5.3',
   })
   assert.deepEqual(selectedCalls, [{
     sessionId: 'session-04',
-    provider: 'openai',
-    model: 'deployment-sol-prod',
+    provider: 'zai',
+    model: 'glm-5.3',
   }])
   assert.deepEqual(currentDefault, {
     provider: 'baseline-provider',
@@ -261,8 +277,8 @@ test('native skill hook arms fixed route and re-arms the prior Session route aft
   assert.equal(selectCalls.length, 1)
   assert.deepEqual(selectCalls[0], {
     sessionId: 'session-hook',
-    provider: 'anthropic',
-    model: 'claude-sonnet-5',
+    provider: 'zai',
+    model: 'glm-5.3-flashx',
   })
   assert.deepEqual(currentDefault, {
     provider: 'baseline-provider',
@@ -273,7 +289,7 @@ test('native skill hook arms fixed route and re-arms the prior Session route aft
     block.type === 'text' && block.text.startsWith(ROUTING_MARKER))
   assert.ok(routingBlock)
   const payload = JSON.parse(routingBlock.text.split('\n')[1])
-  assert.equal(payload.target, 'Claude Sonnet 5.5')
+  assert.equal(payload.target, 'GLM 5.3 FlashX')
   assert.equal(payload.status, 'routed')
 
   assert.equal(typeof sessionEvent, 'function')
@@ -282,8 +298,8 @@ test('native skill hook arms fixed route and re-arms the prior Session route aft
     data: {
       header: {
         config: {
-          provider: 'anthropic',
-          model: 'claude-sonnet-5',
+          provider: 'zai',
+          model: 'glm-5.3-flashx',
         },
       },
     },
