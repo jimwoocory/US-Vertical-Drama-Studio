@@ -6,6 +6,10 @@
 
 后续插件集成记录（2026-10-07）：按用户新增要求，现有 ChatGPT 网页版个人插件 `us-vertical-drama-studio` 已保留原有八个 Skill，并叠加上述五个 V10 故事 Skill、入口判断说明、结构检查工具和示例，发布为 1.2.0。新增方向选择、现成大纲诊断、美国版冲突机制映射、主要转折因果链和独立审查。详见 [v10-reference-integration.md](v10-reference-integration.md)。此项交付变更覆盖了下文原始审计时“无打包/发布任务”的范围判断；不改变 ND-001 的阻断状态，也不代表 V10 DSH provider 或可信人工审批已经实现。
 
+语言修订记录（2026-10-07）：1.2.0 的实际大纲交付出现“声明中文开发文档、正文却为英文”的缺陷。1.2.1 明确项目简报、完整故事大纲、分集与独立审查默认用简体中文；美式英语只默认用于后续剧本对白。结构化字段名和状态码继续使用契约原文，审查新增输出语言不符的交付阻断项。
+
+格式修订记录（2026-10-07）：用户要求开发文档不交 TXT，而是同时交 DOCX 与 HTML。1.2.2 将两种可下载文件设为默认交付，要求它们来自同一工件修订，JSON 只作内部结构记录或另行审计附件；无法实际生成某格式时必须如实说明。
+
 ## 决策摘要
 
 V10 应在独立 `core/usvd-v10/` 建立写作 Core：Intake / Adaptation → Story Architect → Episode Architect → 独立 Story Architecture Review → **绑定整份 Story Package revision/digest 的人工批准** → Screenwriter → 独立 Script Doctor → 派生 Continuity Ledger。默认交付范围为当前用户要求的 `writing-only`；通过单集审稿与连续性检查后结束，整季未审部分明示 `NOT ASSESSED`。

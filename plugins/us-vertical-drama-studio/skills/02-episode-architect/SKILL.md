@@ -5,6 +5,12 @@ description: Convert an independently reviewed complete Story Package into a ful
 
 # USVDS V10 — Episode Architect
 
+## Default output language
+
+Read [the output language contract](../../references/output-language.md). Write every episode's goal, hook, conflict, turn, payoff, continuity explanation, and the complete Episode Map reading view in 简体中文 by default. Keep required JSON property names, IDs, status codes, and established character names unchanged. Do not produce English episode prose unless the creator explicitly requests English development documents.
+
+Read [the document delivery contract](../../references/document-delivery.md). Deliver the complete requested Episode Map in matching DOCX and HTML files from the same Story Package revision, with all episode numbers covered. Do not substitute TXT or one short sample for the full map when the creator requested the full season.
+
 ## Ownership and boundary
 
 Own the allocation of an already established story across episodes: episode entry/exit, local dramatic turns, reveal timing within approved windows, payoff timing, and the episode map. Do not invent or change the story's ending, character core, world rules, major reveal, antagonist identity, or approved story outcome. Those decisions belong to Story Architect and require an SCR to change.

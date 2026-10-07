@@ -10,14 +10,14 @@ const metadataPath = path.join(pluginRoot, 'plugin.json')
 const metadata = JSON.parse(await readFile(metadataPath, 'utf8'))
 const authored = core.skills.filter(skill => skill.status === 'authored-unvalidated')
 
-metadata.version = '1.2.0'
+metadata.version = '1.2.2'
 metadata.description = 'US-facing vertical drama story development, outline diagnosis, adaptation, and the retained legacy writing and production workflow.'
 const ui = metadata.extensions['com.openai'].interface
-ui.longDescription = 'Develop a complete US-facing story before episodes: route a simple idea, diagnose an existing outline or script, or adapt a novel or motion comic with a credible US conflict mechanism. Existing approved projects retain their writing and production skills.'
+ui.longDescription = '用中文完成美国竖屏短剧的项目简报、完整故事大纲、分集规划和独立审查，默认交付内容一致的 DOCX 与 HTML 两份文件，不以 TXT 代替。美国市场定位不改变开发文档语言；剧本对白使用自然的美式英语。保留已有项目的写作与制作技能。'
 ui.defaultPrompt = [
-  '我只有一个短剧想法，请先给我两到三个冲突机制不同、适合美国观众的故事方向。',
-  '这是已有的大纲，请先审查因果链和美国市场合理性，再告诉我哪里需要重建。',
-  '我想把这部小说或漫剧改成美国竖屏短剧，请先分析要保留的情绪体验和必须重做的故事机制。',
+  '我只有一个短剧想法，请用中文给我两到三个冲突机制不同、适合美国观众的故事方向，并交付 DOCX 和 HTML。',
+  '这是已有的大纲，请用中文审查因果链和美国市场合理性，并交付 DOCX 和 HTML。',
+  '我想把这部小说或漫剧改成美国竖屏短剧，请用中文分析改编机制，并交付 DOCX 和 HTML。',
 ]
 
 const write = async (relative, content) => {
@@ -46,6 +46,6 @@ await write('.codex-plugin/plugin.json', `${JSON.stringify({
   skills: './skills/',
   interface: ui,
 }, null, 2)}\n`)
-await write('README.md', `# US Vertical Drama Studio ${metadata.version}\n\nThis package updates the existing ChatGPT plugin identity. It retains the original eight skills and adds the V10 story-first workflow: five intake routes, direction cards, an evidence-bound complete Story Package, separate episode architecture, and independent outline or story review. Its entry point is \`skills/us-vertical-drama-studio/SKILL.md\`; V10 instructions come from \`core/usvd-v10/\`.\n\nFor adapted work, map source emotional payoff to credible US power, relationship, cost, and causal mechanisms. A renamed cast or literal English translation is a review blocker when the underlying story still depends on the source culture's power logic.\n\nThe included \`tools/checkup.mjs\` checks machine-readable structure when a Node runtime is available. It cannot judge audience appeal, cultural plausibility, dialogue, or causality; those require the independent Review skill and human judgment.\n\nThe old seven production specialists remain for documented legacy projects with their prior approvals. New V10 projects stop at \`AWAITING_HUMAN_APPROVAL\` after independent story and episode review because trusted human approval and protected screenplay execution are not implemented (ND-001). A text label alone does not open that gate.\n`)
+await write('README.md', `# US Vertical Drama Studio ${metadata.version}\n\n本包更新现有的 ChatGPT 插件身份，保留原有八个技能，并加入五种入口判断、完整故事大纲、独立审查和分集结构。入口是 \`skills/us-vertical-drama-studio/SKILL.md\`；新增规则来自 \`core/usvd-v10/\`。\n\n默认用简体中文写项目简报、故事大纲、分集表和审查报告，并为每份面向创作者的开发产物交付内容一致的 DOCX 和 HTML 两个可下载文件，不以 TXT 或聊天文字代替。美国市场定位决定故事的社会机制；只有进入剧本阶段，角色实际说出的对白才默认使用自然的美式英语。英文 JSON 键名、状态码和必要的人名不改变正文的中文要求。详见 \`references/output-language.md\`、\`references/document-delivery.md\` 和 \`examples/chinese-development-sample.md\`。\n\n\`tools/checkup.mjs\` 只检查机器可验证的结构。它不能判断美国化可信度、因果、对白或观众吸引力。旧制作技能保留给已有批准材料的项目；新的 V10 项目在可信人工批准机制完成前停在 \`AWAITING_HUMAN_APPROVAL\`（ND-001）。如果当前环境无法制作某种文件，必须如实说明，不能假称已交付。\n`)
 
 console.log(`Updated existing ChatGPT plugin package ${metadata.name}@${metadata.version} with ${authored.length} V10 skills and retained legacy skills.`)

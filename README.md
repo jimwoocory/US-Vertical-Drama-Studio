@@ -38,6 +38,10 @@ Package version: `0.4.0-v9-preview.1`. DSH's browser UI injection and client bun
 
 The separate Agent Plugins inspection package is generated from `core/usvd-v10/` with `npm run build:plugin-v10`. The existing ChatGPT web plugin package at `plugins/us-vertical-drama-studio/` is updated from the same Core with `node scripts/sync-chatgpt-plugin.mjs`. It keeps its original eight skills and adds five V10 story skills, intake routing, source mechanism mapping, independent outline review, JSON contracts, examples, and a deterministic structural checkup. New V10 projects stop before screenplay work: trusted human approval and protected Screenwriter execution remain blocked by ND-001. V9 DSH distributions are untouched.
 
+ChatGPT plugin 1.2.1 makes all creator-facing briefs, outlines, episode maps, reviews, and exported development documents Chinese by default. US-facing describes the story market; natural American English is reserved for later screenplay dialogue unless the creator requests another development language. See `core/usvd-v10/references/output-language.md`.
+
+ChatGPT plugin 1.2.2 delivers each requested development artifact as matching DOCX and HTML files by default. TXT and chat text are not substitutes. See `core/usvd-v10/references/document-delivery.md`.
+
 ## V9 DSH stage model routing
 
 V10 uses DSH's real Session model-selection API for the writing/review stages:

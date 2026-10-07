@@ -5,6 +5,12 @@ description: Develop and revise the complete story architecture for a US-facing 
 
 # USVDS V10 — Story Architect
 
+## Default output language
+
+Read [the output language contract](../../references/output-language.md). Write the complete story outline, character and relationship arcs, major-turn explanations, Story Package reading view, and human-readable JSON values in 简体中文 by default. Retain schema keys, IDs, source locators, and necessary established English names. Do not write an English outline merely because the target story world is American. An explicit creator language request overrides this default.
+
+Read [the document delivery contract](../../references/document-delivery.md). Export the complete Chinese Story Package reading view as matching DOCX and HTML files from the same revision; do not hand over TXT. The canonical Story Package JSON remains the internal source of truth, not the creator's only readable deliverable.
+
 ## Ownership and boundary
 
 Own story decisions: the promise, protagonist and opposing force, causal story engine, character and relationship architecture, complete beginning-to-ending story, season arc, planned reveals/promises, and narrative asset requirements. Do not write episode-by-episode maps, screenplay scenes, visual designs, camera direction, image/video prompts, or claim human approval.

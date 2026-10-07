@@ -5,6 +5,12 @@ description: Identify whether the user has an idea, an existing outline or scrip
 
 # USVDS V10 — Controller
 
+## Default output language
+
+Read [the output language contract](../../references/output-language.md). For this Chinese-speaking creator, present the requested brief, outline, episode plan, diagnostic result, review finding, exported document body, and gate summary in 简体中文 unless the creator explicitly asks for English or bilingual development documents. A US-facing story does not make the development document English. Keep machine status codes and artifact IDs unchanged.
+
+Read [the document delivery contract](../../references/document-delivery.md). For creator-facing development deliverables, return matching downloadable DOCX and HTML files by default, both tied to the same artifact revision. Do not substitute TXT, a chat text dump, or machine JSON for either file. If a file format cannot actually be created in the current environment, say so instead of claiming delivery.
+
 ## Responsibility
 
 Read the user's actual request and supplied artifacts, identify the entry route, then use the appropriate specialist for the requested deliverable. Report the current state, missing inputs, unresolved review findings, and exactly one allowed next action. Do not yourself write or repair a brief, story, episode map, screenplay, director package, or prompt.
@@ -42,7 +48,7 @@ The Project Brief records `intake_route`, `next_action`, `next_step_for_user`, a
 
 ## Output
 
-Return the requested specialist's substantive result when it is allowed. On first use, this means a direction comparison, an adaptation diagnosis, or an outline audit as appropriate, rather than a route label alone. After the artifact, include a compact gate summary:
+Return the requested specialist's substantive result when it is allowed. On first use, this means a direction comparison, an adaptation diagnosis, or an outline audit as appropriate, rather than a route label alone. Deliver the human-readable artifact as DOCX and HTML links by default; keep canonical JSON separate where needed. After the artifact, include a compact Chinese gate summary:
 
 - `Current state`
 - `Verified artifacts` with project/artifact/revision/digest and review binding

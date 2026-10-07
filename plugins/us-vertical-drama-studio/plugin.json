@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "us-vertical-drama-studio",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "US-facing vertical drama story development, outline diagnosis, adaptation, and the retained legacy writing and production workflow.",
   "author": {
     "name": "MediaGo Drama"
@@ -11,7 +11,7 @@
       "interface": {
         "displayName": "US Vertical Drama Studio",
         "shortDescription": "Plan and write vertical dramas",
-        "longDescription": "Develop a complete US-facing story before episodes: route a simple idea, diagnose an existing outline or script, or adapt a novel or motion comic with a credible US conflict mechanism. Existing approved projects retain their writing and production skills.",
+        "longDescription": "用中文完成美国竖屏短剧的项目简报、完整故事大纲、分集规划和独立审查，默认交付内容一致的 DOCX 与 HTML 两份文件，不以 TXT 代替。美国市场定位不改变开发文档语言；剧本对白使用自然的美式英语。保留已有项目的写作与制作技能。",
         "developerName": "MediaGo Drama",
         "category": "Creative",
         "capabilities": [
@@ -19,9 +19,9 @@
           "Analysis"
         ],
         "defaultPrompt": [
-          "我只有一个短剧想法，请先给我两到三个冲突机制不同、适合美国观众的故事方向。",
-          "这是已有的大纲，请先审查因果链和美国市场合理性，再告诉我哪里需要重建。",
-          "我想把这部小说或漫剧改成美国竖屏短剧，请先分析要保留的情绪体验和必须重做的故事机制。"
+          "我只有一个短剧想法，请用中文给我两到三个冲突机制不同、适合美国观众的故事方向，并交付 DOCX 和 HTML。",
+          "这是已有的大纲，请用中文审查因果链和美国市场合理性，并交付 DOCX 和 HTML。",
+          "我想把这部小说或漫剧改成美国竖屏短剧，请用中文分析改编机制，并交付 DOCX 和 HTML。"
         ]
       }
     }

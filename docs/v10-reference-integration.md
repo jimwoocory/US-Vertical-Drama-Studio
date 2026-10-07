@@ -21,3 +21,7 @@ This note records how the existing ChatGPT web plugin's version 1.2.0 uses ideas
 The four adaptation dimensions are **power, relationship, cost, and causality**. The reviewer needs cited story evidence before calling a case a superficial transplant or China-shaped English. The machine checkup explicitly reports story quality as `NOT_MACHINE_ASSESSED`.
 
 The old eight skills remain in the updated plugin for documented legacy projects. New V10 projects stop at `AWAITING_HUMAN_APPROVAL` after story and episode review because ND-001 has no trusted approval runtime. Version 1.2.0 is a visible story-development improvement, not a claim that the full V10 production workflow is executable or audience-validated.
+
+Version 1.2.1 corrects a delivery-language defect seen in a real outline: a Brief claimed Chinese development documents, but the outline body was English. The default is now Chinese for every planning and review artifact, including human-readable JSON values. English is retained for schema keys, status codes, established names, and later screenplay dialogue. `output_language_mismatch` blocks a review pass until the exact corrected revision is reviewed.
+
+Version 1.2.2 adds the creator's file-format preference: every requested human-readable development artifact defaults to matching DOCX and standalone HTML files from the same revision. TXT or a chat text dump is not a deliverable. Canonical JSON remains internal and may be exported separately for audit.

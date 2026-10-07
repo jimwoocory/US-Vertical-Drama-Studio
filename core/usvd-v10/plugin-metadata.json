@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "us-vertical-drama-studio-v10",
-  "version": "0.10.0-preview.1",
+  "version": "0.10.0-preview.3",
   "description": "US-facing vertical drama story development with traceable adaptation decisions, complete story architecture, episode planning, and independent review gates.",
   "author": { "name": "MediaGo Drama" },
   "extensions": {
@@ -9,14 +9,14 @@
       "interface": {
         "displayName": "US Vertical Drama Studio V10",
         "shortDescription": "Develop and review dramas",
-        "longDescription": "A story-first workflow for US-facing vertical drama. It makes adaptation decisions traceable, separates full-story design from episode planning, requires independent story review, and preserves canon and approval boundaries. Screenplay execution stays blocked until a trusted approval runtime is available.",
+        "longDescription": "用简体中文完成美国竖屏短剧的项目简报、完整故事大纲、分集规划和独立审查，默认提供内容一致的 DOCX 与 HTML，不以 TXT 代替。美国市场定位不改变开发文档语言；只有后续剧本对白默认使用自然的美式英语。剧本执行仍需可信的人工批准机制。",
         "developerName": "MediaGo Drama",
         "category": "Creative",
         "capabilities": ["Creative Writing", "Analysis"],
         "defaultPrompt": [
-          "Adapt this source with traceable retain, cut, merge, and redesign decisions.",
-          "Develop the complete story first, review it, then plan every episode as a mini dramatic arc.",
-          "Review this Story Package and identify evidence-backed blockers before approval."
+          "请用中文分析这个素材的保留、删除、合并和重设计决定，交付 DOCX 与 HTML。",
+          "请用中文先写完整故事并审查，再规划每一集的戏剧弧线，交付 DOCX 与 HTML。",
+          "请用中文审查这份故事大纲，指出有证据支持的阻断问题，交付 DOCX 与 HTML。"
         ]
       }
     }

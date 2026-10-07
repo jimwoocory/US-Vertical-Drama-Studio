@@ -37,8 +37,9 @@
   "season_scope": "Three-episode structural miniature, not a proposed production season.",
   "episode_count": 3,
   "duration_policy": "Illustrative only; no runtime target validated.",
-  "output_languages": ["English"],
+  "output_languages": ["zh-CN-development", "en-US-dialogue"],
   "delivery_scope": "writing-only",
+  "delivery_formats": ["docx", "html"],
   "evidence_and_assumptions": [
     {
       "statement": "All creative details are invented for a structural example; audience appeal and institutional accuracy are unverified.",

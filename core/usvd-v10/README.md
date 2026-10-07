@@ -1,6 +1,6 @@
 # USVDS V10 Core — in development
 
-This independent canonical root is `core/usvd-v10`, version `0.10.0-preview.1`.
+This independent canonical root is `core/usvd-v10`, version `0.10.0-preview.3`.
 The controller, Intake/Adaptation, Story Architect, Episode Architect, and
 Review/Continuity story-review instructions and initial JSON contracts are
 authored but unvalidated. All V10 skills remain non-runnable: no generated
@@ -9,10 +9,12 @@ package now exposes the authored story skills as instructions, without claiming
 runtime enforcement or production readiness.
 
 The architecture contract is [docs/v10-architecture.md](../../docs/v10-architecture.md).
-V10 defaults to US-facing, `writing-only` delivery, Chinese production notes and
-natural American English dialogue. Explicit bilingual requests preserve both
-languages without creating duplicate spoken dialogue. Audience and commercial
-validation remain untested.
+V10 defaults to US-facing, `writing-only` delivery, **Simplified Chinese for all
+creator-facing development documents**, Chinese production notes, and natural
+American English only for later screenplay dialogue. JSON keys and status codes
+remain English. Explicit language overrides are respected; bilingual requests
+preserve both languages without creating duplicate spoken dialogue. See
+`references/output-language.md`. Audience and commercial validation remain untested.
 
 The planned writing flow is Intake/Adaptation → Story Architect → independent
 Story draft review → Episode Architect → independent full Story Package review

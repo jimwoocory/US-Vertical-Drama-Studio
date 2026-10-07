@@ -1,9 +1,7 @@
-# US Vertical Drama Studio 1.2.0
+# US Vertical Drama Studio 1.2.2
 
-This package updates the existing ChatGPT plugin identity. It retains the original eight skills and adds the V10 story-first workflow: five intake routes, direction cards, an evidence-bound complete Story Package, separate episode architecture, and independent outline or story review. Its entry point is `skills/us-vertical-drama-studio/SKILL.md`; V10 instructions come from `core/usvd-v10/`.
+本包更新现有的 ChatGPT 插件身份，保留原有八个技能，并加入五种入口判断、完整故事大纲、独立审查和分集结构。入口是 `skills/us-vertical-drama-studio/SKILL.md`；新增规则来自 `core/usvd-v10/`。
 
-For adapted work, map source emotional payoff to credible US power, relationship, cost, and causal mechanisms. A renamed cast or literal English translation is a review blocker when the underlying story still depends on the source culture's power logic.
+默认用简体中文写项目简报、故事大纲、分集表和审查报告，并为每份面向创作者的开发产物交付内容一致的 DOCX 和 HTML 两个可下载文件，不以 TXT 或聊天文字代替。美国市场定位决定故事的社会机制；只有进入剧本阶段，角色实际说出的对白才默认使用自然的美式英语。英文 JSON 键名、状态码和必要的人名不改变正文的中文要求。详见 `references/output-language.md`、`references/document-delivery.md` 和 `examples/chinese-development-sample.md`。
 
-The included `tools/checkup.mjs` checks machine-readable structure when a Node runtime is available. It cannot judge audience appeal, cultural plausibility, dialogue, or causality; those require the independent Review skill and human judgment.
-
-The old seven production specialists remain for documented legacy projects with their prior approvals. New V10 projects stop at `AWAITING_HUMAN_APPROVAL` after independent story and episode review because trusted human approval and protected screenplay execution are not implemented (ND-001). A text label alone does not open that gate.
+`tools/checkup.mjs` 只检查机器可验证的结构。它不能判断美国化可信度、因果、对白或观众吸引力。旧制作技能保留给已有批准材料的项目；新的 V10 项目在可信人工批准机制完成前停在 `AWAITING_HUMAN_APPROVAL`（ND-001）。如果当前环境无法制作某种文件，必须如实说明，不能假称已交付。

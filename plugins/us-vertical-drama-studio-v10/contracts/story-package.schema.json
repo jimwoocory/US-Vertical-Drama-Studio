@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://usvds.invalid/schemas/v10/story-package.schema.json",
   "title": "USVDS V10 Story Package",
-  "description": "Canonical project story truth. Markdown is a generated reading view; review and human approval are separately bound to this package revision and digest.",
+  "description": "Canonical project story truth. Human-readable story prose and Markdown reading views default to Simplified Chinese; JSON keys, IDs, status codes and necessary names remain unchanged. Review and human approval are separately bound to this package revision and digest.",
   "type": "object",
   "required": ["schema_version", "project_id", "artifact_id", "revision", "parent_revision", "status", "brief_ref", "selected_direction_id", "source_refs", "adaptation_mechanism_map", "story_promise", "logline", "story_engine", "full_story_outline", "characters", "relationships", "state_definitions", "season_arc", "episodes", "canon_facts", "secrets", "promises", "narrative_asset_requirements", "provenance"],
   "properties": {

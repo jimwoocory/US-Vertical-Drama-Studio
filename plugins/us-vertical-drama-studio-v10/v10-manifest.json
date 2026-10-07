@@ -1,7 +1,7 @@
 {
   "schema_version": "v10-core-manifest-1",
   "core_id": "usvd-v10",
-  "version": "0.10.0-preview.1",
+  "version": "0.10.0-preview.3",
   "status": "in-development",
   "canonical_root": "core/usvd-v10",
   "runnable": false,
@@ -44,13 +44,16 @@
     "contracts/review-report.schema.json"
   ],
   "references": [
-    "references/intake-routing.md"
+    "references/intake-routing.md",
+    "references/output-language.md",
+    "references/document-delivery.md"
   ],
   "tools": [
     "tools/checkup.mjs",
     "tools/README.md"
   ],
   "examples": [
+    "examples/chinese-development-sample.md",
     "examples/original-us-project-brief.json",
     "examples/original-us-story-package.json",
     "examples/invalid-story-package.json",

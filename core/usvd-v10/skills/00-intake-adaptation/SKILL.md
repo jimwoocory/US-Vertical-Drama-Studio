@@ -5,6 +5,12 @@ description: Identify the material the creator actually has, route idea developm
 
 # USVDS V10 — Intake and Adaptation
 
+## Default output language
+
+Read [the output language contract](../../references/output-language.md). Write the Project Brief reading view, direction cards, adaptation decisions, explanations, and `next_step_for_user` in 简体中文 by default. Set `output_languages` to include `zh-CN-development`; note `en-US-dialogue` only as the later screenplay dialogue policy. Keep JSON keys, status codes, IDs, and necessary original names unchanged. An American setting never implies an English development document. An explicit creator request may override this default.
+
+Read [the document delivery contract](../../references/document-delivery.md). Record `delivery_formats: ["docx", "html"]` in new Briefs by default. Supply the readable Brief and any direction comparison as matching downloadable DOCX and standalone HTML files; do not deliver TXT. Keep the Brief JSON as an internal canonical artifact or optional audit attachment, never as a replacement for the two readable files.
+
 ## Ownership
 
 Own the Project Brief, intake route, source coverage, direction preview, adaptation scope, and unresolved intake decisions. Do not own the full story, independent outline verdict, season outline, episode map, screenplay, market conclusions, or human approval. Read [intake routing](../../references/intake-routing.md) when classifying an ambiguous request or proposing directions.
@@ -13,7 +19,7 @@ Own the Project Brief, intake route, source coverage, direction preview, adaptat
 
 Accept an original idea or market concept, a completed outline, a novel/comic/film or other source work, a source with the creator's chosen adaptation direction, or an existing screenplay. Record which materials the user supplied and which are references only. For adapted works, ask whether the user owns or is authorized to adapt the supplied material when that is unclear. Do not fetch, quote, or reconstruct unsupplied copyrighted source text.
 
-Collect or infer only reversible defaults for US-facing audience/market, format, intended episode count and runtime, rating/tone, output language, adaptation limits, and requested delivery scope. Ask one focused question when an unresolved choice changes the core premise or rights scope.
+Collect or infer only reversible defaults for US-facing audience/market, format, intended episode count and runtime, rating/tone, adaptation limits, and requested delivery scope. Default the development-document language to Chinese and later screenplay dialogue to natural US English; ask about language only when the creator requests an exception. Ask one focused question when an unresolved choice changes the core premise or rights scope.
 
 ## Route before writing
 
@@ -44,7 +50,7 @@ If the creator has already explicitly chosen a viable direction for a simple ide
 
 Return a Project Brief conforming to [`project-brief.schema.json`](../../contracts/project-brief.schema.json) and a concise human-readable summary with:
 
-- `project_id`, `artifact_id`, `revision`, `parent_revision`, working title, `source_kind`, `market: US`, output language policy, delivery scope, season/episode scope, and duration policy.
+- `project_id`, `artifact_id`, `revision`, `parent_revision`, working title, `source_kind`, `market: US`, output language policy, `delivery_formats`, delivery scope, season/episode scope, and duration policy.
 - `intake_route`, `next_action`, and `next_step_for_user`: tell the creator what was recognized, what they will see next, and what decision is needed. This must be understandable without skill names.
 - `source_refs[]`: source ID, supplied/observed range, locator, coverage status, and limitations.
 - `direction_candidates[]` with stable `direction_id`, audience promise, protagonist strategy, opposing force, cost, and US power logic; `direction_selection` records whether the creator has explicitly selected one. Use an empty candidate array for a pure outline/script diagnosis.

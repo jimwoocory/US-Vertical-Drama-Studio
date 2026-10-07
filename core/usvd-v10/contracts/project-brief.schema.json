@@ -122,8 +122,9 @@
     "season_scope": { "type": "string", "minLength": 1 },
     "episode_count": { "type": ["integer", "null"], "minimum": 1 },
     "duration_policy": { "type": "string", "minLength": 1 },
-    "output_languages": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "output_languages": { "type": "array", "description": "Default: zh-CN-development for all creator-facing planning and review documents; en-US-dialogue applies only to later screenplay dialogue. An explicit creator request may override the development language.", "items": { "type": "string" }, "minItems": 1 },
     "delivery_scope": { "enum": ["writing-only", "full-production"] },
+    "delivery_formats": { "type": "array", "description": "Creator-facing documents default to both DOCX and standalone HTML. Optional for older Brief revisions; new Briefs should record both unless the creator explicitly requests another format.", "items": { "enum": ["docx", "html"] }, "minItems": 1, "maxItems": 2 },
     "evidence_and_assumptions": {
       "type": "array",
       "items": {

@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://usvds.invalid/schemas/v10/review-report.schema.json",
   "title": "USVDS V10 Review Report",
+  "description": "Review evidence, required actions, conclusions and reading views default to Simplified Chinese unless the creator explicitly requests another development language; machine codes remain unchanged.",
   "type": "object",
   "required": ["review_id", "project_id", "artifact_id", "revision", "digest", "binding_status", "mode", "scope", "input_refs", "reviewer", "independence_statement", "rubric_version", "structural_results", "findings", "verdict", "unassessed_scopes"],
   "properties": {
@@ -19,7 +20,7 @@
     "independence_statement": { "type": "string", "minLength": 1 },
     "rubric_version": { "type": "string", "minLength": 1 },
     "structural_results": { "type": "array", "items": { "type": "object", "required": ["check_id", "result"], "properties": { "check_id": { "type": "string" }, "result": { "enum": ["PASS", "FAIL", "NOT_RUN"] }, "evidence_ref": { "type": "string" } }, "additionalProperties": false } },
-    "findings": { "type": "array", "items": { "type": "object", "required": ["finding_id", "class", "issue_type", "severity", "stable_ref", "evidence", "required_action"], "properties": { "finding_id": { "type": "string" }, "class": { "enum": ["structural", "semantic", "craft"] }, "issue_type": { "enum": ["direction_mismatch", "surface_transplant", "translation_register", "causal_break", "agency_gap", "opposition_gap", "escalation_reset", "character_logic", "payoff_gap", "source_coverage", "provenance_gap", "production_fit", "continuity", "other"] }, "severity": { "enum": ["mandatory", "major", "minor", "note"] }, "stable_ref": { "type": "string" }, "evidence": { "type": "string" }, "required_action": { "type": "string" } }, "additionalProperties": false } },
+    "findings": { "type": "array", "items": { "type": "object", "required": ["finding_id", "class", "issue_type", "severity", "stable_ref", "evidence", "required_action"], "properties": { "finding_id": { "type": "string" }, "class": { "enum": ["structural", "semantic", "craft"] }, "issue_type": { "enum": ["direction_mismatch", "surface_transplant", "translation_register", "output_language_mismatch", "delivery_format_mismatch", "causal_break", "agency_gap", "opposition_gap", "escalation_reset", "character_logic", "payoff_gap", "source_coverage", "provenance_gap", "production_fit", "continuity", "other"] }, "severity": { "enum": ["mandatory", "major", "minor", "note"] }, "stable_ref": { "type": "string" }, "evidence": { "type": "string" }, "required_action": { "type": "string" } }, "additionalProperties": false } },
     "verdict": { "enum": ["DIAGNOSTIC_COMPLETE", "PASS_FOR_EPISODE_ARCHITECTURE", "PASS_AWAITING_HUMAN_APPROVAL", "REWRITE", "REJECT", "BLOCKED"] },
     "unassessed_scopes": { "type": "array", "items": { "type": "string" } },
     "machine_result_ref": { "type": ["string", "null"] }

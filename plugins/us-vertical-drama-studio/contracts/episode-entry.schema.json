@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://usvds.invalid/schemas/v10/episode-entry.schema.json",
   "title": "USVDS V10 Episode Architecture Entry",
+  "description": "Human-readable episode goals, hooks, conflicts, reversals and payoffs default to Simplified Chinese. Keep schema keys, IDs and necessary established names unchanged.",
   "type": "object",
   "required": ["episode_id", "goal", "opening_hook", "immediate_problem", "conflict", "escalation", "emotional_beat", "reveal_or_reversal", "payoff", "unresolved_question", "cliffhanger", "outcome", "entry_state", "exit_state", "character_changes", "continuity_changes", "canon_refs", "promise_refs", "source_refs", "finale"],
   "properties": {

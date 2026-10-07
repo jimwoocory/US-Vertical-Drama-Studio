@@ -30,6 +30,12 @@ Collect or infer only the minimum missing information:
 
 If a missing choice materially changes the story, ask one focused question before proceeding. Otherwise state a reversible assumption.
 
+## Development document language standard
+
+Unless the creator explicitly requests otherwise, deliver every Project Brief, direction comparison, complete outline, character and relationship plan, episode map, independent review, and exported development document in 简体中文. An American target market determines story plausibility and later dialogue, not the language of the outline. Keep contract keys, status codes, stable IDs, exact citations, and established English character names as needed, while headings and explanatory prose remain Chinese. If a generated document says its language policy is Chinese but its body is English, correct the body before delivery. The V10 specialists follow [`output-language.md`](../../references/output-language.md).
+
+Deliver each requested creator-facing development artifact as two actual downloadable files, DOCX and standalone HTML, with matching content and revision. Do not send TXT or a text dump in place of either file. Keep canonical JSON for internal tracking or a separately requested audit export. Follow [`document-delivery.md`](../../references/document-delivery.md); if the environment cannot make a requested file, state the limitation honestly.
+
 ## Script language standard
 
 Unless the user explicitly requests otherwise, write production scripts for Chinese review with English dialogue for video generation:

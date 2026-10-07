@@ -5,6 +5,12 @@ description: Diagnose supplied outlines and independently review V10 story draft
 
 # USVDS V10 — Review and Continuity
 
+## Default output language
+
+Read [the output language contract](../../references/output-language.md). Write diagnostic conclusions, review evidence, required repairs, unassessed scope explanations, and the report reading view in 简体中文 by default. Keep rule IDs, issue types, schema keys, and status codes in their required form. When the Brief or creator requests Chinese, English headings or explanatory prose in a development artifact are an `output_language_mismatch` mandatory delivery blocker: return the artifact for Chinese rendering, then review the exact new revision. Translation alone does not repair story logic.
+
+Read [the document delivery contract](../../references/document-delivery.md). Deliver the diagnostic or review report as matching DOCX and HTML files by default. Confirm both show the same reviewed artifact ID, revision, findings, and verdict. A TXT file or JSON-only output is not the creator-facing report.
+
 ## Modes
 
 Run exactly one mode per invocation:
@@ -36,6 +42,8 @@ For all three story modes, assess relevant items with a stable finding ID, issue
 10. US-facing social/institutional logic is plausible for the chosen world; uncertainty is marked rather than presented as researched fact. Flag `translation_register` when dialogue, social roles, forms of address, obligations, or institutional behavior visibly preserve a Chinese-language or Chinese-market assumption despite English wording. Cite the specific term/interaction and the US-world mechanism it contradicts; do not reject ordinary bilingual or immigrant-character speech on its own.
 11. Exposition does not substitute for visible action and conflict; the story is producible in the requested vertical-drama format.
 12. Provenance distinguishes user/source facts, dated market evidence, AI proposals, and approved story decisions.
+13. Creator-facing development prose follows the Brief's language choice. The US market is not a reason to write an English outline. Cite any English body span that conflicts with the Chinese default or explicit user choice.
+14. At delivery, the readable report and any requested story artifact exist as matching DOCX and HTML files unless the creator explicitly changed formats. Flag `delivery_format_mismatch` if only TXT, chat prose, or a renamed non-DOCX file is offered. This is a delivery defect, not evidence that the story itself passes or fails.
 
 Treat `surface_transplant`, `translation_register` where it changes story logic, and `causal_break` as mandatory blockers in V10 Story Package modes. A finding must describe the actual failed mechanism and evidence, rather than infer a problem from names, ethnicity, genre, or an automated keyword count. Local style issues that do not affect story logic may be minor.
 
