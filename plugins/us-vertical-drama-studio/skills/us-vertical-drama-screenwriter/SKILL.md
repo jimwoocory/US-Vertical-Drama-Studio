@@ -4,7 +4,7 @@ description: Draft a production-readable US vertical microdrama screenplay from 
 ---
 # US Vertical Drama Screenwriter
 
-For a new V10 project, stop at `AWAITING_HUMAN_APPROVAL`: the trusted human approval runtime is not implemented, and an old `APPROVED` label or chat assertion cannot unlock screenplay drafting. This skill remains available for a legacy project with its existing approved Story Bible, Beat Sheet, and continuity evidence, or to critique a supplied script without claiming approval. Route a new unapproved project to `usvd-v10-controller`.
+For a new V10 project, the trusted production approval runtime is not implemented. Route a creator's direct request to write from an exact independently reviewed Story Package to `usvd-v10-03-creator-script-draft`; that skill may produce a clearly labeled non-production draft without setting system `APPROVED`. Do not use this legacy skill to bypass the V10 production gate. This legacy skill remains available for a documented legacy project with its existing approved Story Bible, Beat Sheet, and continuity evidence, or to critique a supplied script without claiming approval.
 
 ## Trigger and scope
 

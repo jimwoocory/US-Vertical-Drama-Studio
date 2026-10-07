@@ -20,4 +20,6 @@ Options considered:
 
 Do not replace this gate with prompt wording, an `APPROVED` label, a score, or a command whose user origin cannot be authenticated. The previously agreed Story Truth remains the approved Story Package; Continuity Ledger is derived. The local protocol POC may proceed, but V10-01B and dependent writing skills remain blocked until a real authenticated approval path and controlled artifact entry are verified against target DSH/NAS.
 
+ChatGPT web-plugin drafting exception selected by the creator on 2026-10-07: a direct user-authored instruction in the active conversation for an exact independently reviewed Story Package may authorize a **non-production screenplay draft** under `usvd-v10-03-creator-script-draft`. This is not the hard Gate, not an authenticated approval record, and not a protected artifact commit. It must use status `CREATOR_AUTHORIZED_DRAFT`, mark the output “系统未批准｜不可投产”, leave Story Truth unchanged, and keep the production V10 Screenwriter/downstream blocked. A screenshot or assistant-authored `CREATOR_APPROVED_INTENT` label alone does not establish the direct user instruction. This exception does not resolve ND-001.
+
 Base test failures are recorded in `docs/status.md`; they are baseline issues, not V10 failures. Do not modify V9 to silence them.

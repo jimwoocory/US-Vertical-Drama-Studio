@@ -1,7 +1,7 @@
 {
   "schema_version": "v10-core-manifest-1",
   "core_id": "usvd-v10",
-  "version": "0.10.0-preview.3",
+  "version": "0.10.0-preview.4",
   "status": "in-development",
   "canonical_root": "core/usvd-v10",
   "runnable": false,
@@ -21,7 +21,7 @@
   "unmapped_routing_policy": "keep-current-session-model",
   "skill_order": [
     "controller", "00-intake-adaptation", "01-story-architect", "02-episode-architect",
-    "03-screenwriter", "04-review-continuity", "05-asset-lock", "06-storyboard",
+    "03-creator-script-draft", "03-screenwriter", "04-review-continuity", "05-asset-lock", "06-storyboard",
     "07-performance-cinematography", "08-seedance-2-mini-adapter", "09-prompt-qa"
   ],
   "skills": [
@@ -29,6 +29,7 @@
     { "id": "00-intake-adaptation", "name": "usvd-v10-00-intake-adaptation", "routing_role": "01", "canonical_path": "skills/00-intake-adaptation/SKILL.md", "contract_path": "contracts/project-brief.schema.json", "status": "authored-unvalidated", "runnable": false },
     { "id": "01-story-architect", "name": "usvd-v10-01-story-architect", "routing_role": "02", "canonical_path": "skills/01-story-architect/SKILL.md", "contract_path": "contracts/story-package.schema.json", "status": "authored-unvalidated", "runnable": false },
     { "id": "02-episode-architect", "name": "usvd-v10-02-episode-architect", "routing_role": "02", "canonical_path": "skills/02-episode-architect/SKILL.md", "contract_path": "contracts/episode-entry.schema.json", "status": "authored-unvalidated", "runnable": false },
+    { "id": "03-creator-script-draft", "name": "usvd-v10-03-creator-script-draft", "routing_role": "03", "canonical_path": "skills/03-creator-script-draft/SKILL.md", "status": "authored-unvalidated", "runnable": false, "scope": "chatgpt-conversation-draft-only" },
     { "id": "03-screenwriter", "name": "usvd-v10-03-screenwriter", "routing_role": "03", "canonical_path": "skills/03-screenwriter/SKILL.md", "status": "planned", "runnable": false },
     { "id": "04-review-continuity", "name": "usvd-v10-04-review-continuity", "routing_role": "04", "canonical_path": "skills/04-review-continuity/SKILL.md", "contract_path": "contracts/review-report.schema.json", "status": "authored-unvalidated", "runnable": false },
     { "id": "05-asset-lock", "name": "usvd-v10-05-asset-lock", "routing_role": "05", "canonical_path": "skills/05-asset-lock/SKILL.md", "status": "planned", "runnable": false },

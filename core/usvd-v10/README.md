@@ -1,6 +1,6 @@
 # USVDS V10 Core — in development
 
-This independent canonical root is `core/usvd-v10`, version `0.10.0-preview.3`.
+This independent canonical root is `core/usvd-v10`, version `0.10.0-preview.4`.
 The controller, Intake/Adaptation, Story Architect, Episode Architect, and
 Review/Continuity story-review instructions and initial JSON contracts are
 authored but unvalidated. All V10 skills remain non-runnable: no generated
@@ -23,7 +23,11 @@ Story draft review → Episode Architect → independent full Story Package revi
 the sole project Story Truth; the Ledger is a projection, not another Bible.
 ND-001 blocks trusted approval implementation. The authored skill text specifies
 the intended sequence but does not enforce that gate or authorize Screenwriter
-execution. Screenwriter and production stages remain planned.
+execution. The separately named `03-creator-script-draft` skill may create a
+conspicuously labeled, non-production draft after direct creator instruction
+for an exact reviewed package in the current ChatGPT conversation. It cannot
+set `APPROVED`, commit protected artifacts, or authorize production. The
+production Screenwriter and downstream stages remain planned.
 
 Manifest `routing_role` expresses the existing model contract independently of
 directory numbering: `01` requires `glm-5.3-flashx`, `02`/`03`/`04` require
@@ -33,7 +37,8 @@ session model. These are planned routes, not registered DSH mappings. Authored
 skills have not yet been validated against runtime behavior.
 
 The ChatGPT integration keeps the existing `us-vertical-drama-studio` plugin
-identity and its eight legacy skills, adds the five V10 story skills, contracts,
+identity and its eight legacy skills, adds the five V10 story skills plus the
+creator-authorized draft skill, contracts,
 examples, and structural checkup, and routes new projects through story intake.
 The separate `us-vertical-drama-studio-v10` preview remains a Core-generated
 inspection package. Use `node scripts/sync-chatgpt-plugin.mjs` to refresh the

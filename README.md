@@ -42,6 +42,8 @@ ChatGPT plugin 1.2.1 makes all creator-facing briefs, outlines, episode maps, re
 
 ChatGPT plugin 1.2.2 delivers each requested development artifact as matching DOCX and HTML files by default. TXT and chat text are not substitutes. See `core/usvd-v10/references/document-delivery.md`.
 
+ChatGPT plugin 1.2.3 adds a separate creator-authorized screenplay **draft** path for an exact independently reviewed Story Package. It records direct creator intent in the active conversation, keeps the Story Package unchanged, and labels the draft non-production. It does not satisfy ND-001 or unlock the production Screenwriter.
+
 ## V9 DSH stage model routing
 
 V10 uses DSH's real Session model-selection API for the writing/review stages:

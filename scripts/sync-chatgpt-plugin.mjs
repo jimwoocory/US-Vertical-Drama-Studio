@@ -10,14 +10,15 @@ const metadataPath = path.join(pluginRoot, 'plugin.json')
 const metadata = JSON.parse(await readFile(metadataPath, 'utf8'))
 const authored = core.skills.filter(skill => skill.status === 'authored-unvalidated')
 
-metadata.version = '1.2.2'
+metadata.version = '1.2.3'
 metadata.description = 'US-facing vertical drama story development, outline diagnosis, adaptation, and the retained legacy writing and production workflow.'
 const ui = metadata.extensions['com.openai'].interface
-ui.longDescription = '用中文完成美国竖屏短剧的项目简报、完整故事大纲、分集规划和独立审查，默认交付内容一致的 DOCX 与 HTML 两份文件，不以 TXT 代替。美国市场定位不改变开发文档语言；剧本对白使用自然的美式英语。保留已有项目的写作与制作技能。'
+ui.longDescription = '用中文完成美国竖屏短剧的简报、完整大纲、分集和审查，默认交付 DOCX 与 HTML。创作者直接确认具体已审故事包后，可继续生成明确标注的非投产剧本草稿；正式系统审批与投产仍需可信后端。剧本对白使用自然的美式英语。'
 ui.defaultPrompt = [
   '我只有一个短剧想法，请用中文给我两到三个冲突机制不同、适合美国观众的故事方向，并交付 DOCX 和 HTML。',
   '这是已有的大纲，请用中文审查因果链和美国市场合理性，并交付 DOCX 和 HTML。',
   '我想把这部小说或漫剧改成美国竖屏短剧，请用中文分析改编机制，并交付 DOCX 和 HTML。',
+  '我已确认当前完整故事包，请按其中的分集结构起草指定集数的非投产剧本草稿，交付 DOCX 和 HTML。',
 ]
 
 const write = async (relative, content) => {
@@ -46,6 +47,6 @@ await write('.codex-plugin/plugin.json', `${JSON.stringify({
   skills: './skills/',
   interface: ui,
 }, null, 2)}\n`)
-await write('README.md', `# US Vertical Drama Studio ${metadata.version}\n\n本包更新现有的 ChatGPT 插件身份，保留原有八个技能，并加入五种入口判断、完整故事大纲、独立审查和分集结构。入口是 \`skills/us-vertical-drama-studio/SKILL.md\`；新增规则来自 \`core/usvd-v10/\`。\n\n默认用简体中文写项目简报、故事大纲、分集表和审查报告，并为每份面向创作者的开发产物交付内容一致的 DOCX 和 HTML 两个可下载文件，不以 TXT 或聊天文字代替。美国市场定位决定故事的社会机制；只有进入剧本阶段，角色实际说出的对白才默认使用自然的美式英语。英文 JSON 键名、状态码和必要的人名不改变正文的中文要求。详见 \`references/output-language.md\`、\`references/document-delivery.md\` 和 \`examples/chinese-development-sample.md\`。\n\n\`tools/checkup.mjs\` 只检查机器可验证的结构。它不能判断美国化可信度、因果、对白或观众吸引力。旧制作技能保留给已有批准材料的项目；新的 V10 项目在可信人工批准机制完成前停在 \`AWAITING_HUMAN_APPROVAL\`（ND-001）。如果当前环境无法制作某种文件，必须如实说明，不能假称已交付。\n`)
+await write('README.md', `# US Vertical Drama Studio ${metadata.version}\n\n本包更新现有的 ChatGPT 插件身份，保留原有八个技能，并加入前期入口判断、完整故事大纲、独立审查、分集结构和创作者授权草稿通道。入口是 \`skills/us-vertical-drama-studio/SKILL.md\`；新增规则来自 \`core/usvd-v10/\`。\n\n默认用简体中文写项目简报、故事大纲、分集表和审查报告，并为每份面向创作者的开发产物交付内容一致的 DOCX 和 HTML 两个可下载文件，不以 TXT 或聊天文字代替。美国市场定位决定故事的社会机制；剧本角色实际说出的对白才默认使用自然的美式英语。\n\n当完整 Story Package 与独立审查结果已绑定到同一修订，且创作者在当前对话中直接要求起草具体集数时，\`usvd-v10-03-creator-script-draft\` 可以写出标明“系统未批准、不可投产”的剧本草稿。截图、助手摘要或旧 \`APPROVED\` 标签不能单独证明用户指令。ND-001 的可信人工审批和正式投产 Gate 仍未实现；此草稿通道不改变 Story Truth。\n\n\`tools/checkup.mjs\` 只检查机器可验证的结构，不能判断美国化可信度、因果、对白或观众吸引力。旧制作技能保留给已有批准材料的项目。如果当前环境无法制作 DOCX 或 HTML，必须如实说明，不能假称已交付。\n`)
 
 console.log(`Updated existing ChatGPT plugin package ${metadata.name}@${metadata.version} with ${authored.length} V10 skills and retained legacy skills.`)

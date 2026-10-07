@@ -10,6 +10,8 @@
 
 格式修订记录（2026-10-07）：用户要求开发文档不交 TXT，而是同时交 DOCX 与 HTML。1.2.2 将两种可下载文件设为默认交付，要求它们来自同一工件修订，JSON 只作内部结构记录或另行审计附件；无法实际生成某格式时必须如实说明。
 
+草稿通道记录（2026-10-07）：用户选择在已审 Story Package 获其直接确认后允许生成明确标注的非投产剧本草稿。1.2.3 新增独立 `03-creator-script-draft`，要求当前对话中的用户原始指令、精确包修订/摘要及独立审查，并保持 Story Truth 不变。此通道不产生系统 `APPROVED`、不解除 ND-001、不开放正式 Screenwriter 和下游制作 Gate。
+
 ## 决策摘要
 
 V10 应在独立 `core/usvd-v10/` 建立写作 Core：Intake / Adaptation → Story Architect → Episode Architect → 独立 Story Architecture Review → **绑定整份 Story Package revision/digest 的人工批准** → Screenwriter → 独立 Script Doctor → 派生 Continuity Ledger。默认交付范围为当前用户要求的 `writing-only`；通过单集审稿与连续性检查后结束，整季未审部分明示 `NOT ASSESSED`。

@@ -25,3 +25,5 @@ The old eight skills remain in the updated plugin for documented legacy projects
 Version 1.2.1 corrects a delivery-language defect seen in a real outline: a Brief claimed Chinese development documents, but the outline body was English. The default is now Chinese for every planning and review artifact, including human-readable JSON values. English is retained for schema keys, status codes, established names, and later screenplay dialogue. `output_language_mismatch` blocks a review pass until the exact corrected revision is reviewed.
 
 Version 1.2.2 adds the creator's file-format preference: every requested human-readable development artifact defaults to matching DOCX and standalone HTML files from the same revision. TXT or a chat text dump is not a deliverable. Canonical JSON remains internal and may be exported separately for audit.
+
+Version 1.2.3 adds a separate creator-authorized, non-production screenplay draft path after exact package review and a direct user instruction in the active conversation. The official V10 production approval Gate remains blocked by ND-001; a draft neither changes Story Truth nor unlocks storyboard or video production.
