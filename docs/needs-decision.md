@@ -8,6 +8,8 @@ DSH `approval.request` returns an outcome without a human actor identity, the pu
 
 The user selected option 1 for a local, synthetic-data proof of concept. This does not authorize production deployment or establish that a human identity source exists in the target NAS environment.
 
+Local POC `a7676ced074f26ae7fdfe65fcff0f6df403e906b` verifies signed-record mechanics only and always reports human identity unverified / production gate blocked. The current Codex workspace has no installed DSH runtime packages or `dsh` executable, no available Docker Linux daemon, and no connected NAS test profile. An exact public source mapping for DSH `0.2.0-rc.2` was not established in this environment. Therefore no target-runtime or real human-authentication claim has been tested.
+
 Options considered:
 
 1. Use an external authenticated approval service that records a signed approval for a specific artifact digest/revision; DSH only consumes the verified record.
