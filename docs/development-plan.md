@@ -45,6 +45,12 @@ Allowed paths: V10-only DSH gate/domain modules, `core/usvd-v10/contracts/**`, a
 
 Acceptance: V9 trees remain unchanged; tests demonstrate each forbidden transition is blocked and an explicitly approved matching revision is allowed. If exact DSH runtime cannot provide the selected trust contract, fail closed and revise ND before writing skills that depend on the hard gate.
 
+### Task 2C — V10-01C Local signed-protocol proof of concept
+
+Allowed paths: `core/usvd-v10/approval-protocol/**` and `dsh-plugin/test/v10-approval-protocol.test.mjs`. Use synthetic artifacts and test-only keys to validate a signed record bound to project, artifact, revision, digest, scope, actor, decision, and event ID. Cover tampering/mismatch rejection, revocation, SCR invalidation, state-version compare-and-swap, and snapshot restore. The protocol must clearly distinguish a cryptographically valid test record from a trusted human approval.
+
+Do not integrate DSH, ship a signing service, access NAS, introduce production keys, or claim a hard gate. The live identity channel and target runtime remain unverified; this POC is preparation for V10-01B only.
+
 ### Task 3 — V10-02 Story and episode architecture
 
 Allowed paths: V10 Core Intake/Adaptation, Story Architect, Episode Architect skills/contracts, and V10 story tests. Implement only the smallest set of independently owned skills after V10-01A/B. Include Story Architecture review evidence and Golden Cases for original idea, adaptation, existing screenplay reverse outline, SCR, continuity contradiction, and mandatory failure.
