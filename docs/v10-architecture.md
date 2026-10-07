@@ -2,6 +2,10 @@
 
 审计日期：2026-10-07。源代码基线：`67647579153fe73891ee2a6ce3ef1f92842ed9ca`。任务：`V10-00`；Owner：`/root/story_architecture_audit`；分支：`codex/v10-00-architecture-audit`。本文是架构与后续验收合同，不宣称 V10 已实现、已安装、已获得真实市场验证或已经合入 main。
 
+后续实现记录（2026-10-07）：在 `core/usvd-v10/` 新增了 Intake/Adaptation、Story Architect、Episode Architect、Controller、Story Review 的初稿和 Project Brief / Story Package / Episode Entry / Review Report JSON Schema，并生成独立 GPT Agent Plugin 预览。它们状态为 `authored-unvalidated` 且 `runnable: false`；预览不包含 Screenwriter，也不解决 ND-001。此记录更新了可见范围，不改变下文架构决策与 Gate 验收合同。
+
+后续插件集成记录（2026-10-07）：按用户新增要求，现有 ChatGPT 网页版个人插件 `us-vertical-drama-studio` 已保留原有八个 Skill，并叠加上述五个 V10 故事 Skill、入口判断说明、结构检查工具和示例，发布为 1.2.0。新增方向选择、现成大纲诊断、美国版冲突机制映射、主要转折因果链和独立审查。详见 [v10-reference-integration.md](v10-reference-integration.md)。此项交付变更覆盖了下文原始审计时“无打包/发布任务”的范围判断；不改变 ND-001 的阻断状态，也不代表 V10 DSH provider 或可信人工审批已经实现。
+
 ## 决策摘要
 
 V10 应在独立 `core/usvd-v10/` 建立写作 Core：Intake / Adaptation → Story Architect → Episode Architect → 独立 Story Architecture Review → **绑定整份 Story Package revision/digest 的人工批准** → Screenwriter → 独立 Script Doctor → 派生 Continuity Ledger。默认交付范围为当前用户要求的 `writing-only`；通过单集审稿与连续性检查后结束，整季未审部分明示 `NOT ASSESSED`。

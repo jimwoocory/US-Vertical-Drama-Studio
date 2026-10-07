@@ -1,0 +1,50 @@
+{
+  "schema_version": "usvd-project-brief/v2",
+  "project_id": "EXAMPLE-COASTLIGHT",
+  "artifact_id": "BRIEF-COASTLIGHT",
+  "revision": 1,
+  "parent_revision": null,
+  "working_title": "Closing Night",
+  "market": "US",
+  "source_kind": "original_idea",
+  "source_refs": [],
+  "intake_route": "simple_idea",
+  "next_action": "develop_full_story",
+  "next_step_for_user": "In this fictional demonstration, the creator has selected DIR-1 for story development.",
+  "direction_candidates": [
+    {
+      "direction_id": "DIR-1",
+      "audience_promise": "A worker risks her future to give a neighborhood venue one last chance.",
+      "protagonist_strategy": "Organize a paid final show and use documented commitments to negotiate a short lease extension.",
+      "opposing_force": "The private building owner can refuse an extension and has an alternative tenant ready.",
+      "cost_of_action": "The protagonist puts her own savings and professional reputation behind the event.",
+      "us_power_logic": "The conflict rests on a fictional private lease, cash requirements, and a landlord's choice; real contract details need separate review."
+    }
+  ],
+  "direction_selection": {
+    "status": "user_selected",
+    "selected_direction_id": "DIR-1",
+    "summary": "Simulated creator selection for this invented example only."
+  },
+  "adaptation_limits": {
+    "preserve": [],
+    "open_to_change": ["Names, setting, character motives, and ending"],
+    "prohibited_changes": [],
+    "rights_status": "Original fictional example; no third-party source used."
+  },
+  "adaptation_decisions": [],
+  "adaptation_mechanism_map": [],
+  "season_scope": "Three-episode structural miniature, not a proposed production season.",
+  "episode_count": 3,
+  "duration_policy": "Illustrative only; no runtime target validated.",
+  "output_languages": ["English"],
+  "delivery_scope": "writing-only",
+  "evidence_and_assumptions": [
+    {
+      "statement": "All creative details are invented for a structural example; audience appeal and institutional accuracy are unverified.",
+      "provenance": "ai_proposal"
+    }
+  ],
+  "open_decisions": ["Verify the fictional lease mechanism if developed for production."],
+  "brief_status": "BRIEF_READY"
+}

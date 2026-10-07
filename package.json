@@ -34,6 +34,8 @@
   "scripts": {
     "build:v9": "node scripts/sync-v9-distributions.mjs",
     "build:dsh-v9": "node scripts/sync-dsh-v9.mjs",
+    "build:plugin-v10": "node scripts/sync-v10-plugin.mjs",
+    "check:plugin-v10": "node scripts/sync-v10-plugin.mjs --check",
     "check:v9": "node scripts/sync-v9-distributions.mjs --check",
     "test": "node scripts/sync-v9-distributions.mjs --check && node --test dsh-plugin/test/*.test.mjs integrations/media-mcp/test/*.test.mjs"
   },

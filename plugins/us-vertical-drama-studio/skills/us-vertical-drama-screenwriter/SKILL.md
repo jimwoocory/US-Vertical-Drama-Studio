@@ -4,6 +4,8 @@ description: Draft a production-readable US vertical microdrama screenplay from 
 ---
 # US Vertical Drama Screenwriter
 
+For a new V10 project, stop at `AWAITING_HUMAN_APPROVAL`: the trusted human approval runtime is not implemented, and an old `APPROVED` label or chat assertion cannot unlock screenplay drafting. This skill remains available for a legacy project with its existing approved Story Bible, Beat Sheet, and continuity evidence, or to critique a supplied script without claiming approval. Route a new unapproved project to `usvd-v10-controller`.
+
 ## Trigger and scope
 
 Use only when an APPROVED Beat Sheet, APPROVED Story Bible, and relevant continuity ledger are supplied. Write the episode screenplay in Chinese for review, with native English spoken dialogue for the supplied runtime.

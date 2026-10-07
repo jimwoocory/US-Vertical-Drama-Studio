@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://usvds.invalid/schemas/v10/project-brief.schema.json",
+  "title": "USVDS V10 Project Brief",
+  "type": "object",
+  "required": [
+    "schema_version", "project_id", "artifact_id", "revision", "parent_revision",
+    "market", "source_kind", "source_refs",
+    "intake_route", "next_action", "next_step_for_user", "direction_candidates",
+    "direction_selection", "adaptation_limits", "adaptation_decisions",
+    "adaptation_mechanism_map", "season_scope", "episode_count",
+    "duration_policy", "output_languages", "delivery_scope",
+    "evidence_and_assumptions", "open_decisions", "brief_status"
+  ],
+  "properties": {
+    "schema_version": { "const": "usvd-project-brief/v2" },
+    "project_id": { "type": "string", "minLength": 1 },
+    "artifact_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "integer", "minimum": 1 },
+    "parent_revision": { "type": ["integer", "null"], "minimum": 1 },
+    "working_title": { "type": ["string", "null"] },
+    "market": { "const": "US" },
+    "source_kind": { "enum": ["original_idea", "existing_story", "novel", "comic", "film_or_long_form", "screenplay", "market_concept"] },
+    "source_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_id", "locator", "coverage_status"],
+        "properties": {
+          "source_id": { "type": "string" },
+          "locator": { "type": "string" },
+          "coverage_status": { "enum": ["supplied", "observed", "partial", "unavailable"] },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "intake_route": {
+      "enum": ["simple_idea", "completed_outline_audit", "source_adaptation", "source_selected_direction", "existing_script_reverse_story"]
+    },
+    "next_action": {
+      "enum": ["choose_direction", "audit_outline", "validate_selected_direction", "reverse_story_then_audit", "develop_full_story", "resolve_material_decision"]
+    },
+    "next_step_for_user": { "type": "string", "minLength": 1 },
+    "direction_candidates": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["direction_id", "audience_promise", "protagonist_strategy", "opposing_force", "cost_of_action", "us_power_logic"],
+        "properties": {
+          "direction_id": { "type": "string", "minLength": 1 },
+          "audience_promise": { "type": "string", "minLength": 1 },
+          "protagonist_strategy": { "type": "string", "minLength": 1 },
+          "opposing_force": { "type": "string", "minLength": 1 },
+          "cost_of_action": { "type": "string", "minLength": 1 },
+          "us_power_logic": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "direction_selection": {
+      "type": "object",
+      "required": ["status", "selected_direction_id", "summary"],
+      "properties": {
+        "status": { "enum": ["user_selected", "awaiting_user_selection", "not_applicable"] },
+        "selected_direction_id": { "type": ["string", "null"] },
+        "summary": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "user_selected" } } },
+          "then": { "properties": { "selected_direction_id": { "type": "string", "minLength": 1 }, "summary": { "type": "string", "minLength": 1 } } },
+          "else": { "properties": { "selected_direction_id": { "type": "null" } } }
+        }
+      ]
+    },
+    "adaptation_limits": {
+      "type": "object",
+      "required": ["preserve", "open_to_change", "prohibited_changes", "rights_status"],
+      "properties": {
+        "preserve": { "type": "array", "items": { "type": "string" } },
+        "open_to_change": { "type": "array", "items": { "type": "string" } },
+        "prohibited_changes": { "type": "array", "items": { "type": "string" } },
+        "rights_status": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "adaptation_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["decision_id", "decision", "source_refs", "dramatic_reason", "downstream_implications", "status"],
+        "properties": {
+          "decision_id": { "type": "string" },
+          "decision": { "enum": ["retain", "cut", "merge", "redesign", "unresolved"] },
+          "source_refs": { "type": "array", "items": { "type": "string" } },
+          "dramatic_reason": { "type": "string" },
+          "downstream_implications": { "type": "string" },
+          "status": { "enum": ["user_decided", "ai_proposal", "unresolved"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "adaptation_mechanism_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dimension", "emotional_payoff", "source_mechanism", "us_mechanism", "us_plausibility", "status"],
+        "properties": {
+          "dimension": { "enum": ["power", "relationship", "cost", "causality"] },
+          "emotional_payoff": { "type": "string", "minLength": 1 },
+          "source_mechanism": { "type": "string", "minLength": 1 },
+          "us_mechanism": { "type": "string", "minLength": 1 },
+          "us_plausibility": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["user_decided", "ai_proposal", "unresolved"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "season_scope": { "type": "string", "minLength": 1 },
+    "episode_count": { "type": ["integer", "null"], "minimum": 1 },
+    "duration_policy": { "type": "string", "minLength": 1 },
+    "output_languages": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "delivery_scope": { "enum": ["writing-only", "full-production"] },
+    "evidence_and_assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["statement", "provenance"],
+        "properties": {
+          "statement": { "type": "string" },
+          "provenance": { "enum": ["user", "source", "market_evidence", "ai_proposal"] },
+          "source_ref": { "type": "string" },
+          "date": { "type": "string", "format": "date" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "open_decisions": { "type": "array", "items": { "type": "string" } },
+    "brief_status": { "enum": ["BRIEF_READY", "NEEDS_USER_DECISION"] }
+  },
+  "additionalProperties": false
+}

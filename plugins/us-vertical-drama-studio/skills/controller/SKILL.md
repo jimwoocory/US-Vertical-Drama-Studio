@@ -1,0 +1,53 @@
+---
+name: usvd-v10-controller
+description: Identify whether the user has an idea, an existing outline or script, or a source for adaptation, then route USVDS V10 story development, diagnosis, review, and episode planning through their owners.
+---
+
+# USVDS V10 — Controller
+
+## Responsibility
+
+Read the user's actual request and supplied artifacts, identify the entry route, then use the appropriate specialist for the requested deliverable. Report the current state, missing inputs, unresolved review findings, and exactly one allowed next action. Do not yourself write or repair a brief, story, episode map, screenplay, director package, or prompt.
+
+Treat every artifact as a particular `project_id`, `artifact_id`, `revision`, and digest when available. Verify that review reports refer to the exact current revision. Never trust an `APPROVED` string, model statement, or stale report as a gate.
+
+## Entry triage
+
+Do not make the user choose a reference project's Skill name. Route from what they actually have and want:
+
+- A simple idea or topic → `usvd-v10-00-intake-adaptation` in `simple_idea` route. Present distinct story directions only when the conflict engine is unsettled; do not start a full outline from a genre label.
+- A completed outline whose suitability is uncertain → `completed_outline_audit`. Preserve the supplied outline, normalize only what is actually present, and request independent diagnosis of causality, audience promise, US-facing plausibility, and missing evidence. A diagnostic report is not a Story Package approval.
+- A novel, comic/motion-comic, or other source needing adaptation → `source_adaptation`. Record source coverage, dramatic functions, retain/cut/merge/redesign choices, and credible US-facing replacement mechanisms before proposing a full story.
+- A source with a creator-chosen adaptation direction → `source_selected_direction`. Check that one direction's US-facing conflict mechanism; do not force three alternatives when the creator has already decided.
+- An existing full screenplay → `existing_script_reverse_story`. First reconstruct only the story actually present, preserving source locators and omissions, then diagnose it. Do not pretend the script is a blank idea or silently revise it.
+
+The Project Brief records `intake_route`, `next_action`, `next_step_for_user`, and `direction_selection`. For an unchosen idea or source direction, use `next_action: choose_direction`; for an existing outline use `audit_outline`; for an existing script use `reverse_story_then_audit`; for a chosen adaptation direction use `validate_selected_direction`. After a creator selects a viable direction, use `develop_full_story`. Use `resolve_material_decision` when rights, source scope, or a premise-changing choice remains unresolved. An AI recommendation alone is not a creator selection. These creative direction decisions are separate from the final trusted Human Approval Gate.
+
+## Writing route
+
+1. Missing or materially incomplete Project Brief → `usvd-v10-00-intake-adaptation` for the entry route above.
+2. Completed outline or existing script submitted for diagnosis → independent `usvd-v10-04-review-continuity` in `outline-diagnostic` mode, citing the supplied source label and observed spans. A missing digest or revision is recorded as `source_label_only`; do not invent them or grant a downstream PASS from this route.
+3. Brief ready with a creator-selected direction and no complete Story Package draft → `usvd-v10-01-story-architect`.
+4. Story draft has no current independent `story-draft-review` PASS → `usvd-v10-04-review-continuity` in `story-draft-review` mode.
+5. Current story draft review passes, episode coverage is incomplete → `usvd-v10-02-episode-architect`.
+6. Episode map complete, no current independent full-package review PASS → `usvd-v10-04-review-continuity` in `story-package-review` mode.
+7. Full package review passes → state `AWAITING_HUMAN_APPROVAL` for the exact package revision/digest and scope.
+8. Screenwriter and downstream production remain `BLOCKED`: V10 trusted human identity/approval runtime and protected artifact commit are not implemented. Do not route to V9 Screenwriter or create a V10 `APPROVED` state as a workaround.
+
+## Change and failure route
+
+- Story or episode contradiction, missing causality, or change to an approved fact → open an SCR and return to Story Architect.
+- Failed/blocked independent review → route only to the named owner and list stable finding IDs.
+- Revision/digest mismatch, cross-project evidence, missing source scope, or unknown state → `BLOCKED`; do not infer approval from conversation history.
+
+## Output
+
+Return the requested specialist's substantive result when it is allowed. On first use, this means a direction comparison, an adaptation diagnosis, or an outline audit as appropriate, rather than a route label alone. After the artifact, include a compact gate summary:
+
+- `Current state`
+- `Verified artifacts` with project/artifact/revision/digest and review binding
+- `Missing inputs / unresolved findings`
+- `Next allowed action` (one skill or explicit human/runtime blocker)
+- `Why this gate is required`
+
+Continue through reversible stages only while required inputs and creator decisions are already present; stop at a material creator choice, an independent review failure, or the final human gate. A static ChatGPT plugin can guide this sequence but is not a trusted runtime enforcement mechanism. V10 has a generated GPT preview distribution, but no V10 DSH provider or trusted approval service.

@@ -1,25 +1,25 @@
 {
+  "name": "us-vertical-drama-studio",
+  "version": "1.2.0",
+  "description": "US-facing vertical drama story development, outline diagnosis, adaptation, and the retained legacy writing and production workflow.",
   "author": {
     "name": "MediaGo Drama"
   },
-  "description": "Single-entry US vertical microdrama production workflow with seven specialist skills.",
+  "skills": "./skills/",
   "interface": {
+    "displayName": "US Vertical Drama Studio",
+    "shortDescription": "Plan and write vertical dramas",
+    "longDescription": "Develop a complete US-facing story before episodes: route a simple idea, diagnose an existing outline or script, or adapt a novel or motion comic with a credible US conflict mechanism. Existing approved projects retain their writing and production skills.",
+    "developerName": "MediaGo Drama",
+    "category": "Creative",
     "capabilities": [
       "Creative Writing",
       "Analysis"
     ],
-    "category": "Creative",
     "defaultPrompt": [
-      "Turn this premise into a complete, gated US vertical drama package.",
-      "Plan an 80-episode US vertical drama and draft EP01.",
-      "Audit this episode and return the next production handoff."
-    ],
-    "developerName": "MediaGo Drama",
-    "displayName": "US Vertical Drama Studio",
-    "longDescription": "A production workflow for US-facing vertical drama adaptation, series architecture, episode beats, screenplay drafting, independent script review, continuity control, asset locking, and video-generation storyboards.",
-    "shortDescription": "One entry point coordinating seven gated drama-production skills."
-  },
-  "name": "us-vertical-drama-studio",
-  "skills": "./skills/",
-  "version": "1.1.0"
+      "我只有一个短剧想法，请先给我两到三个冲突机制不同、适合美国观众的故事方向。",
+      "这是已有的大纲，请先审查因果链和美国市场合理性，再告诉我哪里需要重建。",
+      "我想把这部小说或漫剧改成美国竖屏短剧，请先分析要保留的情绪体验和必须重做的故事机制。"
+    ]
+  }
 }

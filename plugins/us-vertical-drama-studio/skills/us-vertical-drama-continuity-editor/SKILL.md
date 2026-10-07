@@ -4,6 +4,8 @@ description: Maintain a gated canon ledger for US vertical-drama episodes before
 ---
 # US Vertical Drama Continuity Editor
 
+For a new V10 project, do not treat this legacy continuity ledger as proof of story approval or a screenplay unlock. This skill serves a documented legacy project or may audit supplied material without advancing its gate. Route new story work to `usvd-v10-controller`.
+
 ## Trigger and scope
 
 Use after Script Doctor PASS and before `us-vertical-drama-storyboard-director`. Reconcile the script with the Story Bible and update the canonical episode-to-episode ledger.

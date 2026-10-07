@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "us-vertical-drama-studio-v10",
+  "version": "0.10.0-preview.1",
+  "description": "US-facing vertical drama story development with traceable adaptation decisions, complete story architecture, episode planning, and independent review gates.",
+  "author": {
+    "name": "MediaGo Drama"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "US Vertical Drama Studio V10",
+        "shortDescription": "Develop and review dramas",
+        "longDescription": "A story-first workflow for US-facing vertical drama. It makes adaptation decisions traceable, separates full-story design from episode planning, requires independent story review, and preserves canon and approval boundaries. Screenplay execution stays blocked until a trusted approval runtime is available.",
+        "developerName": "MediaGo Drama",
+        "category": "Creative",
+        "capabilities": [
+          "Creative Writing",
+          "Analysis"
+        ],
+        "defaultPrompt": [
+          "Adapt this source with traceable retain, cut, merge, and redesign decisions.",
+          "Develop the complete story first, review it, then plan every episode as a mini dramatic arc.",
+          "Review this Story Package and identify evidence-backed blockers before approval."
+        ]
+      }
+    }
+  }
+}

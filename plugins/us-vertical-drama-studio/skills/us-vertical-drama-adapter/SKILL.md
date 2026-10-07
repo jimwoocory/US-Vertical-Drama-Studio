@@ -4,6 +4,8 @@ description: Adapt a source premise, synopsis, or episode material for a US-faci
 ---
 # US Adaptation
 
+For a new project, route intake and adaptation through `usvd-v10-controller` and `usvd-v10-00-intake-adaptation` first. This legacy skill can assist an already documented project or critique a supplied draft, but its old `APPROVED` label cannot replace V10's independent review or trusted human gate.
+
 ## Trigger and scope
 
 Use for adapting a non-US premise, trope package, outline, or episode material for a US-facing vertical microdrama. Preserve the dramatic promise, emotional engine, and serial propulsion; localize the social logic that makes events believable.

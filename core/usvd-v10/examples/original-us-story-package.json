@@ -1,0 +1,242 @@
+{
+  "schema_version": "usvd-story-package/v2",
+  "project_id": "EXAMPLE-COASTLIGHT",
+  "artifact_id": "STORY-COASTLIGHT",
+  "revision": 1,
+  "parent_revision": null,
+  "status": "DRAFT",
+  "brief_ref": {
+    "artifact_id": "BRIEF-COASTLIGHT",
+    "revision": 1,
+    "digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "selected_direction_id": "DIR-1",
+  "source_refs": [],
+  "adaptation_mechanism_map": [],
+  "story_promise": {
+    "audience_reason_to_continue": "Can Maya turn one final concert into enough leverage to keep a neighborhood venue open?",
+    "protagonist_desire": "Keep the venue open for the musicians who helped her rebuild her career.",
+    "central_obstacle": "The private building owner prefers a financially certain replacement tenant.",
+    "emotional_experience": "Urgent collective effort under a visible deadline.",
+    "core_payoff": "Maya earns a concrete chance to keep the venue by making a costly, accountable choice.",
+    "central_question": "Will the owner agree to a short extension before the existing lease ends?"
+  },
+  "logline": {
+    "who": "Maya, the manager of a small live-music room",
+    "wants": "a short lease extension",
+    "against": "a building owner who has a replacement tenant ready",
+    "stakes": "her savings, job, and the venue's future",
+    "sentence": "When a building owner announces the final week of her venue's lease, manager Maya stakes her savings on one last concert to prove the room can pay its way before a replacement tenant takes over."
+  },
+  "story_engine": {
+    "protagonist_id": "CHAR-MAYA",
+    "opposing_force_id": "CHAR-ELLIS",
+    "external_goal": "Secure a short lease extension with documented payment commitments.",
+    "internal_need": "Ask others for help without concealing how much of her own future she has put at risk.",
+    "conflict_engine": "Each commitment Maya wins has a deadline or condition; Ellis can test the certainty of her offer against a ready alternative.",
+    "escalation_mechanism": "Maya's promises become harder to honor as the event approaches and the owner demands firmer proof.",
+    "stakes": "The venue closes, Maya loses savings, and partners who trusted her absorb the fallout.",
+    "pressure_source": "The existing lease's stated end date in this fictional private agreement.",
+    "us_power_logic": "Ellis owns the building and may choose whether to offer new private lease terms; the exact agreement is invented and unverified.",
+    "opposing_leverage": "Ellis has a replacement tenant and control over any extension offer.",
+    "protagonist_available_action": "Maya can organize an event, document financial support, disclose risks, and propose a narrower trial.",
+    "cost_of_action": "Maya risks savings, performer trust, and her professional reputation.",
+    "reversal_sources": ["A sponsor withdraws a conditional pledge", "The owner offers an expensive but finite extension"],
+    "episode_hook_sources": ["A new payment condition", "A public commitment that may fail"],
+    "sustainability_explanation": "This three-episode miniature demonstrates one accumulating negotiation; it makes no claim about a longer commercial season."
+  },
+  "full_story_outline": {
+    "beginning": "Maya receives written notice that the small venue's private lease will end after the weekend. Ellis, who owns the building, has a replacement tenant ready and will hear a documented extension offer only before Monday morning. Maya publicly promises one final show, even though ticket revenue alone cannot cover the requested deposit.",
+    "development": "Maya persuades performers and a neighborhood business to back the show. She chooses written commitments rather than hopeful social posts. Ellis points out that several commitments are conditional, which leaves Maya short of the cash proof he asked for.",
+    "escalation": "To close the gap, Maya puts her savings at risk and tells performers she can cover their fees. A sponsor then withdraws. Maya must admit that her promise to performers now depends on the same savings she offered to Ellis.",
+    "major_reversal": "Ellis offers a brief extension if Maya can deliver the deposit by morning, but only if she accepts a higher monthly payment. The offer turns her apparent victory into a new risk: the venue could survive the week and fail the next month.",
+    "crisis": "Maya can hide the new terms and collect support for a deal she doubts, or disclose them and risk losing the crowd's backing. She tells performers and supporters the exact terms and offers refunds to anyone who wants out.",
+    "climax": "After hearing the true cost, enough supporters keep their commitments to fund the deposit. Maya declines Ellis's first terms and proposes a shorter trial extension with a published revenue checkpoint. Ellis accepts that narrower risk over his uncertain replacement tenant.",
+    "resolution": "The venue opens for a limited trial period. Maya documents the money owed to performers and admits that keeping the room permanently remains unresolved; the new agreement gives the group a real deadline and a measurable next decision."
+  },
+  "characters": [
+    {
+      "id": "CHAR-MAYA",
+      "identity": "Manager of a small live-music venue in a fictional US city.",
+      "visible_goal": "Obtain a short lease extension.",
+      "hidden_need": "Share risk honestly with the people who trust her.",
+      "fear": "Being seen as the person who finally closed the room.",
+      "secret_refs": [],
+      "weakness": "She makes promises before disclosing their financial cost.",
+      "strength": "She can organize performers and document commitments quickly.",
+      "leverage": "A funded event and a conditional alternative offer for Ellis.",
+      "protagonist_relationship": "Protagonist.",
+      "conflict_function": "Makes choices that raise and then resolve the financial and trust stakes.",
+      "transformation": "Moves from solitary rescue promises to transparent shared decisions.",
+      "provenance": { "decision_id": "DEC-MAYA", "kind": "ai_proposal", "statement": "Invented protagonist for structural demonstration." }
+    },
+    {
+      "id": "CHAR-ELLIS",
+      "identity": "Private owner of the venue building.",
+      "visible_goal": "Choose the most reliable next tenant.",
+      "hidden_need": "Avoid another uncertain payment period.",
+      "fear": "Losing income while the building sits empty.",
+      "secret_refs": [],
+      "weakness": "He values immediate certainty over community goodwill.",
+      "strength": "He controls whether to offer new lease terms.",
+      "leverage": "He can decline Maya's proposal under the fictional agreement.",
+      "protagonist_relationship": "Landlord and negotiating opponent.",
+      "conflict_function": "Tests each claim Maya makes against a concrete alternative.",
+      "transformation": "Accepts a limited trial only after the risk is clearly bounded.",
+      "provenance": { "decision_id": "DEC-ELLIS", "kind": "ai_proposal", "statement": "Invented opposing force for structural demonstration." }
+    }
+  ],
+  "relationships": [
+    {
+      "id": "REL-1",
+      "from_character_id": "CHAR-MAYA",
+      "to_character_id": "CHAR-ELLIS",
+      "alliance": "None at the start.",
+      "opposition": "They disagree on what financial proof justifies another chance.",
+      "dependency": "Maya needs Ellis to offer terms; Ellis needs a reliable paying tenant.",
+      "leverage": "Maya can document support; Ellis controls the building.",
+      "betrayal_potential": "Maya might conceal the weakness of her funding.",
+      "emotional_bond": "Mutual respect develops only after honest negotiation.",
+      "provenance": { "decision_id": "DEC-REL", "kind": "ai_proposal", "statement": "Invented negotiation relationship." }
+    }
+  ],
+  "state_definitions": [
+    {
+      "character_id": "CHAR-MAYA",
+      "states": ["private_rescue", "public_risk", "transparent_negotiation"],
+      "transitions": [
+        { "from": "private_rescue", "to": "public_risk", "cause_ref": "E001" },
+        { "from": "public_risk", "to": "transparent_negotiation", "cause_ref": "E003" }
+      ]
+    },
+    {
+      "character_id": "CHAR-ELLIS",
+      "states": ["replacement_preferred", "conditional_offer", "trial_extension"],
+      "transitions": [
+        { "from": "replacement_preferred", "to": "conditional_offer", "cause_ref": "E002" },
+        { "from": "conditional_offer", "to": "trial_extension", "cause_ref": "E003" }
+      ]
+    }
+  ],
+  "season_arc": {
+    "season_id": "S01",
+    "episode_count": 3,
+    "season_question": "Can Maya obtain an honest, financially bounded extension before the lease ends?",
+    "major_turns": [
+      {
+        "id": "TURN-1",
+        "summary": "Maya discloses the true extension terms and renegotiates rather than claiming an easy win.",
+        "episode_window": "E003",
+        "cause_refs": ["E001", "E002"],
+        "protagonist_choice": "Tell supporters the financial risk and offer refunds.",
+        "opposing_counteraction": "Ellis holds the deadline and insists on measurable payment terms.",
+        "cost_or_state_change": "Maya risks losing backing but gains informed support.",
+        "next_pressure": "The trial extension creates a new revenue checkpoint.",
+        "provenance": { "decision_id": "DEC-TURN", "kind": "ai_proposal", "statement": "Invented major turn." }
+      }
+    ],
+    "reveal_windows": [],
+    "finale_outcome": "A limited extension is agreed, with longer-term survival unresolved.",
+    "unresolved_promises": []
+  },
+  "episodes": [
+    {
+      "episode_id": "E001",
+      "goal": "Launch a documented rescue offer.",
+      "opening_hook": "Maya receives the end-of-lease notice.",
+      "immediate_problem": "The landlord has another tenant ready.",
+      "conflict": "Maya needs credible commitments before Ellis's deadline.",
+      "escalation": "She guarantees performer fees without confirmed backing.",
+      "emotional_beat": "The performers believe her promise.",
+      "reveal_or_reversal": "Ellis says early pledges are conditional and insufficient.",
+      "payoff": "Maya obtains initial written commitments.",
+      "unresolved_question": "Can she turn them into secure funding?",
+      "cliffhanger": "A sponsor's commitment depends on a sold-out show.",
+      "outcome": "The rescue attempt is public but underfunded.",
+      "entry_state": { "offer": "none", "funding": "none", "trust": "private_promise" },
+      "exit_state": { "offer": "proposed", "funding": "conditional", "trust": "public_promise" },
+      "character_changes": [ { "character_id": "CHAR-MAYA", "from_state": "private_rescue", "to_state": "public_risk", "cause_ref": "E001" } ],
+      "continuity_changes": [],
+      "canon_refs": ["CAN-1"],
+      "promise_refs": ["PROM-1"],
+      "source_refs": [],
+      "finale": false
+    },
+    {
+      "episode_id": "E002",
+      "goal": "Convert conditional support into a deposit.",
+      "opening_hook": "The sponsor withdraws before the show.",
+      "immediate_problem": "Maya's promised performer fees now compete with the deposit.",
+      "conflict": "Ellis will not accept money that Maya also owes to performers.",
+      "escalation": "Maya puts her savings into a separate deposit offer.",
+      "emotional_beat": "She realizes the people she is protecting deserve to know the risk.",
+      "reveal_or_reversal": "Ellis offers expensive short terms that could create another failure.",
+      "payoff": "Maya gets a concrete offer to negotiate.",
+      "unresolved_question": "Will she tell the group the full terms?",
+      "cliffhanger": "The revised price goes public before Maya can explain it.",
+      "outcome": "An extension is possible but the terms are dangerous.",
+      "entry_state": { "offer": "proposed", "funding": "conditional", "trust": "public_promise" },
+      "exit_state": { "offer": "expensive_terms", "funding": "personal_savings_at_risk", "trust": "strained" },
+      "character_changes": [ { "character_id": "CHAR-ELLIS", "from_state": "replacement_preferred", "to_state": "conditional_offer", "cause_ref": "E002" } ],
+      "continuity_changes": [],
+      "canon_refs": ["CAN-1"],
+      "promise_refs": ["PROM-1"],
+      "source_refs": [],
+      "finale": false
+    },
+    {
+      "episode_id": "E003",
+      "goal": "Renegotiate with informed support.",
+      "opening_hook": "Performers ask whether Maya promised money she cannot pay.",
+      "immediate_problem": "The crowd can withdraw support after hearing the real cost.",
+      "conflict": "Maya must choose openness over a quick signature.",
+      "escalation": "She offers refunds and proposes a short measurable trial.",
+      "emotional_beat": "Supporters remain after being given a choice.",
+      "reveal_or_reversal": "Ellis accepts bounded trial risk over his replacement tenant's uncertain start date.",
+      "payoff": "The venue gains a limited extension.",
+      "unresolved_question": null,
+      "cliffhanger": null,
+      "outcome": "A trial extension begins; permanent survival remains uncertain.",
+      "entry_state": { "offer": "expensive_terms", "funding": "personal_savings_at_risk", "trust": "strained" },
+      "exit_state": { "offer": "trial_extension", "funding": "documented_commitments", "trust": "informed_support" },
+      "character_changes": [
+        { "character_id": "CHAR-MAYA", "from_state": "public_risk", "to_state": "transparent_negotiation", "cause_ref": "E003" },
+        { "character_id": "CHAR-ELLIS", "from_state": "conditional_offer", "to_state": "trial_extension", "cause_ref": "E003" }
+      ],
+      "continuity_changes": [],
+      "canon_refs": ["CAN-1"],
+      "promise_refs": ["PROM-1"],
+      "source_refs": [],
+      "finale": true,
+      "closing_payoff": "Maya wins a bounded chance with her supporters' informed consent.",
+      "series_question_resolution": "Ellis grants a limited extension before the fictional lease deadline."
+    }
+  ],
+  "canon_facts": [
+    {
+      "id": "CAN-1",
+      "statement": "In this fictional example, the venue's existing private lease ends after the weekend.",
+      "provenance": { "decision_id": "DEC-CAN", "kind": "ai_proposal", "statement": "Invented deadline; requires real-world legal review if produced." }
+    }
+  ],
+  "secrets": [],
+  "promises": [
+    {
+      "id": "PROM-1",
+      "statement": "The final show will produce a fair, fully disclosed decision about the venue's next step.",
+      "provenance": { "decision_id": "DEC-PROM", "kind": "ai_proposal", "statement": "Invented dramatic promise." }
+    }
+  ],
+  "narrative_asset_requirements": [
+    {
+      "id": "ASSET-VENUE",
+      "kind": "location",
+      "story_function": "A single venue grounds the deadline, community support, and negotiation.",
+      "first_needed_ref": "E001",
+      "provenance": { "decision_id": "DEC-ASSET", "kind": "ai_proposal", "statement": "Invented story asset requirement." }
+    }
+  ],
+  "provenance": [
+    { "decision_id": "DEC-DIRECTION", "kind": "ai_proposal", "statement": "This sample expands a simulated selected direction; no human chose it in this project." }
+  ]
+}

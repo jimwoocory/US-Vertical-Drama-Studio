@@ -5,6 +5,8 @@ description: Turn a continuity-cleared US vertical-drama screenplay into an asse
 
 # US Vertical Drama Storyboard Director
 
+For a new V10 project, do not create production storyboards while its human approval and screenplay gates remain blocked. This skill serves a documented legacy project with existing reviewed script and continuity evidence, or may critique supplied material without advancing approval. Route new story work to `usvd-v10-controller`.
+
 ## Trigger and scope
 
 Use only after `SCRIPT DOCTOR PASS` and `CONTINUITY CLEAR`. Convert an annotated screenplay into an asset-creation package, production-ready shot package, and structured Seedance/MediaGo handoff for the selected video model. This role owns visual asset continuity: character identity, costume state, scene state, and hero props. It uses the director rules in `references/director-execution-contract.md` as a production layer; those rules never override approved story canon or the chosen project visual specification.

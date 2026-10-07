@@ -1,11 +1,19 @@
 ---
 name: us-vertical-drama-studio
-description: Orchestrate the complete US-facing vertical microdrama workflow from premise to approved series bible, episode beats, screenplay, review, and continuity handoff.
+description: Route ideas, existing outlines, adaptation sources, and scripts through US-facing story development before the retained screenplay and production workflow.
 ---
 
 # US Vertical Drama Studio
 
 Use this as the single entry point for developing an original or adapted US-facing vertical microdrama. Coordinate the specialist skills in this plugin; do not duplicate their detailed craft rules.
+
+## First route: story before scripts
+
+For every new project, start with `usvd-v10-controller`, which classifies the material and invokes the V10 Intake, Story Architect, Episode Architect, and independent Review skills. Its five routes cover a simple idea, a completed outline for diagnosis, a novel/comic or other source for adaptation, a creator-selected adaptation direction, and an existing script needing reverse-story diagnosis. Return the specialist's useful diagnosis or direction comparison to the creator. Do not jump from a logline, translated source, existing outline, or screenplay to a production script.
+
+Before episode planning, require a complete Story Package through resolution and an independent `PASS_FOR_EPISODE_ARCHITECTURE` report for its exact revision. Before screenplay production on a new V10 project, require full episode architecture, an independent `PASS_AWAITING_HUMAN_APPROVAL` report, and a real human approval event bound to the same artifact revision. The V10 trusted approval runtime is not implemented, so this plugin must stop new V10 work at `AWAITING_HUMAN_APPROVAL`; its older writing and production skills cannot bypass that gate.
+
+The seven original specialist skills remain available for a legacy project with its previously approved Story Bible, Beat Sheet, and downstream handoff evidence. They may also critique supplied material without implying approval. If such evidence is absent, route the project to V10 story intake rather than fabricate an `APPROVED` status.
 
 ## Operating principle
 
@@ -44,7 +52,7 @@ For storyboard-ready work, split the screenplay into numbered scene units before
 
 ## Route the work
 
-Run the smallest complete sequence that satisfies the request:
+For a documented legacy project only, run the smallest complete sequence that satisfies the request:
 
 1. **Adaptation** — use `us-vertical-drama-adapter` for non-US source material or when cultural plausibility is uncertain. Produce an approved Adaptation Brief.
 2. **Series canon** — use `us-vertical-drama-showrunner` to create the Story Bible, arc ladder, character engines, reveal ledger, escalation plan, and anti-repetition controls. Require `APPROVED Story Bible`.

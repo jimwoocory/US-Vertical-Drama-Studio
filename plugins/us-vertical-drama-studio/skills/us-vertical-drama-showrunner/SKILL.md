@@ -4,6 +4,8 @@ description: Build the canon and serial engine for a 40-100 episode US-facing ve
 ---
 # US Vertical Drama Showrunner
 
+For a new project, route story creation through `usvd-v10-controller` and `usvd-v10-01-story-architect` first. This legacy skill can assist an already documented project or critique a supplied draft, but its old `APPROVED` label cannot replace V10's independent review or trusted human gate.
+
 ## Trigger and scope
 
 Use after a US Adaptation Brief or for an original US-facing premise before episode architecture. Create the governing canon and long-form escalation system for a 40-100 episode series.

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://usvds.invalid/schemas/v10/episode-entry.schema.json",
+  "title": "USVDS V10 Episode Architecture Entry",
+  "type": "object",
+  "required": ["episode_id", "goal", "opening_hook", "immediate_problem", "conflict", "escalation", "emotional_beat", "reveal_or_reversal", "payoff", "unresolved_question", "cliffhanger", "outcome", "entry_state", "exit_state", "character_changes", "continuity_changes", "canon_refs", "promise_refs", "source_refs", "finale"],
+  "properties": {
+    "episode_id": { "type": "string", "minLength": 1 },
+    "goal": { "type": "string", "minLength": 1 },
+    "opening_hook": { "type": "string", "minLength": 1 },
+    "immediate_problem": { "type": "string", "minLength": 1 },
+    "conflict": { "type": "string", "minLength": 1 },
+    "escalation": { "type": "string", "minLength": 1 },
+    "emotional_beat": { "type": "string", "minLength": 1 },
+    "reveal_or_reversal": { "type": "string", "minLength": 1 },
+    "payoff": { "type": "string", "minLength": 1 },
+    "unresolved_question": { "type": ["string", "null"] },
+    "cliffhanger": { "type": ["string", "null"] },
+    "outcome": { "type": "string", "minLength": 1 },
+    "entry_state": { "type": "object" },
+    "exit_state": { "type": "object" },
+    "character_changes": { "type": "array", "items": { "type": "object", "required": ["character_id", "from_state", "to_state", "cause_ref"], "properties": { "character_id": { "type": "string" }, "from_state": { "type": "string" }, "to_state": { "type": "string" }, "cause_ref": { "type": "string" } }, "additionalProperties": false } },
+    "continuity_changes": { "type": "array", "items": { "type": "object", "required": ["subject_id", "state_kind", "from", "to", "cause_ref"], "properties": { "subject_id": { "type": "string" }, "state_kind": { "enum": ["knowledge", "relationship", "injury", "prop", "location", "promise"] }, "from": {}, "to": {}, "cause_ref": { "type": "string" } }, "additionalProperties": false } },
+    "canon_refs": { "type": "array", "items": { "type": "string" } },
+    "promise_refs": { "type": "array", "items": { "type": "string" } },
+    "source_refs": { "type": "array", "items": { "type": "string" } },
+    "finale": { "type": "boolean" },
+    "closing_payoff": { "type": ["string", "null"] },
+    "series_question_resolution": { "type": ["string", "null"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "finale": { "const": true } }, "required": ["finale"] },
+      "then": { "required": ["closing_payoff", "series_question_resolution"], "properties": { "closing_payoff": { "type": "string", "minLength": 1 }, "series_question_resolution": { "type": "string", "minLength": 1 } } },
+      "else": { "properties": { "unresolved_question": { "type": "string", "minLength": 1 }, "cliffhanger": { "type": "string", "minLength": 1 } } }
+    }
+  ],
+  "additionalProperties": false
+}

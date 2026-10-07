@@ -34,7 +34,11 @@ Canonical truth lives in `core/usvd-v9/`. The DSH plugin reads the generated cat
 
 Package version: `0.4.0-v9-preview.1`. DSH's browser UI injection and client bundle are excluded. The standard npm package archive can be produced with `npm pack`.
 
-## Stage model routing
+## V10 GPT story-workflow preview
+
+The separate Agent Plugins inspection package is generated from `core/usvd-v10/` with `npm run build:plugin-v10`. The existing ChatGPT web plugin package at `plugins/us-vertical-drama-studio/` is updated from the same Core with `node scripts/sync-chatgpt-plugin.mjs`. It keeps its original eight skills and adds five V10 story skills, intake routing, source mechanism mapping, independent outline review, JSON contracts, examples, and a deterministic structural checkup. New V10 projects stop before screenplay work: trusted human approval and protected Screenwriter execution remain blocked by ND-001. V9 DSH distributions are untouched.
+
+## V9 DSH stage model routing
 
 V10 uses DSH's real Session model-selection API for the writing/review stages:
 

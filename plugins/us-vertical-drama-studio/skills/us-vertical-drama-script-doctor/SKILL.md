@@ -4,6 +4,8 @@ description: Independently score a US vertical-drama screenplay against its appr
 ---
 # Script Doctor
 
+For a new project, use `usvd-v10-controller` for story diagnosis and review before production. This legacy skill may review a supplied script or a documented legacy project, but a `PASS` here cannot approve the V10 Story Package or bypass its trusted human gate.
+
 ## Trigger and scope
 
 Use after Screenwriter submits a draft with its APPROVED Beat Sheet, Story Bible, and continuity ledger. Assess independently; do not become the writer of record.

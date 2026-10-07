@@ -4,6 +4,8 @@ description: Turn an approved US vertical-drama Story Bible into an approval-rea
 ---
 # Episode Architect
 
+For a new project, use `usvd-v10-controller` and `usvd-v10-02-episode-architect` only after a complete Story Package and digest-bound independent story review. This legacy skill serves projects with documented prior approvals; its old `APPROVED` label cannot replace V10's independent review or trusted human gate.
+
 ## Trigger and scope
 
 Use only with an APPROVED Story Bible and current continuity ledger. Create a single episode beat sheet, including Hook, Conflict, Escalation, Reversal, Payoff, and Cliffhanger.

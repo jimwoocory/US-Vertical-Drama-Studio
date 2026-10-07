@@ -76,7 +76,7 @@ function check(repo) {
   return spawnSync(process.execPath, [checker, '--test-root', repo.cwd, '--test-baseline', repo.baseline], { encoding: 'utf8' })
 }
 
-test('V10 manifest is a planned, non-runnable US writing scaffold with explicit audited routing', () => {
+test('V10 manifest tracks authored story-stage skills separately while keeping runtime non-runnable', () => {
   const path = join(root, 'core/usvd-v10/manifest.json')
   assert.ok(existsSync(path), 'V10-only manifest must exist')
   const manifest = JSON.parse(readFileSync(path, 'utf8'))
@@ -98,15 +98,47 @@ test('V10 manifest is a planned, non-runnable US writing scaffold with explicit 
   ]
   assert.deepEqual(manifest.skill_order, expected.map(([id]) => id))
   assert.deepEqual(manifest.skills.map(({ id, routing_role }) => [id, routing_role]), expected)
+  const authored = new Set(['controller', '00-intake-adaptation', '01-story-architect', '02-episode-architect', '04-review-continuity'])
   for (const skill of manifest.skills) {
     assert.equal(skill.name, `usvd-v10-${skill.id}`)
-    assert.equal(skill.status, 'planned')
     assert.equal(skill.runnable, false)
     assert.equal(skill.canonical_path, `skills/${skill.id}/SKILL.md`)
-    assert.equal(existsSync(join(root, manifest.canonical_root, skill.canonical_path)), false)
+    const skillPath = join(root, manifest.canonical_root, skill.canonical_path)
+    assert.equal(existsSync(skillPath), authored.has(skill.id), `${skill.id} authored path status`)
+    assert.equal(skill.status, authored.has(skill.id) ? 'authored-unvalidated' : 'planned')
+    if (authored.has(skill.id)) {
+      const source = readFileSync(skillPath, 'utf8')
+      assert.match(source, new RegExp(`^---\\r?\\nname: ${skill.name}\\r?\\ndescription: .+?\\r?\\n---`, 's'))
+      const visibleSignals = {
+        controller: ['Next allowed action', 'one skill'],
+        '00-intake-adaptation': ['retain', 'cut', 'merge', 'source locator'],
+        '01-story-architect': ['Full-Series Story Outline', 'Story Engine', 'STORY_DRAFT_READY'],
+        '02-episode-architect': ['mini dramatic arc', 'entry_state', 'exit_state'],
+        '04-review-continuity': ['PASS_FOR_EPISODE_ARCHITECTURE', 'PASS_AWAITING_HUMAN_APPROVAL', 'evidence'],
+      }[skill.id]
+      for (const signal of visibleSignals) assert.ok(source.includes(signal), `${skill.id} must expose ${signal}`)
+      if (skill.contract_path) assert.ok(existsSync(join(root, manifest.canonical_root, skill.contract_path)))
+    }
   }
+  for (const contract of manifest.contracts) assert.ok(existsSync(join(root, manifest.canonical_root, contract)))
+  assert.deepEqual(manifest.approval_runtime, { status: 'blocked', decision_ref: 'ND-001', implemented: false })
   assert.deepEqual(manifest.model_routes, { '01': 'glm-5.3-flashx', '02': 'glm-5.3', '03': 'glm-5.3', '04': 'glm-5.3' })
 })
+
+test('V10 GPT plugin preview is generated from the authored Core and remains limited to those skills', () => {
+  const result = spawnSync(process.execPath, [join(root, 'scripts/sync-v10-plugin.mjs'), '--check'], { cwd: root, encoding: 'utf8' })
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  const plugin = JSON.parse(readFileSync(join(root, 'plugins/us-vertical-drama-studio-v10/plugin.json'), 'utf8'))
+  assert.equal(plugin.name, 'us-vertical-drama-studio-v10')
+  assert.ok(plugin.extensions['com.openai'].interface.shortDescription.length <= 30)
+  assert.equal(plugin.extensions['com.openai'].interface.defaultPrompt.length, 3)
+  assert.equal(manifestStatus(), false, 'plugin preview is not a production approval runtime')
+})
+
+function manifestStatus() {
+  const core = JSON.parse(readFileSync(join(root, 'core/usvd-v10/manifest.json'), 'utf8'))
+  return core.runnable || core.approval_runtime.status !== 'blocked'
+}
 
 test('checker accepts identical protected baseline and unrelated V10 additions', t => {
   const repo = fixture(t)

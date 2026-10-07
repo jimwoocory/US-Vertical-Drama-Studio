@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://usvds.invalid/schemas/v10/review-report.schema.json",
+  "title": "USVDS V10 Review Report",
+  "type": "object",
+  "required": ["review_id", "project_id", "artifact_id", "revision", "digest", "binding_status", "mode", "scope", "input_refs", "reviewer", "independence_statement", "rubric_version", "structural_results", "findings", "verdict", "unassessed_scopes"],
+  "properties": {
+    "review_id": { "type": "string", "minLength": 1 },
+    "project_id": { "type": "string", "minLength": 1 },
+    "artifact_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": ["integer", "null"], "minimum": 1 },
+    "digest": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+    "binding_status": { "enum": ["verified_digest", "source_label_only"] },
+    "source_label": { "type": "string", "minLength": 1, "description": "Required for a diagnostic on unversioned supplied material; identify the exact file, excerpt, or user-supplied label." },
+    "mode": { "enum": ["outline-diagnostic", "story-draft-review", "story-package-review", "script-review", "continuity-project"] },
+    "scope": { "type": "string", "minLength": 1 },
+    "input_refs": { "type": "array", "items": { "type": "string" } },
+    "reviewer": { "const": "ai_reviewer" },
+    "independence_statement": { "type": "string", "minLength": 1 },
+    "rubric_version": { "type": "string", "minLength": 1 },
+    "structural_results": { "type": "array", "items": { "type": "object", "required": ["check_id", "result"], "properties": { "check_id": { "type": "string" }, "result": { "enum": ["PASS", "FAIL", "NOT_RUN"] }, "evidence_ref": { "type": "string" } }, "additionalProperties": false } },
+    "findings": { "type": "array", "items": { "type": "object", "required": ["finding_id", "class", "issue_type", "severity", "stable_ref", "evidence", "required_action"], "properties": { "finding_id": { "type": "string" }, "class": { "enum": ["structural", "semantic", "craft"] }, "issue_type": { "enum": ["direction_mismatch", "surface_transplant", "translation_register", "causal_break", "agency_gap", "opposition_gap", "escalation_reset", "character_logic", "payoff_gap", "source_coverage", "provenance_gap", "production_fit", "continuity", "other"] }, "severity": { "enum": ["mandatory", "major", "minor", "note"] }, "stable_ref": { "type": "string" }, "evidence": { "type": "string" }, "required_action": { "type": "string" } }, "additionalProperties": false } },
+    "verdict": { "enum": ["DIAGNOSTIC_COMPLETE", "PASS_FOR_EPISODE_ARCHITECTURE", "PASS_AWAITING_HUMAN_APPROVAL", "REWRITE", "REJECT", "BLOCKED"] },
+    "unassessed_scopes": { "type": "array", "items": { "type": "string" } },
+    "machine_result_ref": { "type": ["string", "null"] }
+  },
+  "allOf": [
+    { "if": { "properties": { "mode": { "const": "outline-diagnostic" } }, "required": ["mode"] }, "then": { "required": ["source_label"], "properties": { "verdict": { "enum": ["DIAGNOSTIC_COMPLETE", "REJECT", "BLOCKED"] } } } },
+    { "if": { "properties": { "mode": { "enum": ["story-draft-review", "story-package-review"] } }, "required": ["mode"] }, "then": { "properties": { "revision": { "type": "integer", "minimum": 1 }, "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }, "binding_status": { "const": "verified_digest" }, "verdict": { "enum": ["PASS_FOR_EPISODE_ARCHITECTURE", "PASS_AWAITING_HUMAN_APPROVAL", "REWRITE", "REJECT", "BLOCKED"] } } } },
+    { "if": { "properties": { "binding_status": { "const": "source_label_only" } }, "required": ["binding_status"] }, "then": { "properties": { "revision": { "type": "null" }, "digest": { "type": "null" } } } },
+    { "if": { "properties": { "binding_status": { "const": "verified_digest" } }, "required": ["binding_status"] }, "then": { "properties": { "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" } } } },
+    { "if": { "properties": { "verdict": { "const": "PASS_FOR_EPISODE_ARCHITECTURE" } }, "required": ["verdict"] }, "then": { "properties": { "mode": { "const": "story-draft-review" } } } },
+    { "if": { "properties": { "verdict": { "const": "PASS_AWAITING_HUMAN_APPROVAL" } }, "required": ["verdict"] }, "then": { "properties": { "mode": { "const": "story-package-review" } } } }
+  ],
+  "additionalProperties": false
+}
