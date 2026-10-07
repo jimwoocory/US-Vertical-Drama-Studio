@@ -22,7 +22,7 @@ Use DSH `0.2.0-rc.2` for this preview. Create a web profile and install the repo
 
 ```sh
 npx -y @deepseek-ai/dsh@0.2.0-rc.2 --profile us-drama --from-default-profile web --no-open
-npx -y --package pnpm@11.7.0 --package @deepseek-ai/dsh@0.2.0-rc.2 dsh plugin --profile us-drama add github:jimwoocory/US-Vertical-Drama-Studio#v10
+npx -y --package pnpm@11.7.0 --package @deepseek-ai/dsh@0.2.0-rc.2 dsh plugin --profile us-drama add github:jimwoocory/US-Vertical-Drama-Studio#v11
 npx -y @deepseek-ai/dsh@0.2.0-rc.2 --profile us-drama
 ```
 

@@ -1,9 +1,6 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
 import test from 'node:test'
 import { buildProductionSnapshot, parseStoryboardText, PRODUCTION_WORKBENCH_SCHEMA } from '../production-workbench.js'
-import { assertP1Compatibility, P1_DSH_VERSION } from '../compatibility.js'
 
 const ready = {
   schema_version: PRODUCTION_WORKBENCH_SCHEMA,
@@ -114,50 +111,4 @@ test('accepts the V8-style compact video and shot headings', () => {
   assert.equal(snapshot.shots.length, 2)
   assert.equal(snapshot.shots[1].timeline_in_seconds, 1)
   assert.match(snapshot.videos[0].video_master_prompt, /伊芙抬眼/)
-})
-
-test('P1 uses only its declared slot-service injection surface', () => {
-  const slots = { inject() {}, register() {} }
-  const guardedContext = new Proxy({ slots }, { get(target, key) {
-    if (key === 'slots') return target.slots
-    throw new Error(`unexpected undeclared injection: ${String(key)}`)
-  } })
-  assert.doesNotThrow(() => assertP1Compatibility(guardedContext))
-  assert.throws(() => assertP1Compatibility({}), /slot service/)
-})
-
-test('P1 declares exact DSH peers and ships a DSH module-loader bundle', () => {
-  const packageUrl = new URL('../../package.json', import.meta.url)
-  const pkg = JSON.parse(readFileSync(packageUrl, 'utf8'))
-  assert.equal(pkg.peerDependencies['@deepseek-ai/dsh'], P1_DSH_VERSION)
-  assert.equal(pkg.peerDependencies['@deepseek-ai/dsh-client-ui-slots'], P1_DSH_VERSION)
-  assert.equal(pkg.peerDependencies['@deepseek-ai/dsh-skill'], P1_DSH_VERSION)
-  assert.equal(pkg.exports['./client'], './dsh-plugin/client.bundle.cjs')
-  const bundle = readFileSync(fileURLToPath(new URL('../client.bundle.cjs', import.meta.url)), 'utf8')
-  assert.match(bundle, /window\.__ModuleLoader__\.load/)
-})
-
-test('workbench is a native session view and never takes over the DSH conversation layout', () => {
-  const client = readFileSync(fileURLToPath(new URL('../client.js', import.meta.url)), 'utf8')
-  assert.match(client, /data-conversation-scroll/)
-  assert.match(client, /conversation\.view/)
-  assert.match(client, /conversation\.session\.header\.utilities/)
-  assert.match(client, /id: 'dramago'/)
-  assert.match(client, /label: 'DramaGo'/)
-  assert.doesNotMatch(client, /createPortal/)
-  assert.doesNotMatch(client, /shell\.overlay/)
-  assert.doesNotMatch(client, /\[data-conversation-scroll\]:has/)
-  assert.doesNotMatch(client, /data-composer-seat/)
-})
-
-test('workbench auto-indexes generated Markdown from the conversation into categorized document groups', () => {
-  const client = readFileSync(fileURLToPath(new URL('../client.js', import.meta.url)), 'utf8')
-  assert.match(client, /useConversationDocuments/)
-  assert.match(client, /scanConversationDocuments/)
-  assert.match(client, /classifyConversationDocument/)
-  assert.match(client, /classifyConversationFolder/)
-  assert.match(client, /recordConversationDocuments/)
-  assert.match(client, /SessionArtifactIndexer/)
-  assert.match(client, /uwd-conversation-files/)
-  assert.match(client, /MutationObserver/)
 })

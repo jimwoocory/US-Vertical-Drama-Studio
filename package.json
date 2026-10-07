@@ -6,8 +6,7 @@
   "license": "Apache-2.0",
   "main": "./dsh-plugin/index.js",
   "exports": {
-    ".": "./dsh-plugin/index.js",
-    "./client": "./dsh-plugin/client.bundle.cjs"
+    ".": "./dsh-plugin/index.js"
   },
   "engines": {
     "node": ">=24"
@@ -15,24 +14,17 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
-    },
-    "client": {
-      "inject": [
-        "@deepseek-ai/dsh-client-ui-slots"
-      ],
-      "platform": "web"
     }
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "4.0.4",
     "@deepseek-ai/dsh": "0.2.0-rc.2",
     "@deepseek-ai/dsh-skill": "0.2.0-rc.2",
-    "@deepseek-ai/dsh-client-ui-slots": "0.2.0-rc.2",
-    "@deepseek-ai/dsh-tools": "0.2.0-rc.2",
-    "react": "18.3.1"
+    "@deepseek-ai/dsh-tools": "0.2.0-rc.2"
   },
   "files": [
-    "dsh-plugin",
+    "dsh-plugin/index.js",
+    "dsh-plugin/model-routing",
     "plugins/us-vertical-drama-studio-v9",
     "core/usvd-v9",
     "cordis.patch.yml",
@@ -43,7 +35,7 @@
     "build:v9": "node scripts/sync-v9-distributions.mjs",
     "build:dsh-v9": "node scripts/sync-dsh-v9.mjs",
     "check:v9": "node scripts/sync-v9-distributions.mjs --check",
-    "test": "node scripts/sync-v9-distributions.mjs --check && node --test dsh-plugin/test/*.test.mjs integrations/media-mcp/test/*.test.mjs && node --check dsh-plugin/client.bundle.cjs"
+    "test": "node scripts/sync-v9-distributions.mjs --check && node --test dsh-plugin/test/*.test.mjs integrations/media-mcp/test/*.test.mjs"
   },
   "keywords": [
     "dsh-plugin",
