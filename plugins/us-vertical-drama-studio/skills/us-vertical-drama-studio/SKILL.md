@@ -9,7 +9,7 @@ Use this as the single entry point for developing an original or adapted US-faci
 
 ## First route: story before scripts
 
-For every new project, start with `usvd-v10-controller`, which classifies the material and invokes the V10 Intake, Story Architect, Episode Architect, and independent Review skills. Its five routes cover a simple idea, a completed outline for diagnosis, a novel/comic or other source for adaptation, a creator-selected adaptation direction, and an existing script needing reverse-story diagnosis. Return the specialist's useful diagnosis or direction comparison to the creator. Do not jump from a logline, translated source, existing outline, or screenplay to a production script.
+For every new project, start with `usvd-v10-controller`, which classifies the material and invokes the V10 Intake, Story Architect, Episode Architect, and independent Review skills. Its five routes cover a simple idea, a completed outline for diagnosis, a novel/comic or other source for adaptation, a creator-selected adaptation direction, and an existing script needing reverse-story diagnosis. Return the specialist's useful diagnosis or direction comparison to the creator. Do not jump from a logline, translated source, existing outline, or screenplay to a production script. This release's delivery contract is **1.2.6**: if an earlier conversation or document says that screenplay action is Chinese-only or dialogue has no Chinese reference, use the current paired-language rules below when regenerating.
 
 Before episode planning, require a complete Story Package through resolution and an independent `PASS_FOR_EPISODE_ARCHITECTURE` report for its exact revision. The V10 trusted approval runtime is not implemented, so the production Screenwriter and downstream production remain blocked. After full episode architecture and an independent `PASS_AWAITING_HUMAN_APPROVAL` report, a direct creator instruction in the same conversation for the exact package may route to `usvd-v10-03-creator-script-draft`. For this non-production draft, the current review-attested Episode Architecture DOCX/HTML plus its exact matching review is a valid readable source when the canonical JSON is unavailable; disclose that narrower source binding and do not invent omitted canon. An unspecified “continue R4” request defaults to an explicitly stated EP01–EP03 first batch. This creates a clearly labeled, non-production `CREATOR_AUTHORIZED_DRAFT`, never a system `APPROVED` Story Package. Do not ask the creator to repeat an already visible direct approval for that same package; do not use an assistant summary or screenshot alone as approval evidence.
 
@@ -45,16 +45,18 @@ Unless the user explicitly requests otherwise, write creator-facing episode scri
 - Pair scene headings, action, performance direction, on-screen notes, beat traces, and production notes field by field in Chinese and English.
 - Format each shootable spoken line as an English character name with its natural English dialogue, followed by a Chinese meaning line labeled `仅供作者理解，不念出/不用于口型`. The Chinese line is not a second performed line.
 - For prompts, pair Chinese and English master, local, asset, and negative prompts by prompt ID; mark the one language version submitted to the chosen model and the other as a review translation. Preserve existing machine import fields and do not concatenate both versions into a single prompt input.
+- Keep `【OS／画外音】` separate from `【情绪/表演】` in each screenplay scene. Emotion is unspoken playable direction; OS is an audible inner voice, voiceover, or off-screen line. When present, give speaker/type, exact English performed line and adjacent unspoken Chinese meaning. When absent, write `无／None`; do not invent an inner monologue.
 
 ## Screenplay annotation standard
 
-Unless the user asks for a treatment or outline only, every screenplay scene must visibly label its production inputs. Use Chinese labels: `【场景】`, `【人物】`, `【动作】`, `【情绪/内心】`, and `【台词】`.
+Unless the user asks for a treatment or outline only, every screenplay scene must visibly label its production inputs. Use stable labels: `【场景】`, `【人物】`, `【动作】`, `【情绪/表演】`, `【台词】`, and `【OS／画外音】`. Pair the substantive value of each field in Chinese and English.
 
 - `【场景】` names the precise dramatic location, time, and scene objective.
 - `【人物】` names the characters present; character names in speech are English.
 - `【动作】` describes only visible, shootable behavior and changes in the scene.
-- `【情绪/内心】` states the playable emotional state or concealed intention and the observable performance evidence that directs performance; do not use it as unfilmable exposition.
+- `【情绪/表演】` states the playable emotional state or concealed intention and the observable performance evidence that directs performance; it is not audible OS.
 - `【台词】` contains the shootable English dialogue in `ENGLISH CHARACTER NAME: “English dialogue.”` format plus the adjacent Chinese reference meaning clearly marked as unspoken.
+- `【OS／画外音】` separately identifies `inner_voice`, `voiceover`, or `off_screen` speech with the performed English line and Chinese reference; `无／None` is valid when there is no such line.
 
 For storyboard-ready work, split the screenplay into numbered scene units before shot design. Preserve the approved scene ID, timing, entry/exit state, objective, visible action, observable performance evidence, and dialogue purpose. Do not substitute unlabelled prose for these fields.
 

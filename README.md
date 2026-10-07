@@ -48,6 +48,8 @@ ChatGPT plugin 1.2.4 also accepts a current Episode Architecture DOCX/HTML and e
 
 ChatGPT plugin 1.2.5 delivers the complete Episode Map, episode scripts, asset/shot packages, and image/video prompts in paired Chinese and natural US English reading views. Existing machine import fields retain one selected prompt submission language. At final handoff or on request, the plugin packages available current DOCX/HTML, reviews, and useful structured assets into a ZIP with a file manifest and honest partial/gate status. This is a delivery rule for the ChatGPT web plugin; it does not unlock the V10 production gate.
 
+ChatGPT plugin 1.2.6 clarifies that R4 Episode Architecture is a plan without screenplay scenes or dialogue, while EP01–EP03 screenplay drafts must pair every scene field and spoken line in Chinese and English. It gives OS/voiceover a separate field from unspoken emotion/performance, with `无／None` when absent.
+
 ## V9 DSH stage model routing
 
 V10 uses DSH's real Session model-selection API for the writing/review stages:

@@ -44,6 +44,8 @@ The Project Brief records `intake_route`, `next_action`, `next_step_for_user`, a
 
 If the creator requests only a bilingual rendering of an existing reviewed R4 episode map, route to Episode Architect's readable-view localization mode. Keep its source revision/digest and review binding, rather than reopening Story Truth for a presentation repair.
 
+Disambiguate “R4 分集”: the Episode Architecture is a 48-episode plan, not a scene-level screenplay. When the creator asks for `场景`, `台词`, or `OS`, or says those are missing from a regenerated R4, explain that stage boundary and route to `usvd-v10-03-creator-script-draft` for the requested episode range after its existing review/direct-instruction checks. Do not regenerate the architecture as if it were the script. In scripts, OS is a separate audible or intended voice line, never silently merged into the non-spoken emotion/performance field.
+
 ## Change and failure route
 
 - Story or episode contradiction, missing causality, or change to an approved fact → open an SCR and return to Story Architect.

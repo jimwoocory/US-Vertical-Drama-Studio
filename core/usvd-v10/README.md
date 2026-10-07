@@ -1,6 +1,6 @@
 # USVDS V10 Core — in development
 
-This independent canonical root is `core/usvd-v10`, version `0.10.0-preview.6`.
+This independent canonical root is `core/usvd-v10`, version `0.10.0-preview.7`.
 The controller, Intake/Adaptation, Story Architect, Episode Architect, and
 Review/Continuity story-review instructions and initial JSON contracts are
 authored but unvalidated. All V10 skills remain non-runnable: no generated

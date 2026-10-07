@@ -10,15 +10,15 @@ const metadataPath = path.join(pluginRoot, 'plugin.json')
 const metadata = JSON.parse(await readFile(metadataPath, 'utf8'))
 const authored = core.skills.filter(skill => skill.status === 'authored-unvalidated')
 
-metadata.version = '1.2.5'
+metadata.version = '1.2.6'
 metadata.description = 'US-facing vertical drama story development, outline diagnosis, adaptation, and the retained legacy writing and production workflow.'
 const ui = metadata.extensions['com.openai'].interface
-ui.longDescription = '用中文完成美国竖屏短剧的简报、大纲和审查；48 集分集、逐集剧本、分镜与生成提示词逐字段中英对照。默认交付 DOCX 与 HTML，最终可把当前有效资产打包 ZIP。已审故事包可由创作者授权生成明确标注的非投产剧本草稿；正式系统审批仍需可信后端。'
+ui.longDescription = '用中文完成美国竖屏短剧的简报、大纲和审查；48 集分集、逐集剧本、分镜与生成提示词逐字段中英对照。剧本逐句给中文参考译文，OS 与情绪分栏。默认交付 DOCX 与 HTML，最终可打包当前有效资产 ZIP。创作者可授权已审故事包生成非投产剧本草稿；正式系统审批仍需可信后端。'
 ui.defaultPrompt = [
   '我只有一个短剧想法，请用中文给我两到三个冲突机制不同、适合美国观众的故事方向，并交付 DOCX 和 HTML。',
   '这是已有的大纲，请用中文审查因果链和美国市场合理性，并交付 DOCX 和 HTML。',
   '我想把这部小说或漫剧改成美国竖屏短剧，请用中文分析改编机制，并交付 DOCX 和 HTML。',
-  '我已确认当前已审分集 DOCX 和对应 review，请先按 EP01–EP03 起草逐场中英对照的非投产剧本草稿，交付 DOCX 和 HTML。',
+  '我已确认当前已审分集 DOCX 和对应 review，请先按 EP01–EP03 起草逐场中英对照的非投产剧本草稿；每句台词给中文参考，OS 单列且与情绪分开，交付 DOCX 和 HTML。',
   '请把已审 R4 的 48 集分集逐字段做中英对照，保留原修订和剧情事实，交付 DOCX 与 HTML。',
   '请把当前项目已经交付的文档、审查和提示词资产打包成带清单的 ZIP 给作者。',
 ]

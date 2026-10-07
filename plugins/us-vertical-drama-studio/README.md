@@ -1,4 +1,4 @@
-# US Vertical Drama Studio 1.2.5
+# US Vertical Drama Studio 1.2.6
 
 本包更新现有的 ChatGPT 插件身份，保留原有八个技能，并加入前期入口判断、完整故事大纲、独立审查、分集结构和创作者授权草稿通道。入口是 `skills/us-vertical-drama-studio/SKILL.md`；新增规则来自 `core/usvd-v10/`。
 

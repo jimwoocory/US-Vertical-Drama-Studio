@@ -46,7 +46,7 @@ Conform to [`episode-entry.schema.json`](../../contracts/episode-entry.schema.js
 
 `episode_id`, `goal`, `opening_hook`, `immediate_problem`, `conflict`, `escalation`, `emotional_beat`, `reveal_or_reversal`, `payoff`, `unresolved_question`, `cliffhanger`, `outcome`, `entry_state`, `exit_state`, `character_changes`, `continuity_changes`, `canon_refs`, `promise_refs`, `source_refs`, and `finale`.
 
-Write each field as meaningful, causally connected content. “Hero is humiliated,” “hero fights back,” or a title plus one sentence is not episode architecture. Do not add dialogue; episode entries are dramatic plans, not scripts.
+Write each field as meaningful, causally connected content. “Hero is humiliated,” “hero fights back,” or a title plus one sentence is not episode architecture. Episode entries are dramatic plans, not scripts: they do not contain numbered screenplay scenes, performed dialogue, or OS/voiceover lines. In the DOCX/HTML title block and handoff, explicitly identify this deliverable as **“48 集分集架构／Episode Architecture，不是逐集剧本”**. If the creator asks where the scenes, bilingual dialogue, or OS are, route that request to `usvd-v10-03-creator-script-draft` for the authorized episode range rather than regenerate the map and imply those elements are present.
 
 ## Output and next gate
 
