@@ -20,18 +20,17 @@ function git(cwd, ...args) {
   return result.stdout.trim()
 }
 
-function removeFixture(path) {
+function removeFixture(path, filesystem = { lstatSync, readdirSync, rmdirSync, unlinkSync }) {
   // Do not follow links; remove only this test's uniquely created fixture.
-  if (lstatSync(path).isDirectory()) {
-    for (const name of readdirSync(path)) removeFixture(join(path, name))
-    rmdirSync(path)
+  if (filesystem.lstatSync(path).isDirectory()) {
+    for (const name of filesystem.readdirSync(path)) removeFixture(join(path, name), filesystem)
+    filesystem.rmdirSync(path)
   } else {
-    unlinkSync(path)
+    filesystem.unlinkSync(path)
   }
 }
 
-function fixture(t) {
-  const initialStatus = git(root, 'status', '--porcelain', '--untracked-files=all')
+function fixtureRoot() {
   // CI may select another writable root; never fall back to the system TEMP.
   const configuredRoot = process.env.USVD_TEST_TMPDIR
   const temporaryRoot = resolve(configuredRoot || join(root, '.superpowers/tmp'))
@@ -44,7 +43,12 @@ function fixture(t) {
       if (error.code !== 'EEXIST') throw error
     }
   }
-  const canonicalRoot = realpathSync(temporaryRoot)
+  return realpathSync(temporaryRoot)
+}
+
+function fixture(t) {
+  const initialStatus = git(root, 'status', '--porcelain', '--untracked-files=all')
+  const canonicalRoot = fixtureRoot()
   const cwd = mkdtempSync(join(canonicalRoot, 'v10-isolation-'))
   t.after(() => {
     assert.equal(dirname(cwd), canonicalRoot, 'Cleanup must stay within the selected temporary root')
@@ -168,4 +172,60 @@ test('checker fails closed for an unavailable baseline', t => {
   const result = check({ ...repo, baseline: 'invalid-baseline' })
   assert.notEqual(result.status, 0)
   assert.match(result.stderr, /baseline/i)
+})
+
+test('explicit temporary roots preserve existing files across repeated fixtures', async t => {
+  const parent = fixtureRoot()
+  const explicitRoot = mkdtempSync(join(parent, 'v10-explicit-root-'))
+  const initialStatus = git(root, 'status', '--porcelain', '--untracked-files=all')
+  t.after(() => {
+    assert.equal(dirname(explicitRoot), parent)
+    removeFixture(explicitRoot)
+    assert.equal(existsSync(parent), true, 'Configured parent must remain')
+    assert.equal(git(root, 'status', '--porcelain', '--untracked-files=all'), initialStatus)
+  })
+  writeFileSync(join(explicitRoot, 'sentinel.txt'), 'existing user content\n')
+  writeFileSync(join(explicitRoot, '.gitignore'), '# existing user metadata\n')
+  for (let run = 1; run <= 2; run++) {
+    let fixturePath
+    await t.test(`explicit root run ${run}`, child => {
+      const previousRoot = process.env.USVD_TEST_TMPDIR
+      let repo
+      try {
+        process.env.USVD_TEST_TMPDIR = explicitRoot
+        repo = fixture(child)
+      } finally {
+        if (previousRoot === undefined) delete process.env.USVD_TEST_TMPDIR
+        else process.env.USVD_TEST_TMPDIR = previousRoot
+      }
+      fixturePath = repo.cwd
+      assert.equal(dirname(repo.cwd), realpathSync(explicitRoot))
+      const result = check(repo)
+      assert.equal(result.status, 0, result.stdout + result.stderr)
+    })
+    assert.equal(existsSync(fixturePath), false)
+    assert.equal(existsSync(explicitRoot), true)
+    assert.deepEqual(readdirSync(explicitRoot).sort(), ['.gitignore', 'sentinel.txt'])
+    assert.equal(readFileSync(join(explicitRoot, 'sentinel.txt'), 'utf8'), 'existing user content\n')
+    assert.equal(readFileSync(join(explicitRoot, '.gitignore'), 'utf8'), '# existing user metadata\n')
+  }
+})
+
+test('fixture cleanup removes symbolic links without traversing their targets', () => {
+  // A virtual filesystem avoids requiring Windows symlink privileges or risking real files.
+  const link = 'fixture-link'
+  const target = 'outside-target/sentinel.txt'
+  const entries = new Map([[link, 'symbolic link'], [target, 'preserve target content']])
+  const filesystem = {
+    lstatSync: path => {
+      assert.equal(entries.get(path), 'symbolic link')
+      return { isDirectory: () => false }
+    },
+    readdirSync: () => assert.fail('Cleanup must not traverse the link target'),
+    rmdirSync: () => assert.fail('A symbolic link must not be removed as a directory'),
+    unlinkSync: path => { assert.equal(entries.delete(path), true) },
+  }
+  assert.doesNotThrow(() => removeFixture(link, filesystem))
+  assert.equal(entries.has(link), false)
+  assert.equal(entries.get(target), 'preserve target content')
 })
