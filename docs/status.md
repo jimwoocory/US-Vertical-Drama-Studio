@@ -4,7 +4,7 @@ Current baseline: `67647579153fe73891ee2a6ce3ef1f92842ed9ca` (`codex/dsh-03-zhip
 
 Current V10 branch: `codex/v10-00-architecture-audit` (isolated worktree).
 
-Current phase: V10 Core isolation and approval protocol preparation. `V10-00` and `V10-01A` passed independent spec review and remain REVIEW pending eventual main integration/reverification. `V10-01C` local signed-protocol POC is READY; `V10-01B` production hard approval enforcement remains BLOCKED pending exact DSH/NAS trusted-identity verification.
+Current phase: V10 Core isolation and approval protocol preparation. `V10-00` and `V10-01A` passed independent spec review and remain REVIEW pending eventual main integration/reverification. Citation evidence update `V10-00C` and fixture portability fix `V10-01D` are REVIEW; local signed-protocol POC `V10-01C` is READY. Production hard approval enforcement `V10-01B` remains BLOCKED pending exact DSH/NAS trusted-identity verification.
 
 V9 is frozen as the compatibility baseline. This work targets DSH-native writing skills and artifacts; no workbench UI, archive packaging, push, or publish is in scope for this phase.
 
