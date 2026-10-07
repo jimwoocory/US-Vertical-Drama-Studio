@@ -1,7 +1,7 @@
 {
   "schema_version": "v10-core-manifest-1",
   "core_id": "usvd-v10",
-  "version": "0.10.0-preview.4",
+  "version": "0.10.0-preview.5",
   "status": "in-development",
   "canonical_root": "core/usvd-v10",
   "runnable": false,

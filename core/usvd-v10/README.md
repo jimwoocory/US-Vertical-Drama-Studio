@@ -1,6 +1,6 @@
 # USVDS V10 Core — in development
 
-This independent canonical root is `core/usvd-v10`, version `0.10.0-preview.4`.
+This independent canonical root is `core/usvd-v10`, version `0.10.0-preview.5`.
 The controller, Intake/Adaptation, Story Architect, Episode Architect, and
 Review/Continuity story-review instructions and initial JSON contracts are
 authored but unvalidated. All V10 skills remain non-runnable: no generated
@@ -25,7 +25,11 @@ ND-001 blocks trusted approval implementation. The authored skill text specifies
 the intended sequence but does not enforce that gate or authorize Screenwriter
 execution. The separately named `03-creator-script-draft` skill may create a
 conspicuously labeled, non-production draft after direct creator instruction
-for an exact reviewed package in the current ChatGPT conversation. It cannot
+for an exact reviewed package in the current ChatGPT conversation. For drafting,
+it accepts the complete canonical package or a current Episode Architecture
+DOCX/HTML with matching review and clearly discloses the latter as a
+review-attested readable view rather than an independently verified canonical
+JSON. It cannot
 set `APPROVED`, commit protected artifacts, or authorize production. The
 production Screenwriter and downstream stages remain planned.
 

@@ -12,6 +12,8 @@
 
 草稿通道记录（2026-10-07）：用户选择在已审 Story Package 获其直接确认后允许生成明确标注的非投产剧本草稿。1.2.3 新增独立 `03-creator-script-draft`，要求当前对话中的用户原始指令、精确包修订/摘要及独立审查，并保持 Story Truth 不变。此通道不产生系统 `APPROVED`、不解除 ND-001、不开放正式 Screenwriter 和下游制作 Gate。
 
+草稿来源修订（2026-10-07）：HAVEN R4 实际交付了含 EP01–EP48 的 Episode Architecture DOCX 和绑定同一修订/摘要的独立审查 JSON，但跨对话交接时插件仅索要 canonical JSON，导致非投产草稿被不必要地阻断。1.2.4 允许把该 DOCX/HTML 与匹配 review 作为 `REVIEW_ATTESTED_VIEW` 的限域起稿依据；不声称独立重算 canonical JSON 摘要，不改变上文 Story Truth 的正式批准规则。缺少具体事实时只请求相关 baseline/事实，不用旧版集纲拼接 R4。未指定集数时先以 EP01–EP03 作为可撤回的首批假设。
+
 ## 决策摘要
 
 V10 应在独立 `core/usvd-v10/` 建立写作 Core：Intake / Adaptation → Story Architect → Episode Architect → 独立 Story Architecture Review → **绑定整份 Story Package revision/digest 的人工批准** → Screenwriter → 独立 Script Doctor → 派生 Continuity Ledger。默认交付范围为当前用户要求的 `writing-only`；通过单集审稿与连续性检查后结束，整季未审部分明示 `NOT ASSESSED`。

@@ -1,6 +1,6 @@
 {
   "name": "us-vertical-drama-studio-v10",
-  "version": "0.10.0-preview.4",
+  "version": "0.10.0-preview.5",
   "description": "US-facing vertical drama story development with traceable adaptation decisions, complete story architecture, episode planning, and independent review gates.",
   "author": {
     "name": "MediaGo Drama"
@@ -9,7 +9,7 @@
   "interface": {
     "displayName": "US Vertical Drama Studio V10",
     "shortDescription": "Develop and review dramas",
-    "longDescription": "用简体中文完成美国竖屏短剧的项目简报、完整故事大纲、分集规划和独立审查，默认提供 DOCX 与 HTML。创作者直接确认具体已审故事包后，可生成明确标注、不可投产的剧本草稿；正式系统审批仍需可信后端。",
+    "longDescription": "用简体中文完成美国竖屏短剧的项目简报、完整故事大纲、分集规划和独立审查，默认提供 DOCX 与 HTML。创作者直接确认具体已审故事包后，可凭完整包或同版本分集 DOCX/HTML 加匹配 review 生成明确标注、不可投产的剧本草稿；正式系统审批仍需可信后端。",
     "developerName": "MediaGo Drama",
     "category": "Creative",
     "capabilities": [
@@ -20,7 +20,7 @@
       "请用中文分析这个素材的保留、删除、合并和重设计决定，交付 DOCX 与 HTML。",
       "请用中文先写完整故事并审查，再规划每一集的戏剧弧线，交付 DOCX 与 HTML。",
       "请用中文审查这份故事大纲，指出有证据支持的阻断问题，交付 DOCX 与 HTML。",
-      "我已确认当前完整故事包，请根据指定集数起草非投产剧本草稿，交付 DOCX 与 HTML。"
+      "我已确认当前已审分集 DOCX 和对应 review，请先按 EP01–EP03 起草非投产剧本草稿，交付 DOCX 与 HTML。"
     ]
   }
 }

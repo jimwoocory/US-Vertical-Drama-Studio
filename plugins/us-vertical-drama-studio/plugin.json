@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "us-vertical-drama-studio",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "US-facing vertical drama story development, outline diagnosis, adaptation, and the retained legacy writing and production workflow.",
   "author": {
     "name": "MediaGo Drama"
@@ -11,7 +11,7 @@
       "interface": {
         "displayName": "US Vertical Drama Studio",
         "shortDescription": "Plan and write vertical dramas",
-        "longDescription": "用中文完成美国竖屏短剧的简报、完整大纲、分集和审查，默认交付 DOCX 与 HTML。创作者直接确认具体已审故事包后，可继续生成明确标注的非投产剧本草稿；正式系统审批与投产仍需可信后端。剧本对白使用自然的美式英语。",
+        "longDescription": "用中文完成美国竖屏短剧的简报、完整大纲、分集和审查，默认交付 DOCX 与 HTML。创作者直接确认具体已审故事包后，可凭完整包或同版本分集 DOCX/HTML 加匹配 review 生成明确标注的非投产剧本草稿；正式系统审批与投产仍需可信后端。剧本对白使用自然的美式英语。",
         "developerName": "MediaGo Drama",
         "category": "Creative",
         "capabilities": [
@@ -22,7 +22,7 @@
           "我只有一个短剧想法，请用中文给我两到三个冲突机制不同、适合美国观众的故事方向，并交付 DOCX 和 HTML。",
           "这是已有的大纲，请用中文审查因果链和美国市场合理性，并交付 DOCX 和 HTML。",
           "我想把这部小说或漫剧改成美国竖屏短剧，请用中文分析改编机制，并交付 DOCX 和 HTML。",
-          "我已确认当前完整故事包，请按其中的分集结构起草指定集数的非投产剧本草稿，交付 DOCX 和 HTML。"
+          "我已确认当前已审分集 DOCX 和对应 review，请先按 EP01–EP03 起草非投产剧本草稿，交付 DOCX 和 HTML。"
         ]
       }
     }

@@ -44,6 +44,8 @@ ChatGPT plugin 1.2.2 delivers each requested development artifact as matching DO
 
 ChatGPT plugin 1.2.3 adds a separate creator-authorized screenplay **draft** path for an exact independently reviewed Story Package. It records direct creator intent in the active conversation, keeps the Story Package unchanged, and labels the draft non-production. It does not satisfy ND-001 or unlock the production Screenwriter.
 
+ChatGPT plugin 1.2.4 also accepts a current Episode Architecture DOCX/HTML and exact matching independent review for a scoped non-production draft when the canonical JSON is unavailable in the conversation. The draft discloses `REVIEW_ATTESTED_VIEW`; it never claims to have recomputed the canonical digest. An unspecified continuation begins with EP01–EP03 as a stated assumption.
+
 ## V9 DSH stage model routing
 
 V10 uses DSH's real Session model-selection API for the writing/review stages:
