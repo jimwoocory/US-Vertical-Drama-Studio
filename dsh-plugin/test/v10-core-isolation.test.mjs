@@ -1,8 +1,7 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { tmpdir } from 'node:os'
-import { dirname, join } from 'node:path'
+import { existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmdirSync, unlinkSync, writeFileSync } from 'node:fs'
+import { basename, dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import test from 'node:test'
 
@@ -21,9 +20,39 @@ function git(cwd, ...args) {
   return result.stdout.trim()
 }
 
+function removeFixture(path) {
+  // Do not follow links; remove only this test's uniquely created fixture.
+  if (lstatSync(path).isDirectory()) {
+    for (const name of readdirSync(path)) removeFixture(join(path, name))
+    rmdirSync(path)
+  } else {
+    unlinkSync(path)
+  }
+}
+
 function fixture(t) {
-  const cwd = mkdtempSync(join(tmpdir(), 'v10-isolation-'))
-  t.after(() => rmSync(cwd, { recursive: true, force: true }))
+  const initialStatus = git(root, 'status', '--porcelain', '--untracked-files=all')
+  // CI may select another writable root; never fall back to the system TEMP.
+  const configuredRoot = process.env.USVD_TEST_TMPDIR
+  const temporaryRoot = resolve(configuredRoot || join(root, '.superpowers/tmp'))
+  mkdirSync(temporaryRoot, { recursive: true })
+  if (!configuredRoot) {
+    // This checkout need not have a tracked ignore rule. Leave existing metadata intact.
+    try {
+      writeFileSync(join(temporaryRoot, '.gitignore'), '*\n', { flag: 'wx' })
+    } catch (error) {
+      if (error.code !== 'EEXIST') throw error
+    }
+  }
+  const canonicalRoot = realpathSync(temporaryRoot)
+  const cwd = mkdtempSync(join(canonicalRoot, 'v10-isolation-'))
+  t.after(() => {
+    assert.equal(dirname(cwd), canonicalRoot, 'Cleanup must stay within the selected temporary root')
+    assert.ok(basename(cwd).startsWith('v10-isolation-'))
+    removeFixture(cwd)
+    assert.equal(existsSync(cwd), false, 'Fixture cleanup must actually remove its directory')
+    assert.equal(git(root, 'status', '--porcelain', '--untracked-files=all'), initialStatus, 'Fixtures must not change checkout status')
+  })
   git(cwd, 'init', '--quiet')
   git(cwd, 'config', 'user.name', 'Isolation Test')
   git(cwd, 'config', 'user.email', 'isolation@example.invalid')
@@ -96,7 +125,7 @@ for (const path of protectedPaths) {
 
 test('checker rejects tracked deletion', t => {
   const repo = fixture(t)
-  rmSync(join(repo.cwd, protectedPaths[0]))
+  unlinkSync(join(repo.cwd, protectedPaths[0]))
   const result = check(repo)
   assert.equal(result.status, 1)
   assert.ok((result.stdout + result.stderr).includes(protectedPaths[0]))
