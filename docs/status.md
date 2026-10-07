@@ -2,7 +2,7 @@
 
 Current baseline: `67647579153fe73891ee2a6ce3ef1f92842ed9ca` (`codex/dsh-03-zhipu-routing`).
 
-Current V10 branch: `codex/v10-00-architecture-audit` (isolated worktree).
+Current integration branch: `v11`, based on GitHub `v10` commit `25b05ca861798ed6322915e994c167da6a64b8db`; it contains the independently reviewed V10 audit, Core-isolation, approval-protocol POC, model-routing, and DSH runtime-evidence work. This branch is an integration snapshot, not a completed production V11 plugin release.
 
 Current phase: V10 Core isolation and approval protocol preparation. `V10-00`, `V10-01A`, local signed-protocol POC `V10-01C`, citation evidence update `V10-00C`, fixture portability fix `V10-01D`, and exact DSH runtime evidence `V10-01E` passed independent review and remain REVIEW pending integration/reverification. Production hard approval enforcement `V10-01B` remains BLOCKED pending exact DSH/NAS trusted-identity verification.
 
