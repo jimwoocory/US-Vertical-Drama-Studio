@@ -1,7 +1,7 @@
 {
   "schema_version": "v10-core-manifest-1",
   "core_id": "usvd-v10",
-  "version": "0.10.0-preview.5",
+  "version": "0.10.0-preview.6",
   "status": "in-development",
   "canonical_root": "core/usvd-v10",
   "runnable": false,
@@ -13,6 +13,7 @@
     "production_notes_language": "zh-CN",
     "dialogue_language": "en-US",
     "bilingual_on_request": true,
+    "bilingual_episode_script_prompt_default": true,
     "audience_validation": "not-run",
     "commercial_validation": "not-run"
   },
@@ -47,10 +48,12 @@
   "references": [
     "references/intake-routing.md",
     "references/output-language.md",
-    "references/document-delivery.md"
+    "references/document-delivery.md",
+    "references/final-package.md"
   ],
   "tools": [
     "tools/checkup.mjs",
+    "tools/build-delivery-package.py",
     "tools/README.md"
   ],
   "examples": [

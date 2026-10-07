@@ -40,7 +40,7 @@ Use a coherent 180-degree axis unless a deliberate, labeled break is needed. Tre
 
 ## Language and operator readability
 
-All production descriptions, prompt explanations, UI labels, status text, diagnostics, and export headings are Chinese. Keep stable IDs such as `VIDEO-005` and `SHOT-005-03` for traceability, but supply `display_name_zh` / `【中文显示名】` beside them. English is reserved for approved English character names and the exact spoken dialogue. Do not translate the locked English line or replace it with English prose in the rest of the package.
+Creator-readable production descriptions, shot/asset fields, and prompt explanations are paired Chinese and natural English. Keep stable IDs such as `VIDEO-005` and `SHOT-005-03` for traceability; retain required `display_name_zh` / `【中文显示名】` import fields and add the matched English display in the DOCX/HTML view. The approved English spoken line remains the only performed line; provide its Chinese meaning as an unspoken reference. Do not change the locked line through translation.
 
 ## Voice and dialogue
 

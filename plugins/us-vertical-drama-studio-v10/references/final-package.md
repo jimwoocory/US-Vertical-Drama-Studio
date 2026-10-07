@@ -1,0 +1,15 @@
+# Creator asset ZIP handoff
+
+At the actual end of the requested workflow, or whenever the creator asks for a project archive, collect the **current effective revision** of each artifact available in this conversation/project and hand the creator one downloadable ZIP. The ZIP is a convenience copy; continue to provide each stage's DOCX and HTML links. Do not claim assets from another chat or inaccessible storage have been included.
+
+## Contents
+
+- Matching DOCX and standalone HTML for the Project Brief, selected direction/adaptation analysis, complete Story Package, 48-episode map, each delivered screenplay episode/range, asset/shot/storyboard pack, generation-prompt pack, and creator-readable review reports, insofar as each stage actually exists.
+- Available canonical JSON, independent review JSON, continuity ledger, import rows, and workbench JSON as supplementary machine-readable assets. JSON never replaces DOCX/HTML.
+- `manifest.json` listing every member's relative path, artifact ID, revision, episode scope, source digest or review binding when known, SHA-256 of the actual file bytes, language coverage (`zh-CN`, `en-US`, or paired), and status. Include `project_id`, generation time, package status, production gate, missing expected assets, and a concise note that a readable view digest has not been independently recomputed when applicable.
+
+Use stable folders such as `01-brief/`, `02-story/`, `03-episodes/`, `04-scripts/`, `05-assets-storyboards-prompts/`, `06-reviews/`, and `07-machine/`. Include only files actually available and belonging to the same project. Never silently replace a current R4 file with an older R3, mix revisions inside one DOCX/HTML pair, or include unrelated uploads. If only some stages exist, label the package `PARTIAL` and list missing or blocked stages in the manifest and handoff; `COMPLETE` means all requested deliverables actually exist. Do not call a `CREATOR_AUTHORIZED_DRAFT` screenplay or any downstream asset system-approved or production-ready while ND-001 remains blocked. Packaging itself grants no approval.
+
+For the bilingual stages, each delivered DOCX/HTML pair must include both languages at the required field granularity. An English dialogue line has a Chinese reference translation clearly marked **not spoken / not for lip-sync**. A prompt pair identifies the single model-submission language and its review translation; never concatenate both into a one-language model input field. Keep machine import keys and existing prompt fields compatible with the target schema.
+
+Make a real `.zip` using an available file tool or archive library. The optional `tools/build-delivery-package.py` can package a prepared input manifest in an environment with Python. Verify that the archive exists and provide a direct download link to the author along with a brief Chinese inventory, episode coverage, package status, and production gate. If file creation is unavailable, state the limitation and give the individual links; never claim to have sent a ZIP that does not exist. Do not email or upload the archive to another person or service without a separate direct creator instruction.

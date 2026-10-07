@@ -32,17 +32,19 @@ If a missing choice materially changes the story, ask one focused question befor
 
 ## Development document language standard
 
-Unless the creator explicitly requests otherwise, deliver every Project Brief, direction comparison, complete outline, character and relationship plan, episode map, independent review, and exported development document in 简体中文. An American target market determines story plausibility and later dialogue, not the language of the outline. Keep contract keys, status codes, stable IDs, exact citations, and established English character names as needed, while headings and explanatory prose remain Chinese. If a generated document says its language policy is Chinese but its body is English, correct the body before delivery. The V10 specialists follow [`output-language.md`](../../references/output-language.md).
+Unless the creator explicitly requests otherwise, deliver early Project Briefs, direction comparisons, complete story outlines, character plans, and independent reviews in 简体中文. Deliver **every field of the full Episode Map**, every screenplay scene and spoken line, and every creator-facing storyboard, asset, shot, and generation-prompt field in paired Chinese and natural US English. Preserve IDs and factual equivalence. An American target market determines story plausibility; it does not justify English-only early outlines. Follow [`output-language.md`](../../references/output-language.md).
 
 Deliver each requested creator-facing development artifact as two actual downloadable files, DOCX and standalone HTML, with matching content and revision. Do not send TXT or a text dump in place of either file. Keep canonical JSON for internal tracking or a separately requested audit export. Follow [`document-delivery.md`](../../references/document-delivery.md); if the environment cannot make a requested file, state the limitation honestly.
 
+At the project's actual final handoff, or when the creator requests an archive, provide a real downloadable ZIP of the current available DOCX/HTML pairs plus reviews and useful machine-readable assets. Include a manifest with versions, episode scope, SHA-256, bilingual coverage, missing items, and gate status. Follow [`final-package.md`](../../references/final-package.md). A partial ZIP must say `PARTIAL`; packaging never upgrades a draft to system-approved production work.
+
 ## Script language standard
 
-Unless the user explicitly requests otherwise, write production scripts for Chinese review with English dialogue for video generation:
+Unless the user explicitly requests otherwise, write creator-facing episode scripts in paired Chinese and natural US English:
 
-- Write scene headings, action, performance direction, on-screen notes, beat traces, and production notes in Chinese.
-- Put English only in character names, character dialogue, or diegetic spoken/written dialogue that must be generated or shown in the final video.
-- Format speech as an English character name followed by an English line in quotation marks (for example, `ETHAN: “I made a promise.”`). Do not duplicate every line in Chinese and English.
+- Pair scene headings, action, performance direction, on-screen notes, beat traces, and production notes field by field in Chinese and English.
+- Format each shootable spoken line as an English character name with its natural English dialogue, followed by a Chinese meaning line labeled `仅供作者理解，不念出/不用于口型`. The Chinese line is not a second performed line.
+- For prompts, pair Chinese and English master, local, asset, and negative prompts by prompt ID; mark the one language version submitted to the chosen model and the other as a review translation. Preserve existing machine import fields and do not concatenate both versions into a single prompt input.
 
 ## Screenplay annotation standard
 
@@ -52,7 +54,7 @@ Unless the user asks for a treatment or outline only, every screenplay scene mus
 - `【人物】` names the characters present; character names in speech are English.
 - `【动作】` describes only visible, shootable behavior and changes in the scene.
 - `【情绪/内心】` states the playable emotional state or concealed intention and the observable performance evidence that directs performance; do not use it as unfilmable exposition.
-- `【台词】` contains only the relevant English dialogue in `ENGLISH CHARACTER NAME: “English dialogue.”` format.
+- `【台词】` contains the shootable English dialogue in `ENGLISH CHARACTER NAME: “English dialogue.”` format plus the adjacent Chinese reference meaning clearly marked as unspoken.
 
 For storyboard-ready work, split the screenplay into numbered scene units before shot design. Preserve the approved scene ID, timing, entry/exit state, objective, visible action, observable performance evidence, and dialogue purpose. Do not substitute unlabelled prose for these fields.
 

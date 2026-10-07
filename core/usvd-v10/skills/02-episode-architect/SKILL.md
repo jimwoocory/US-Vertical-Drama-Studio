@@ -7,9 +7,15 @@ description: Convert an independently reviewed complete Story Package into a ful
 
 ## Default output language
 
-Read [the output language contract](../../references/output-language.md). Write every episode's goal, hook, conflict, turn, payoff, continuity explanation, and the complete Episode Map reading view in 简体中文 by default. Keep required JSON property names, IDs, status codes, and established character names unchanged. Do not produce English episode prose unless the creator explicitly requests English development documents.
+Read [the output language contract](../../references/output-language.md). For this creator, write the complete Episode Architecture reading view **field by field in 简体中文 and natural US English**. Keep each Chinese value immediately beside its English counterpart for all 48 episodes, including hook, goal, problem, conflict, escalation, emotion, reversal, payoff, question, cliffhanger, outcome, entry/exit state, character changes, and continuity changes. Pair the field labels too; preserve IDs, references, status codes, and established character names exactly. English is a faithful US-facing development rendering, not literal Chinese-shaped dialogue or an opportunity to add facts. Keep canonical JSON property names and source story values unchanged.
 
-Read [the document delivery contract](../../references/document-delivery.md). Deliver the complete requested Episode Map in matching DOCX and HTML files from the same Story Package revision, with all episode numbers covered. Do not substitute TXT or one short sample for the full map when the creator requested the full season.
+Read [the document delivery contract](../../references/document-delivery.md). Deliver the complete requested Episode Map in matching bilingual DOCX and HTML files from the same Story Package revision, with all episode numbers and both languages for every narrative field covered. Do not substitute TXT, one short sample, or English-only prose for the full bilingual map when the creator requested the full season.
+
+## Existing R4 bilingual view repair
+
+When the creator supplies an already reviewed Episode Architecture R4 and asks for the missing bilingual presentation, work in **readable-view localization** mode. Read the complete current R4 DOCX/HTML and its visible project ID, artifact ID, revision, and digest; use a matching independent review when provided. Translate all 48 episodes field by field, preserving the Chinese source, episode IDs, chronology, reveal order, state transitions, Canon/Promise/source refs, and all numeric constraints. Do not rebuild story architecture, silently apply a new R5 revision, or claim to have recomputed a canonical JSON digest from the DOCX. Label the result `BILINGUAL_VIEW_OF_R4` with `source_binding: REVIEW_ATTESTED_VIEW` when that is the available source. Keep the R4 digest as a displayed source binding only; a presentation translation does not alter the canonical Story Truth.
+
+For each field, show `中文` and `English` together; identifiers and reference IDs may be repeated unchanged. Render the entire 48-episode view into both DOCX and standalone HTML. Check that EP01–EP48 are continuous and that every narrative field has two substantive values. Compare high-risk values—names, dates/times, capacities, legal/ownership facts, knowledge states, secrets, promises, outcomes, and cliffhangers—between languages. Fix translation drift before delivery. If a Chinese source field is genuinely missing, flag that exact field rather than inventing it.
 
 ## Ownership and boundary
 
@@ -45,6 +51,8 @@ Write each field as meaningful, causally connected content. “Hero is humiliate
 ## Output and next gate
 
 Return the revised Story Package draft, complete Episode Map, coverage/transition report, unresolved items, and `STORY_PACKAGE_REVIEW_REQUIRED`. The next step is independent `usvd-v10-04-review-continuity` in `story-package-review` mode. Only that review may determine whether the exact complete package is ready to be presented for human approval. This skill cannot approve it or authorize Screenwriter execution.
+
+For readable-view localization of an already reviewed R4, return only the paired bilingual DOCX/HTML, a compact field-completeness and meaning-alignment report, and the unchanged underlying R4 review/gate status. A translation-only view does not need a new story-content review or a new digest. If the English rendering changes a story fact, correct it before delivery; if the Chinese Story Truth itself needs to change, open an SCR and resume the normal revision/review route.
 
 ## Stop conditions
 

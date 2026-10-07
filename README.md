@@ -46,6 +46,8 @@ ChatGPT plugin 1.2.3 adds a separate creator-authorized screenplay **draft** pat
 
 ChatGPT plugin 1.2.4 also accepts a current Episode Architecture DOCX/HTML and exact matching independent review for a scoped non-production draft when the canonical JSON is unavailable in the conversation. The draft discloses `REVIEW_ATTESTED_VIEW`; it never claims to have recomputed the canonical digest. An unspecified continuation begins with EP01–EP03 as a stated assumption.
 
+ChatGPT plugin 1.2.5 delivers the complete Episode Map, episode scripts, asset/shot packages, and image/video prompts in paired Chinese and natural US English reading views. Existing machine import fields retain one selected prompt submission language. At final handoff or on request, the plugin packages available current DOCX/HTML, reviews, and useful structured assets into a ZIP with a file manifest and honest partial/gate status. This is a delivery rule for the ChatGPT web plugin; it does not unlock the V10 production gate.
+
 ## V9 DSH stage model routing
 
 V10 uses DSH's real Session model-selection API for the writing/review stages:

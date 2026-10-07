@@ -2,7 +2,7 @@
 
 ## Character voice differentiation
 
-Use English character names as dialogue labels. In the screenplay, write each spoken line as `ENGLISH CHARACTER NAME: “English dialogue.”`; keep Chinese only in the surrounding scene and production material.
+Use English character names as dialogue labels. In the screenplay, write each shootable spoken line as `ENGLISH CHARACTER NAME: “English dialogue.”`, followed by a Chinese meaning line labeled `仅供作者理解，不念出/不用于口型`. Pair surrounding scene and production material in Chinese and natural English.
 
 Give each recurring speaker a playable voice profile: objective under pressure, default tactic, sentence length/rhythm, vocabulary range, taboo, status relationship, and what they avoid naming. Read adjacent lines without tags: if they could be swapped between speakers, revise the tactic or register.
 
