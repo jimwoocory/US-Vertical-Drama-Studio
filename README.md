@@ -38,10 +38,10 @@ Package version: `0.4.0-v9-preview.1`. DSH's browser UI injection and client bun
 
 V10 uses DSH's real Session model-selection API for the writing/review stages:
 
-- 01 Adaptation → **Claude Sonnet 5.5**
-- 02 Story Architecture → **Claude Opus 5.5**
-- 03 Screenwriter → **Claude Opus 5.5**
-- 04 Review and Continuity → **GPT-6.1 Sol**
+- 01 Adaptation → **GLM 5.3 FlashX** (`glm-5.3-flashx`)
+- 02 Story Architecture → **GLM 5.3** (`glm-5.3`)
+- 03 Screenwriter → **GLM 5.3** (`glm-5.3`)
+- 04 Review and Continuity → **GLM 5.3** (`glm-5.3`)
 
 The router resolves the required target against the live DSH model catalog and fails closed when that exact target is unavailable. It does not silently substitute another model. Stages 05–09 keep the current session model unless another explicit production route owns them.
 

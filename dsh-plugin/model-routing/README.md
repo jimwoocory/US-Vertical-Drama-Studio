@@ -4,23 +4,22 @@ V10 routes stages 01-04 through DSH's real Session model-selection API.
 
 | Stage | Required model |
 |---|---|
-| 01 Adaptation | Claude Sonnet 5.5 |
-| 02 Story Architecture | Claude Opus 5.5 |
-| 03 Screenwriter | Claude Opus 5.5 |
-| 04 Review and Continuity | GPT-6.1 Sol |
+| 01 Adaptation | GLM 5.3 FlashX (`glm-5.3-flashx`) |
+| 02 Story Architecture | GLM 5.3 (`glm-5.3`) |
+| 03 Screenwriter | GLM 5.3 (`glm-5.3`) |
+| 04 Review and Continuity | GLM 5.3 (`glm-5.3`) |
 
 The route is fixed by stage. There is no capability-score substitution and no
 cross-model fallback for these four stages.
 
 The resolver reads DSH `sessionController.modelCatalog()` at runtime and
-matches the required user-facing model label to the provider-owned model id.
-This supports custom gateways without hard-coding one provider id. Short legacy
-ids such as `claude-opus-5` are accepted only when the live catalog display
-name proves that the route is the requested 5.5 model.
+matches the required user-facing model label or exact model id. Provider hints
+prefer Z.AI/Zhipu-compatible catalog groups while still allowing custom
+gateways to expose these exact models under another provider id.
 
 If the required model is absent, the Skill load is blocked with
-`REQUIRED_MODEL_UNAVAILABLE`. V10 must never silently execute 02/03 on Sonnet
-or 04 on a non-Sol GPT route.
+`REQUIRED_MODEL_UNAVAILABLE`. V10 must never silently execute stages 02–04 on
+GLM 5.3 FlashX when the GLM 5.3 target is unavailable.
 
 On successful routing:
 
