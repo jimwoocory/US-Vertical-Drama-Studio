@@ -121,7 +121,23 @@
     },
     "season_scope": { "type": "string", "minLength": 1 },
     "episode_count": { "type": ["integer", "null"], "minimum": 1 },
-    "duration_policy": { "type": "string", "minLength": 1 },
+    "duration_policy": {
+      "description": "Legacy prose is retained. New production briefs use a machine-readable complete-episode policy; all opening/ending/transition/audio-tail time is included and concurrent events count once. Each model VIDEO remains at most 15 seconds.",
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        {
+          "type": "object",
+          "required": ["scope", "min_seconds", "max_seconds", "video_max_seconds"],
+          "properties": {
+            "scope": { "const": "complete_episode" },
+            "min_seconds": { "type": "number", "exclusiveMinimum": 0 },
+            "max_seconds": { "type": "number", "exclusiveMinimum": 0 },
+            "video_max_seconds": { "type": "number", "exclusiveMinimum": 0, "maximum": 15 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
     "output_languages": { "type": "array", "description": "Default: zh-CN-development for all creator-facing planning and review documents; en-US-dialogue applies only to later screenplay dialogue. An explicit creator request may override the development language.", "items": { "type": "string" }, "minItems": 1 },
     "delivery_scope": { "enum": ["writing-only", "full-production"] },
     "delivery_formats": { "type": "array", "description": "Creator-facing documents default to both DOCX and standalone HTML. Optional for older Brief revisions; new Briefs should record both unless the creator explicitly requests another format.", "items": { "enum": ["docx", "html"] }, "minItems": 1, "maxItems": 2 },

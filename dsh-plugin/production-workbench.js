@@ -8,6 +8,8 @@
  * without regenerating a whole 15-second package.
  */
 
+import { inspectEpisodeDuration, validateDirectorAdaptation, validateTimingClosure } from '../scripts/v9-director-validation.mjs'
+
 export const PRODUCTION_WORKBENCH_SCHEMA = 'us-vertical-drama-workbench/v1'
 
 const assetKinds = new Set(['character', 'look', 'set', 'prop'])
@@ -45,7 +47,20 @@ export function buildProductionSnapshot(manifest) {
   applyTimelineBlocks(normalizedShots, diagnostics)
   for (const task of tasks) validateTask(task, assetById, shotById, taskById, videoById, diagnostics)
 
-  const totalSeconds = videos.reduce((sum, video) => sum + (video.duration_seconds ?? 0), 0)
+  const episodeDuration = inspectEpisodeDuration(manifest)
+  const episodeDefects = [...episodeDuration.diagnostics, ...validateDirectorAdaptation(manifest)]
+  if (episodeDuration.policy_active) {
+    episodeDefects.push(...validateTimingClosure({ videos: suppliedVideos, shots: shots.map(shot => ({
+      ...shot, time_in: shot.timeline_in_seconds, time_out: shot.timeline_out_seconds,
+    })) }))
+  }
+  for (const item of episodeDefects) diagnostics.push(issue('error', item.code, JSON.stringify(item), item.ref))
+  if (episodeDefects.length) {
+    for (const video of videos) { video.blocked = true; video.status = 'blocked' }
+    for (const shot of normalizedShots) { shot.blocked = true; shot.status = 'blocked' }
+  }
+  const modelVideoSeconds = videos.reduce((sum, video) => sum + (video.duration_seconds ?? 0), 0)
+  const totalSeconds = episodeDuration.policy_active ? episodeDuration.total_seconds : modelVideoSeconds
   const states = countStates(normalizedShots)
   return {
     schema_version: PRODUCTION_WORKBENCH_SCHEMA,
@@ -56,6 +71,7 @@ export function buildProductionSnapshot(manifest) {
     shots: normalizedShots,
     tasks,
     diagnostics,
+    episode_duration: episodeDuration,
     summary: {
       assets: assets.length,
       approved_assets: assets.filter(asset => asset.status === 'approved').length,
@@ -63,6 +79,9 @@ export function buildProductionSnapshot(manifest) {
       shots: normalizedShots.length,
       micro_shots: normalizedShots.filter(shot => hasTimeline(shot)).length,
       total_seconds: totalSeconds,
+      model_video_seconds: modelVideoSeconds,
+      episode_duration_status: episodeDuration.status,
+      episode_ready: episodeDuration.policy_active ? episodeDuration.status === 'compliant' && !diagnostics.some(item => item.severity === 'error') && !normalizedShots.some(shot => shot.blocked) : null,
       ready_to_generate: states.ready_to_generate ?? 0,
       generating: states.generating ?? 0,
       review_required: states.review_required ?? 0,

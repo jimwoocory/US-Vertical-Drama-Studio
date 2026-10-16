@@ -6,6 +6,24 @@ Apply this reference when the storyboard package is intended for visual generati
 
 Start each episode with one approved specification: visual medium, aspect ratio, target model/endpoint, maximum generated-video duration, locale, dialogue language, and audio path. If a source template contains conflicting defaults, report the conflict and use the approved project specification.
 
+## V11 standing director authority and revision contract
+
+For a V11 production with an adopted, machine-readable complete-episode `duration_policy` of **60–120 seconds**, the AI director is **already authorized at the project level** to cut, merge, or rewrite dialogue and scene expression when the source is too long. No per-episode `creator_authorized` field, routine manual sign-off, or return to the screenwriter is required. This standing creative authority is not the same as permission to publish a final film. Legacy projects without this policy retain their previous approved-script boundaries.
+
+Before VIDEO/SHOT breakdown, the AI director autonomously produces the new playable `director_revision` and selects a natural complete-episode length. The new revision, rather than outdated source lines, becomes the execution source for downstream shot lists, voices, subtitles and prompts. To make this traceable, machine records include:
+
+- `director_revision.revision_id`, `source_revision_id`, `status: locked`, and the original `source_unit_ids`;
+- `director_revision.units[]`, each with stable `unit_id`, linked `source_unit_ids`, `operation` (`retain`, `rewrite`, `merge`, `split`), playable `text`, and a concrete `reason` when changed; `cut_units[]` records source units removed and their reasons;
+- `episode_direction` with `objective`, `situation_change`, `character_tactic`, `opponent_response`, `knowledge_sequence`, `emotional_payoff` and `continuing_hook`;
+- `story_guards` covering `core_promise`, `character_goals`, `causal_chain`, `emotional_setup_payoff`, `continuity` and `continuing_hook`. Their `preserved` declarations are audit claims, not proof of audience effect or canon correctness;
+- each downstream VIDEO references `director_revision_id` and `director_unit_ids`; every SHOT and timed dialogue item references the same revision and one active `director_unit_id`.
+
+The director must decide the dramatic payoff before choosing time; shorten redundant exposition and repeated reactions, not comprehension or character choices. A normal overload is handled by an automatic director rewrite and revalidation without new human approval. When changing protected canon would be necessary, flag that specific conflict rather than invent a new story truth.
+
+The assembled `episode_timing.total_duration_seconds` and `episode_timing.timeline[]` must capture programme time using absolute start/end positions. Count titles, meaningful transitions, endings and audio tails; concurrent dialogue, subtitle and ordinary physical action share their actual time interval and are not added twice. Each model VIDEO stays within the existing 15-second generation constraint, which is separate from the 60–120 second episode gate. Missing/out-of-range runtime, unresolved revision lineage or stale dialogue blocks the machine readiness gate.
+
+Machine checks verify structural traceability, range and continuity fields. Natural read-through, animatic, video-level performance and target-audience response each require separate real evidence and must not be marked PASS without running them.
+
 ## Video package
 
 Each independently generatable video package contains:

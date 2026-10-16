@@ -1,4 +1,4 @@
-import { validateShotLevelFields, validateTimingClosure } from './v9-director-validation.mjs'
+import { inspectEpisodeDuration, isDirectorAdaptationAuthorized, validateDirectorAdaptation, validateShotLevelFields, validateTimingClosure } from './v9-director-validation.mjs'
 import { validateAdapterPackage } from './v9-seedance-adapter-validation.mjs'
 
 export const DIALOGUE_MAX_WORDS_PER_SECOND = 3.0
@@ -27,6 +27,9 @@ export function runPromptQA(pkg) {
   raw.push(...checkCoreTypes(pkg))
   raw.push(...checkRequiredEvidence(pkg))
   raw.push(...mapTimingDiagnostics(validateTimingClosure(pkg)))
+  const episodeDuration = inspectEpisodeDuration(pkg)
+  raw.push(...episodeDuration.diagnostics.map(item => defect('blocker', item.ref ?? 'PACKAGE', item.code, JSON.stringify(item), 'Repair the complete-episode timeline and 60–120 second budget in the director revision before execution.', '06')))
+  raw.push(...validateDirectorAdaptation(pkg).map(item => defect('blocker', item.ref ?? 'PACKAGE', item.code, JSON.stringify(item), 'Repair the director revision lineage and compile downstream from its revised units.', '06')))
   raw.push(...mapShotLevelDiagnostics(pkg))
   raw.push(...mapAdapterDiagnostics(validateAdapterPackage(pkg)))
   raw.push(...checkSourceCoverage(pkg))
@@ -46,6 +49,7 @@ export function runPromptQA(pkg) {
     gate,
     summary: { blocker: blockers, major: majors, minor: minors, total: defects.length },
     defects,
+    episode_duration: episodeDuration,
   }
 }
 
@@ -302,7 +306,7 @@ function checkDialogueDuration(pkg) {
         item.shot_id ?? 'DIALOGUE',
         'dialogue_too_dense_for_planned_time',
         `${words} words in ${duration.toFixed(2)}s = ${rate.toFixed(2)} words/s; internal QA threshold is ${DIALOGUE_MAX_WORDS_PER_SECOND}.`,
-        'Adjust timing, approved dialogue upstream, or external audio plan; QA must not silently rewrite the line.',
+        isDirectorAdaptationAuthorized(pkg) ? 'In the active V11 director revision, directly cut, merge, or rewrite overloaded dialogue while preserving story causality and protected canon; rerun timing and QA. No per-episode human rewrite approval.' : 'Adjust timing, approved dialogue upstream, or external audio plan; legacy QA must not silently rewrite the line.',
         '06',
       ))
     }
