@@ -24,6 +24,14 @@ The assembled `episode_timing.total_duration_seconds` and `episode_timing.timeli
 
 Machine checks verify structural traceability, range and continuity fields. Natural read-through, animatic, video-level performance and target-audience response each require separate real evidence and must not be marked PASS without running them.
 
+## V11 director rehearsal planner (advisory)
+
+Before locking a V11 director revision, the AI director generates playable candidate rewrites, merges, retains, or cuts against the given screenplay's approved narrative facts. `scripts/v11-director-planner.mjs` exposes `planDirectorEpisode(spec)`: use it to compare those supplied candidates against the full 60–120-second episode budget. This is project-level standing director authority, **not** a request for episode-by-episode human approval.
+
+The planner must not invent dialogue, facts, characters, or a scene. It selects among director-authored candidates and protects the required narrative events, chronology, scene continuity, and causality declared by the screenplay. Explicit scene changes require transition budgets. English dialogue is estimated at a natural speaking rate; sequential reaction/action time is accounted for and concurrent action is not double counted. If no candidate fits, the director should generate better alternatives and rerun planning; never fill time with meaningless cuts or force artificially fast speech.
+
+Its output remains `status: draft`, carries `story_guards: unverified`, and creates `planning_only` slots bounded to 15 seconds. These slots are **not** generation-ready VIDEO/SHOT packages. The director must independently review whether emotional setup and payoff are preserved, perform natural read-through and timing checks, verify spatial transitions, lock the chosen director revision, and only then create the real asset-bound VIDEO/SHOT generation plan. No unperformed animatic, produced-video or audience tests may be marked PASS.
+
 ## Video package
 
 Each independently generatable video package contains:
