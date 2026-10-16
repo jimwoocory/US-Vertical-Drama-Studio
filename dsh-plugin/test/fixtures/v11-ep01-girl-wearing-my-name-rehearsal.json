@@ -1,0 +1,664 @@
+{
+  "fixture_kind": "actual_ep01_story_beats_paraphrased_for_rehearsal_only",
+  "source_reference": "她冒充了我第一集（2）_调整版.docx, six scenes; paraphrased, not full verbatim script.",
+  "comparison_reference": "EP01_镜头与分镜设计_R1.html; 120 seconds editor estimate not recorded playback.",
+  "source_approval": "DRAFT_UNAPPROVED",
+  "episode_id": "THE_GIRL_WEARING_MY_NAME_EP01",
+  "source_revision_id": "ADJUSTED_EP01_20261016",
+  "director_revision_id": "REHEARSAL_EP01_R2",
+  "project_brief": {
+    "duration_policy": {
+      "scope": "complete_episode",
+      "min_seconds": 60,
+      "max_seconds": 120,
+      "video_max_seconds": 15
+    }
+  },
+  "fixed_time": {
+    "opening_seconds": 0,
+    "ending_seconds": 0.2,
+    "audio_tail_seconds": 0,
+    "scene_transition_seconds": 0.7
+  },
+  "episode_direction": {
+    "objective": "Follow the confident real heiress working in disguise and the woman publicly misusing her name.",
+    "situation_change": "A win, a private rejection and a public imposture culminate in the true heiress confronting the claim.",
+    "character_tactic": "Eve gathers the evidence and responds with a controlled question instead of claiming legal authority.",
+    "opponent_response": "Sienna first masks Mason's rejection, accepts Miranda's plan, then momentarily loses composure at the suite.",
+    "knowledge_sequence": "The audience knows Eve's identity from SC01; Sienna publicly claims it in SC04; Eve first learns about the imposture when she hears the suite toast in SC06.",
+    "emotional_payoff": "The rival's certainty collapses for an instant when Eve confidently challenges her in public.",
+    "continuing_hook": "The guests must decide how to react to Eve's challenge as the screen cuts to black."
+  },
+  "required_events": [
+    "AUDIENCE_EVE_TRUE",
+    "MASON_PASSES_ADRIAN_GOAL",
+    "MASON_CREDITS_TEAM",
+    "MASON_DECLINES_DINNER",
+    "SIENNA_MASK_CRACKS",
+    "MIRANDA_COACHES_FRAUD",
+    "SIENNA_CONCEALS_STAFF_BADGE",
+    "PUBLIC_SIENNA_ASSUMES_EVELYN",
+    "RICHARD_FAMILY_PHOTO",
+    "EVE_REED_BADGE",
+    "RICHARD_THIRTY_DAYS_NO_PRIVILEGE",
+    "EVE_ACCEPTS_ASSIGNMENT",
+    "CREST_RING_POCKET",
+    "EVE_FIRST_HEARS_PRIVATE_FRAUD",
+    "EVE_ENTERS_SUITE",
+    "SIENNA_DISMISSES_JANITOR",
+    "EVE_CHALLENGES_FALSE_IDENTITY",
+    "SIENNA_UNEASY_NO_RECOGNITION",
+    "VIP_BLACKOUT_HOOK"
+  ],
+  "event_dependencies": [
+    {
+      "before": "AUDIENCE_EVE_TRUE",
+      "after": "MASON_PASSES_ADRIAN_GOAL"
+    },
+    {
+      "before": "MASON_PASSES_ADRIAN_GOAL",
+      "after": "MASON_CREDITS_TEAM"
+    },
+    {
+      "before": "MASON_CREDITS_TEAM",
+      "after": "MASON_DECLINES_DINNER"
+    },
+    {
+      "before": "MASON_DECLINES_DINNER",
+      "after": "SIENNA_MASK_CRACKS"
+    },
+    {
+      "before": "SIENNA_MASK_CRACKS",
+      "after": "MIRANDA_COACHES_FRAUD"
+    },
+    {
+      "before": "MIRANDA_COACHES_FRAUD",
+      "after": "SIENNA_CONCEALS_STAFF_BADGE"
+    },
+    {
+      "before": "SIENNA_CONCEALS_STAFF_BADGE",
+      "after": "PUBLIC_SIENNA_ASSUMES_EVELYN"
+    },
+    {
+      "before": "PUBLIC_SIENNA_ASSUMES_EVELYN",
+      "after": "RICHARD_FAMILY_PHOTO"
+    },
+    {
+      "before": "RICHARD_FAMILY_PHOTO",
+      "after": "EVE_REED_BADGE"
+    },
+    {
+      "before": "EVE_REED_BADGE",
+      "after": "RICHARD_THIRTY_DAYS_NO_PRIVILEGE"
+    },
+    {
+      "before": "RICHARD_THIRTY_DAYS_NO_PRIVILEGE",
+      "after": "EVE_ACCEPTS_ASSIGNMENT"
+    },
+    {
+      "before": "EVE_ACCEPTS_ASSIGNMENT",
+      "after": "CREST_RING_POCKET"
+    },
+    {
+      "before": "CREST_RING_POCKET",
+      "after": "EVE_FIRST_HEARS_PRIVATE_FRAUD"
+    },
+    {
+      "before": "EVE_FIRST_HEARS_PRIVATE_FRAUD",
+      "after": "EVE_ENTERS_SUITE"
+    },
+    {
+      "before": "EVE_ENTERS_SUITE",
+      "after": "SIENNA_DISMISSES_JANITOR"
+    },
+    {
+      "before": "SIENNA_DISMISSES_JANITOR",
+      "after": "EVE_CHALLENGES_FALSE_IDENTITY"
+    },
+    {
+      "before": "EVE_CHALLENGES_FALSE_IDENTITY",
+      "after": "SIENNA_UNEASY_NO_RECOGNITION"
+    },
+    {
+      "before": "SIENNA_UNEASY_NO_RECOGNITION",
+      "after": "VIP_BLACKOUT_HOOK"
+    }
+  ],
+  "source_units": [
+    {
+      "source_unit_id": "SRC-01",
+      "scene_id": "SC01-LOWER_BOWL",
+      "source_text": "Camera travels through jubilant adult hockey fans to Eve cleaning a trophy cabinet while narration tells the audience she is Richard Harrison's real daughter.",
+      "source_spoken_text": "Nobody cheering for the game knows that the quiet employee polishing the old family trophy cabinet is really the only daughter of the Harrison family. She is working unnoticed among the ordinary people of the arena for a reason.",
+      "required": true,
+      "known_events": [
+        "AUDIENCE_EVE_TRUE"
+      ],
+      "must_preserve": [
+        "AUDIENCE_EVE_TRUE"
+      ],
+      "minimum_reaction_seconds": 0.5,
+      "raw_timing": {
+        "sequential_action_seconds": 12,
+        "reaction_seconds": 2
+      },
+      "options": [
+        {
+          "take_id": "RETAIN-HIDDEN",
+          "operation": "retain",
+          "source_unit_ids": [
+            "SRC-01"
+          ],
+          "text": "Camera travels through jubilant adult hockey fans to Eve cleaning a trophy cabinet while narration tells the audience she is Richard Harrison's real daughter.",
+          "spoken_text": "Nobody cheering for the game knows that the quiet employee polishing the old family trophy cabinet is really the only daughter of the Harrison family. She is working unnoticed among the ordinary people of the arena for a reason.",
+          "delivers": [
+            "AUDIENCE_EVE_TRUE"
+          ],
+          "quality_score": 9,
+          "timing": {
+            "sequential_action_seconds": 12,
+            "reaction_seconds": 2
+          }
+        },
+        {
+          "take_id": "DIRECTOR-HIDDEN",
+          "operation": "rewrite",
+          "source_unit_ids": [
+            "SRC-01"
+          ],
+          "text": "One walkable aisle-to-cabinet move contrasts the fans and a composed, hidden Eve.",
+          "spoken_text": "No one in this arena knows the janitor is the real Harrison heiress.",
+          "delivers": [
+            "AUDIENCE_EVE_TRUE"
+          ],
+          "quality_score": 8.8,
+          "reason": "Consolidate exposition while preserving the supported source events and a readable reaction.",
+          "timing": {
+            "sequential_action_seconds": 4,
+            "reaction_seconds": 1
+          }
+        }
+      ]
+    },
+    {
+      "source_unit_id": "SRC-02",
+      "scene_id": "SC02-RINK",
+      "source_text": "Mason assists Adrian's winning overtime goal, then humbly credits the whole team rather than claiming the score.",
+      "source_spoken_text": "Adrian, take the puck right now. That was a great play and an amazing finish. The entire team worked for this win. I did not score it alone; we won it together.",
+      "required": true,
+      "known_events": [
+        "MASON_PASSES_ADRIAN_GOAL",
+        "MASON_CREDITS_TEAM"
+      ],
+      "must_preserve": [
+        "MASON_PASSES_ADRIAN_GOAL",
+        "MASON_CREDITS_TEAM"
+      ],
+      "minimum_reaction_seconds": 0.5,
+      "raw_timing": {
+        "sequential_action_seconds": 18,
+        "reaction_seconds": 1
+      },
+      "options": [
+        {
+          "take_id": "RETAIN-VICTORY",
+          "operation": "retain",
+          "source_unit_ids": [
+            "SRC-02"
+          ],
+          "text": "Mason assists Adrian's winning overtime goal, then humbly credits the whole team rather than claiming the score.",
+          "spoken_text": "Adrian, take the puck right now. That was a great play and an amazing finish. The entire team worked for this win. I did not score it alone; we won it together.",
+          "delivers": [
+            "MASON_PASSES_ADRIAN_GOAL",
+            "MASON_CREDITS_TEAM"
+          ],
+          "quality_score": 9.5,
+          "timing": {
+            "sequential_action_seconds": 18,
+            "reaction_seconds": 1
+          }
+        },
+        {
+          "take_id": "DIRECTOR-VICTORY",
+          "operation": "rewrite",
+          "source_unit_ids": [
+            "SRC-02"
+          ],
+          "text": "Clear pass to Adrian, goal, then Mason credits the team during the immediate celebration.",
+          "spoken_text": "Adrian! Take it! We won this together.",
+          "delivers": [
+            "MASON_PASSES_ADRIAN_GOAL",
+            "MASON_CREDITS_TEAM"
+          ],
+          "quality_score": 9.3,
+          "reason": "Consolidate exposition while preserving the supported source events and a readable reaction.",
+          "timing": {
+            "sequential_action_seconds": 8,
+            "reaction_seconds": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "source_unit_id": "SRC-03",
+      "scene_id": "SC03-PLAYER_EXIT",
+      "source_text": "Sienna invites Mason to a family-hosted dinner; he declines politely without intimacy and she hides her disappointment until he leaves.",
+      "source_spoken_text": "You had such an incredible night. My mother booked the private dining floor just for us and I want you to join us. Thanks for asking, Sienna, but the guys are waiting. Maybe another day. I have to go.",
+      "required": true,
+      "known_events": [
+        "MASON_DECLINES_DINNER",
+        "SIENNA_MASK_CRACKS"
+      ],
+      "must_preserve": [
+        "MASON_DECLINES_DINNER",
+        "SIENNA_MASK_CRACKS"
+      ],
+      "minimum_reaction_seconds": 1.5,
+      "raw_timing": {
+        "sequential_action_seconds": 11,
+        "reaction_seconds": 3
+      },
+      "options": [
+        {
+          "take_id": "RETAIN-REJECTION",
+          "operation": "retain",
+          "source_unit_ids": [
+            "SRC-03"
+          ],
+          "text": "Sienna invites Mason to a family-hosted dinner; he declines politely without intimacy and she hides her disappointment until he leaves.",
+          "spoken_text": "You had such an incredible night. My mother booked the private dining floor just for us and I want you to join us. Thanks for asking, Sienna, but the guys are waiting. Maybe another day. I have to go.",
+          "delivers": [
+            "MASON_DECLINES_DINNER",
+            "SIENNA_MASK_CRACKS"
+          ],
+          "quality_score": 9,
+          "timing": {
+            "sequential_action_seconds": 11,
+            "reaction_seconds": 3
+          }
+        },
+        {
+          "take_id": "DIRECTOR-REJECTION",
+          "operation": "rewrite",
+          "source_unit_ids": [
+            "SRC-03"
+          ],
+          "text": "Dinner offer, polite boundary, and a delayed change from public smile to private frustration.",
+          "spoken_text": "Dinner, Mason? Not tonight, Sienna. My team needs me.",
+          "delivers": [
+            "MASON_DECLINES_DINNER",
+            "SIENNA_MASK_CRACKS"
+          ],
+          "quality_score": 8.8,
+          "reason": "Consolidate exposition while preserving the supported source events and a readable reaction.",
+          "timing": {
+            "sequential_action_seconds": 5,
+            "reaction_seconds": 2
+          }
+        }
+      ]
+    },
+    {
+      "source_unit_id": "SRC-04",
+      "scene_id": "SC04-MEDIA",
+      "source_text": "Miranda coaches Sienna to claim the absent Richard's daughter's role; Sienna conceals her brand consultant badge before stepping into camera.",
+      "source_spoken_text": "Richard will not attend tonight, so this is our opportunity. Do not hesitate when they introduce you. Everyone here must believe you are his only daughter, not the branding consultant who has been working behind the scenes.",
+      "required": true,
+      "known_events": [
+        "MIRANDA_COACHES_FRAUD",
+        "SIENNA_CONCEALS_STAFF_BADGE"
+      ],
+      "must_preserve": [
+        "MIRANDA_COACHES_FRAUD",
+        "SIENNA_CONCEALS_STAFF_BADGE"
+      ],
+      "minimum_reaction_seconds": 0.6,
+      "raw_timing": {
+        "sequential_action_seconds": 9,
+        "reaction_seconds": 2
+      },
+      "options": [
+        {
+          "take_id": "RETAIN-COACH",
+          "operation": "retain",
+          "source_unit_ids": [
+            "SRC-04"
+          ],
+          "text": "Miranda coaches Sienna to claim the absent Richard's daughter's role; Sienna conceals her brand consultant badge before stepping into camera.",
+          "spoken_text": "Richard will not attend tonight, so this is our opportunity. Do not hesitate when they introduce you. Everyone here must believe you are his only daughter, not the branding consultant who has been working behind the scenes.",
+          "delivers": [
+            "MIRANDA_COACHES_FRAUD",
+            "SIENNA_CONCEALS_STAFF_BADGE"
+          ],
+          "quality_score": 9,
+          "timing": {
+            "sequential_action_seconds": 9,
+            "reaction_seconds": 2
+          }
+        },
+        {
+          "take_id": "DIRECTOR-COACH",
+          "operation": "rewrite",
+          "source_unit_ids": [
+            "SRC-04"
+          ],
+          "text": "Mother and daughter knowingly plan the social fraud; consultant badge vanishes into a bag.",
+          "spoken_text": "Richard's away. Be his daughter tonight. Hide that badge.",
+          "delivers": [
+            "MIRANDA_COACHES_FRAUD",
+            "SIENNA_CONCEALS_STAFF_BADGE"
+          ],
+          "quality_score": 8.8,
+          "reason": "Consolidate exposition while preserving the supported source events and a readable reaction.",
+          "timing": {
+            "sequential_action_seconds": 4,
+            "reaction_seconds": 1
+          }
+        }
+      ]
+    },
+    {
+      "source_unit_id": "SRC-05",
+      "scene_id": "SC04-MEDIA",
+      "source_text": "Host announces Sienna as Evelyn Harrison; after a small hesitation she chooses to lie about her family's lifelong connection to the club.",
+      "source_spoken_text": "We are pleased to present Evelyn Harrison, the chairman's only daughter. Evelyn, after this big result, please tell our viewers what the team means to you. It means everything to me. This club is part of my life and I will protect what my father and I built.",
+      "required": true,
+      "known_events": [
+        "PUBLIC_SIENNA_ASSUMES_EVELYN"
+      ],
+      "must_preserve": [
+        "PUBLIC_SIENNA_ASSUMES_EVELYN"
+      ],
+      "minimum_reaction_seconds": 0.7,
+      "raw_timing": {
+        "sequential_action_seconds": 9,
+        "reaction_seconds": 2
+      },
+      "options": [
+        {
+          "take_id": "RETAIN-PUBLIC_CLAIM",
+          "operation": "retain",
+          "source_unit_ids": [
+            "SRC-05"
+          ],
+          "text": "Host announces Sienna as Evelyn Harrison; after a small hesitation she chooses to lie about her family's lifelong connection to the club.",
+          "spoken_text": "We are pleased to present Evelyn Harrison, the chairman's only daughter. Evelyn, after this big result, please tell our viewers what the team means to you. It means everything to me. This club is part of my life and I will protect what my father and I built.",
+          "delivers": [
+            "PUBLIC_SIENNA_ASSUMES_EVELYN"
+          ],
+          "quality_score": 9.5,
+          "timing": {
+            "sequential_action_seconds": 9,
+            "reaction_seconds": 2
+          }
+        },
+        {
+          "take_id": "DIRECTOR-PUBLIC_CLAIM",
+          "operation": "rewrite",
+          "source_unit_ids": [
+            "SRC-05"
+          ],
+          "text": "Public name reveal, deliberate false claim, visible choice to keep smiling.",
+          "spoken_text": "Welcome, Evelyn Harrison! This club is my life. I'll protect my father's legacy.",
+          "delivers": [
+            "PUBLIC_SIENNA_ASSUMES_EVELYN"
+          ],
+          "quality_score": 9.3,
+          "reason": "Consolidate exposition while preserving the supported source events and a readable reaction.",
+          "timing": {
+            "sequential_action_seconds": 3.6,
+            "reaction_seconds": 1
+          }
+        }
+      ]
+    },
+    {
+      "source_unit_id": "SRC-06",
+      "scene_id": "SC05-HONOR_WALL",
+      "source_text": "At the honor wall Eve cleans Richard Harrison's plaque and childhood family photo, then sees her own temporary Eve Reed janitor badge.",
+      "source_spoken_text": "",
+      "required": true,
+      "known_events": [
+        "RICHARD_FAMILY_PHOTO",
+        "EVE_REED_BADGE"
+      ],
+      "must_preserve": [
+        "RICHARD_FAMILY_PHOTO",
+        "EVE_REED_BADGE"
+      ],
+      "minimum_reaction_seconds": 0.7,
+      "raw_timing": {
+        "sequential_action_seconds": 14,
+        "reaction_seconds": 2
+      },
+      "options": [
+        {
+          "take_id": "RETAIN-FAMILY_CLUE",
+          "operation": "retain",
+          "source_unit_ids": [
+            "SRC-06"
+          ],
+          "text": "At the honor wall Eve cleans Richard Harrison's plaque and childhood family photo, then sees her own temporary Eve Reed janitor badge.",
+          "spoken_text": "",
+          "delivers": [
+            "RICHARD_FAMILY_PHOTO",
+            "EVE_REED_BADGE"
+          ],
+          "quality_score": 9.4,
+          "timing": {
+            "sequential_action_seconds": 14,
+            "reaction_seconds": 2
+          }
+        },
+        {
+          "take_id": "DIRECTOR-FAMILY_CLUE",
+          "operation": "rewrite",
+          "source_unit_ids": [
+            "SRC-06"
+          ],
+          "text": "The father plaque and childhood photo connect to Eve's face; the Reed janitor badge remains clearly readable.",
+          "spoken_text": "",
+          "delivers": [
+            "RICHARD_FAMILY_PHOTO",
+            "EVE_REED_BADGE"
+          ],
+          "quality_score": 9.200000000000001,
+          "reason": "Consolidate exposition while preserving the supported source events and a readable reaction.",
+          "timing": {
+            "sequential_action_seconds": 6.5,
+            "reaction_seconds": 1
+          }
+        }
+      ]
+    },
+    {
+      "source_unit_id": "SRC-07",
+      "scene_id": "SC05-OFFICE_FLASHBACK",
+      "source_text": "Daytime flashback: Richard requires Evelyn to work undercover for thirty days without Harrison surname or family influence; Eve agrees and pockets the family crest ring.",
+      "source_spoken_text": "You are my daughter but you cannot simply assume command of this team. Start at the very bottom. Thirty days as an ordinary employee, with no Harrison name and no family influence. Find the problems that management will never tell me about. You are asking me to work as a janitor? Fine, I will do it. I am putting away the family ring too.",
+      "required": true,
+      "known_events": [
+        "RICHARD_THIRTY_DAYS_NO_PRIVILEGE",
+        "EVE_ACCEPTS_ASSIGNMENT",
+        "CREST_RING_POCKET"
+      ],
+      "must_preserve": [
+        "RICHARD_THIRTY_DAYS_NO_PRIVILEGE",
+        "EVE_ACCEPTS_ASSIGNMENT",
+        "CREST_RING_POCKET"
+      ],
+      "minimum_reaction_seconds": 1.2,
+      "raw_timing": {
+        "sequential_action_seconds": 19,
+        "reaction_seconds": 3
+      },
+      "options": [
+        {
+          "take_id": "RETAIN-UNDERCOVER",
+          "operation": "retain",
+          "source_unit_ids": [
+            "SRC-07"
+          ],
+          "text": "Daytime flashback: Richard requires Evelyn to work undercover for thirty days without Harrison surname or family influence; Eve agrees and pockets the family crest ring.",
+          "spoken_text": "You are my daughter but you cannot simply assume command of this team. Start at the very bottom. Thirty days as an ordinary employee, with no Harrison name and no family influence. Find the problems that management will never tell me about. You are asking me to work as a janitor? Fine, I will do it. I am putting away the family ring too.",
+          "delivers": [
+            "RICHARD_THIRTY_DAYS_NO_PRIVILEGE",
+            "EVE_ACCEPTS_ASSIGNMENT",
+            "CREST_RING_POCKET"
+          ],
+          "quality_score": 10,
+          "timing": {
+            "sequential_action_seconds": 19,
+            "reaction_seconds": 3
+          }
+        },
+        {
+          "take_id": "DIRECTOR-UNDERCOVER",
+          "operation": "rewrite",
+          "source_unit_ids": [
+            "SRC-07"
+          ],
+          "text": "A distinct daytime office memory gives the cover assignment and shows Eve agree and pocket the family crest ring.",
+          "spoken_text": "Thirty days on staff. No Harrison name. Find what is wrong. Fine, Dad. I'll do it.",
+          "delivers": [
+            "RICHARD_THIRTY_DAYS_NO_PRIVILEGE",
+            "EVE_ACCEPTS_ASSIGNMENT",
+            "CREST_RING_POCKET"
+          ],
+          "quality_score": 9.8,
+          "reason": "Consolidate exposition while preserving the supported source events and a readable reaction.",
+          "timing": {
+            "sequential_action_seconds": 7,
+            "reaction_seconds": 1.7
+          }
+        }
+      ]
+    },
+    {
+      "source_unit_id": "SRC-08",
+      "scene_id": "SC06-VIP_HALL",
+      "source_text": "Only at the suite doorway does Eve hear investors praise Sienna as Evelyn Harrison and future owner; Eve recognizes the active impersonation without panicking.",
+      "source_spoken_text": "Here's to Evelyn Harrison, the one true heir of this family and the future owner of the team! I have been walking around in staff clothes while someone else takes my name. Are they really celebrating her as me?",
+      "required": true,
+      "known_events": [
+        "EVE_FIRST_HEARS_PRIVATE_FRAUD"
+      ],
+      "must_preserve": [
+        "EVE_FIRST_HEARS_PRIVATE_FRAUD"
+      ],
+      "minimum_reaction_seconds": 1.5,
+      "raw_timing": {
+        "sequential_action_seconds": 10,
+        "reaction_seconds": 3
+      },
+      "options": [
+        {
+          "take_id": "RETAIN-DISCOVERY",
+          "operation": "retain",
+          "source_unit_ids": [
+            "SRC-08"
+          ],
+          "text": "Only at the suite doorway does Eve hear investors praise Sienna as Evelyn Harrison and future owner; Eve recognizes the active impersonation without panicking.",
+          "spoken_text": "Here's to Evelyn Harrison, the one true heir of this family and the future owner of the team! I have been walking around in staff clothes while someone else takes my name. Are they really celebrating her as me?",
+          "delivers": [
+            "EVE_FIRST_HEARS_PRIVATE_FRAUD"
+          ],
+          "quality_score": 10,
+          "timing": {
+            "sequential_action_seconds": 10,
+            "reaction_seconds": 3
+          }
+        },
+        {
+          "take_id": "DIRECTOR-DISCOVERY",
+          "operation": "rewrite",
+          "source_unit_ids": [
+            "SRC-08"
+          ],
+          "text": "Eve hears the fake claim for the first time at the suite, looks from her cleaning bucket to Sienna, and decides to enter.",
+          "spoken_text": "To Evelyn Harrison, our future owner! Someone is wearing my name?",
+          "delivers": [
+            "EVE_FIRST_HEARS_PRIVATE_FRAUD"
+          ],
+          "quality_score": 9.8,
+          "reason": "Consolidate exposition while preserving the supported source events and a readable reaction.",
+          "timing": {
+            "sequential_action_seconds": 4.5,
+            "reaction_seconds": 2
+          }
+        }
+      ]
+    },
+    {
+      "source_unit_id": "SRC-09",
+      "scene_id": "SC06-VIP_SUITE",
+      "source_text": "Eve leaves cleaning equipment by the doorway and enters; Sienna dismisses her as staff; Eve calmly challenges the supposed heir; Sienna's confidence freezes without recognizing Eve before a hard blackout.",
+      "source_spoken_text": "Who allowed cleaning staff into this suite during our private event? You need to leave immediately. I only came to ask you one question. I thought the daughter of this family looked very different. Are you quite sure you're the person everyone is celebrating?",
+      "required": true,
+      "known_events": [
+        "EVE_ENTERS_SUITE",
+        "SIENNA_DISMISSES_JANITOR",
+        "EVE_CHALLENGES_FALSE_IDENTITY",
+        "SIENNA_UNEASY_NO_RECOGNITION",
+        "VIP_BLACKOUT_HOOK"
+      ],
+      "must_preserve": [
+        "EVE_ENTERS_SUITE",
+        "SIENNA_DISMISSES_JANITOR",
+        "EVE_CHALLENGES_FALSE_IDENTITY",
+        "SIENNA_UNEASY_NO_RECOGNITION",
+        "VIP_BLACKOUT_HOOK"
+      ],
+      "minimum_reaction_seconds": 2.2,
+      "raw_timing": {
+        "sequential_action_seconds": 14,
+        "reaction_seconds": 5
+      },
+      "options": [
+        {
+          "take_id": "RETAIN-CHALLENGE",
+          "operation": "retain",
+          "source_unit_ids": [
+            "SRC-09"
+          ],
+          "text": "Eve leaves cleaning equipment by the doorway and enters; Sienna dismisses her as staff; Eve calmly challenges the supposed heir; Sienna's confidence freezes without recognizing Eve before a hard blackout.",
+          "spoken_text": "Who allowed cleaning staff into this suite during our private event? You need to leave immediately. I only came to ask you one question. I thought the daughter of this family looked very different. Are you quite sure you're the person everyone is celebrating?",
+          "delivers": [
+            "EVE_ENTERS_SUITE",
+            "SIENNA_DISMISSES_JANITOR",
+            "EVE_CHALLENGES_FALSE_IDENTITY",
+            "SIENNA_UNEASY_NO_RECOGNITION",
+            "VIP_BLACKOUT_HOOK"
+          ],
+          "quality_score": 10,
+          "timing": {
+            "sequential_action_seconds": 14,
+            "reaction_seconds": 5
+          }
+        },
+        {
+          "take_id": "DIRECTOR-CHALLENGE",
+          "operation": "rewrite",
+          "source_unit_ids": [
+            "SRC-09"
+          ],
+          "text": "Eve enters with a continuous threshold route, receives Sienna's dismissal, counters with a measured challenge, and stops on Sienna's alarm before cutting black.",
+          "spoken_text": "Staff aren't allowed here. Leave. Funny. I remember the heiress looking different.",
+          "delivers": [
+            "EVE_ENTERS_SUITE",
+            "SIENNA_DISMISSES_JANITOR",
+            "EVE_CHALLENGES_FALSE_IDENTITY",
+            "SIENNA_UNEASY_NO_RECOGNITION",
+            "VIP_BLACKOUT_HOOK"
+          ],
+          "quality_score": 9.8,
+          "reason": "Consolidate exposition while preserving the supported source events and a readable reaction.",
+          "timing": {
+            "sequential_action_seconds": 5,
+            "reaction_seconds": 2.6
+          }
+        }
+      ]
+    }
+  ]
+}

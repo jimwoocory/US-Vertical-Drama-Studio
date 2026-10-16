@@ -36,7 +36,7 @@ const issue = (code, ref, message) => ({ code, ref, message })
 function cost(take, speechRate) {
   const timing = take.timing ?? {}
   // Natural read estimate. Never fast-forward an English performance to fit.
-  const words = englishWords(take.text)
+  const words = englishWords(take.spoken_text === undefined ? take.text : take.spoken_text)
   const estimatedSpeech = words / speechRate
   const spoken = Math.max(estimatedSpeech, timing.spoken_seconds ?? 0)
   const parallel = timing.parallel_action_seconds ?? 0
@@ -99,19 +99,23 @@ function validateInput(spec) {
   const locations = new Map(ids.map((id, i) => [id, i]))
   const sourceEvents = new Map()
   const eventOwners = new Map()
+  const eventPositions = new Map()
   for (const [index, unit] of units.entries()) {
     const ref = 'source_units[' + index + ']'
     if (!str(unit?.scene_id)) problems.push(issue('director_planner_scene_missing', ref, 'Each source unit needs a stable scene identity.'))
     if (!str(unit?.source_text)) problems.push(issue('director_planner_source_text_missing', ref, 'Each source unit must have a readable source line or action; the planner cannot reconstruct unknown original content.'))
+    if (unit?.source_spoken_text !== undefined && typeof unit.source_spoken_text !== 'string') problems.push(issue('director_planner_source_speech_invalid', ref, 'Source spoken audio text must be a string; visual descriptions do not count as spoken English.'))
+    if (unit?.minimum_reaction_seconds !== undefined && !pos(unit.minimum_reaction_seconds)) problems.push(issue('director_planner_reaction_floor_invalid', ref, 'Story-specific minimum reaction time must be finite and nonnegative.'))
     const events = unit?.known_events
     if (!Array.isArray(events) || !events.every(str) || !uniq(events)) {
       problems.push(issue('director_planner_events_invalid', ref, 'Each source unit must list distinct known canonical event IDs.'))
       continue
     }
     sourceEvents.set(unit.source_unit_id, new Set(events))
-    for (const e of events) {
+    for (const [eventIndex, e] of events.entries()) {
       if (eventOwners.has(e)) problems.push(issue('director_planner_duplicate_event', e, 'Only one source unit may own a source event.'))
       eventOwners.set(e, index)
+      eventPositions.set(e, eventIndex)
     }
     const must = unit?.must_preserve ?? []
     if (!Array.isArray(must) || must.some(e => !events.includes(e))) {
@@ -124,7 +128,9 @@ function validateInput(spec) {
   } else for (const [i, dep] of dependencies.entries()) {
     const ref = 'event_dependencies[' + i + ']'
     if (!eventOwners.has(dep?.before) || !eventOwners.has(dep?.after)
-      || dep.before === dep.after || eventOwners.get(dep.before) >= eventOwners.get(dep.after)) {
+      || dep.before === dep.after || eventOwners.get(dep.before) > eventOwners.get(dep.after)
+      || (eventOwners.get(dep.before) === eventOwners.get(dep.after)
+        && eventPositions.get(dep.before) >= eventPositions.get(dep.after))) {
       problems.push(issue('director_planner_dependency_invalid', ref, 'Protected event order must be supported by source chronology.'))
     }
   }
@@ -171,6 +177,19 @@ function validateInput(spec) {
       }
       if (protectedEvents.some(e => !delivers.includes(e))) {
         problems.push(issue('director_planner_protected_event_lost', loc, 'A take cannot erase an indispensable story event.'))
+        continue
+      }
+      if (take.spoken_text !== undefined && typeof take.spoken_text !== 'string') {
+        problems.push(issue('director_planner_spoken_text_invalid', loc, 'Spoken text must be an explicit string; visuals and dialogue are separate timing tracks.'))
+        continue
+      }
+      if (take.operation === 'retain' && unit.source_spoken_text !== undefined && take.spoken_text !== unit.source_spoken_text) {
+        problems.push(issue('director_planner_retain_changed_speech', loc, 'A retain take must not silently rewrite spoken dialogue.'))
+        continue
+      }
+      if (unit.minimum_reaction_seconds !== undefined && take.operation !== 'cut'
+        && (take.timing?.reaction_seconds ?? 0) < unit.minimum_reaction_seconds) {
+        problems.push(issue('director_planner_reaction_floor_violated', loc, 'A protected emotional recognition/response needs its source-specific playable reaction time.'))
         continue
       }
       if (take.operation === 'retain' && take.text !== unit.source_text) {
@@ -278,7 +297,7 @@ export function planDirectorEpisode(spec, options = {}) {
   }
   const best = sorted[0]
   const rawSeconds = fromTicks(units.reduce((ticks, unit, i) => ticks
-    + tenth(cost({text:unit.source_text, timing:unit.raw_timing}, speechRate).seconds)
+    + tenth(cost({text:unit.source_text, spoken_text:unit.source_spoken_text, timing:unit.raw_timing}, speechRate).seconds)
     + (i > 0 && units[i-1].scene_id !== unit.scene_id ? fixed.transition : 0), fixedTicks))
   const sourceIds = units.map(x => x.source_unit_id)
   const assembled = []
