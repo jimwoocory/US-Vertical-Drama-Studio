@@ -10,6 +10,11 @@ import { createHash } from 'node:crypto'
 import { readFileSync, realpathSync, lstatSync } from 'node:fs'
 import { dirname, isAbsolute, relative, resolve, sep } from 'node:path'
 
+/** Reuse immutable voice evidence in dependency checks without reading or approving audio. */
+export function voiceTimingDependencies(pkg) {
+  return (pkg.voice_assets ?? []).map(a => Object.fromEntries(['shot_id', 'line_id', 'asset_version_id', 'asset_text_sha256', 'sha256', 'duration_seconds', 'source'].filter(k => a[k] !== undefined).map(k => [k, a[k]])))
+}
+
 const finite = v => typeof v === 'number' && Number.isFinite(v) && v >= 0
 const requiredText = v => typeof v === 'string' && v.trim().length > 0
 const tenth = seconds => Math.ceil(seconds * 10 - 1e-8) / 10

@@ -77,6 +77,7 @@ export async function executeControlledStage09Review({
       provider,
       run_id: run.id,
       estimated_tokens: prepared.estimated_tokens,
+      ...(prepared.context_packet.input_digest ? { input_digest: prepared.context_packet.input_digest, policy_version: prepared.context_packet.policy_version, review_scope: prepared.context_packet.stable_refs } : {}),
       review: outcome.structured,
     }
   } finally {

@@ -1,0 +1,160 @@
+TAP version 13
+# Subtest: v2 passes all deterministic checks with host-verified synthetic review and real fixture bytes
+ok 1 - v2 passes all deterministic checks with host-verified synthetic review and real fixture bytes
+  ---
+  duration_ms: 41.219
+  type: 'test'
+  ...
+# Subtest: v2 short inserts are advisory; invalid timing and missing assets still block
+ok 2 - v2 short inserts are advisory; invalid timing and missing assets still block
+  ---
+  duration_ms: 39.0459
+  type: 'test'
+  ...
+# Subtest: heuristics and style tokens are advisory in v2 while unknown rules fail closed
+ok 3 - heuristics and style tokens are advisory in v2 while unknown rules fail closed
+  ---
+  duration_ms: 23.6606
+  type: 'test'
+  ...
+# Subtest: machine pass never authorizes absent, forged, stale or self-authored review
+ok 4 - machine pass never authorizes absent, forged, stale or self-authored review
+  ---
+  duration_ms: 27.1972
+  type: 'test'
+  ...
+# Subtest: v2 controlled review recomputes machine checks and binds the exact input digest
+ok 5 - v2 controlled review recomputes machine checks and binds the exact input digest
+  ---
+  duration_ms: 31.8225
+  type: 'test'
+  ...
+# Subtest: reference scopes, real media, versions, pending plans and modes are enforced
+ok 6 - reference scopes, real media, versions, pending plans and modes are enforced
+  ---
+  duration_ms: 60.8799
+  type: 'test'
+  ...
+# Subtest: same image first/last is explicit, incompatible mixed modes and order collisions fail
+ok 7 - same image first/last is explicit, incompatible mixed modes and order collisions fail
+  ---
+  duration_ms: 37.1438
+  type: 'test'
+  ...
+# Subtest: local camera changes invalidate parent VIDEO and adjoining cut review, not unrelated VIDEO
+ok 8 - local camera changes invalidate parent VIDEO and adjoining cut review, not unrelated VIDEO
+  ---
+  duration_ms: 7.7603
+  type: 'test'
+  ...
+# Subtest: state changes propagate beyond neighbours; shared asset updates reach every reference
+ok 9 - state changes propagate beyond neighbours; shared asset updates reach every reference
+  ---
+  duration_ms: 12.3839
+  type: 'test'
+  ...
+# Subtest: dialogue edits invalidate audio/subtitles/timing, display names do not; reference order matters
+ok 10 - dialogue edits invalidate audio/subtitles/timing, display names do not; reference order matters
+  ---
+  duration_ms: 14.0092
+  type: 'test'
+  ...
+# Subtest: missing snapshots, malformed graphs and cycles cannot claim freshness
+ok 11 - missing snapshots, malformed graphs and cycles cannot claim freshness
+  ---
+  duration_ms: 8.7247
+  type: 'test'
+  ...
+# Subtest: v2 quote binding rechecks bytes, current review, request identity and transport support
+ok 12 - v2 quote binding rechecks bytes, current review, request identity and transport support
+  ---
+  duration_ms: 67.711
+  type: 'test'
+  ...
+# Subtest: changed execution uses a new key; old in-flight results remain traceable and stale
+ok 13 - changed execution uses a new key; old in-flight results remain traceable and stale
+  ---
+  duration_ms: 32.4638
+  type: 'test'
+  ...
+# Subtest: v1 remains readable and original QA/adapter behavior is preserved
+ok 14 - v1 remains readable and original QA/adapter behavior is preserved
+  ---
+  duration_ms: 1.5706
+  type: 'test'
+  ...
+# Subtest: director-unit edits remain local while original whole-package review becomes stale
+ok 15 - director-unit edits remain local while original whole-package review becomes stale
+  ---
+  duration_ms: 5.2426
+  type: 'test'
+  ...
+# Subtest: timeline aliases hash identically and conflicting forms cannot bypass workbench checks
+ok 16 - timeline aliases hash identically and conflicting forms cannot bypass workbench checks
+  ---
+  duration_ms: 22.4434
+  type: 'test'
+  ...
+# Subtest: malformed v2 envelopes and unknown schema attributes do not throw or become ready
+ok 17 - malformed v2 envelopes and unknown schema attributes do not throw or become ready
+  ---
+  duration_ms: 19.9843
+  type: 'test'
+  ...
+# Subtest: v2 reviewer returns scoped digest evidence and never promotes a focused review to full approval
+ok 18 - v2 reviewer returns scoped digest evidence and never promotes a focused review to full approval
+  ---
+  duration_ms: 27.9329
+  type: 'test'
+  ...
+# Subtest: receipt replay preserves terminal history and collection of older jobs cannot overwrite active jobs
+ok 19 - receipt replay preserves terminal history and collection of older jobs cannot overwrite active jobs
+  ---
+  duration_ms: 16.4633
+  type: 'test'
+  ...
+# Subtest: voice proxy BLOCKED and adopted episode limits cannot be cleared by a new contract
+ok 20 - voice proxy BLOCKED and adopted episode limits cannot be cleared by a new contract
+  ---
+  duration_ms: 27.1024
+  type: 'test'
+  ...
+# Subtest: reference order changes request identity; relocating identical bytes preserves dependency identity
+ok 21 - reference order changes request identity; relocating identical bytes preserves dependency identity
+  ---
+  duration_ms: 49.0713
+  type: 'test'
+  ...
+# Subtest: all three contract resources ship with each affected skill and schemas match executable enums
+ok 22 - all three contract resources ship with each affected skill and schemas match executable enums
+  ---
+  duration_ms: 16.7881
+  type: 'test'
+  ...
+# Subtest: standalone v2 adapter checks references and tags advisory budgets before QA
+ok 23 - standalone v2 adapter checks references and tags advisory budgets before QA
+  ---
+  duration_ms: 21.8171
+  type: 'test'
+  ...
+# Subtest: a fresh compilation snapshot cannot relabel old media current or prevent an authorized regeneration
+ok 24 - a fresh compilation snapshot cannot relabel old media current or prevent an authorized regeneration
+  ---
+  duration_ms: 28.5021
+  type: 'test'
+  ...
+# Subtest: v2 tool resolves only a host package reference and returns the exact scoped digest
+ok 25 - v2 tool resolves only a host package reference and returns the exact scoped digest
+  ---
+  duration_ms: 45.8251
+  type: 'test'
+  ...
+1..25
+# tests 25
+# suites 0
+# pass 25
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 757.9975

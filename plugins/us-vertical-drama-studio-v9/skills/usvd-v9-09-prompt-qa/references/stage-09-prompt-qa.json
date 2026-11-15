@@ -81,5 +81,33 @@
   "handoff": {
     "revise_to": ["07-performance-cinematography", "08-seedance-2-mini-adapter", "upstream"],
     "pass_gate": "PROMPT QA PASS"
+  },
+  "production_v2": {
+    "workbench_schema": "us-vertical-drama-workbench/v2",
+    "policy": "production-policy-v2.json",
+    "reference_binding_schema": "reference-binding-v2.schema.json",
+    "dependency_schema": "artifact-dependencies-v2.schema.json",
+    "legacy": "v1 behavior remains unchanged; absent metadata is unknown, never an inferred PASS",
+    "required_policy_version": "usvds-production-policy/2",
+    "result": [
+      "machine_gate",
+      "review_gate",
+      "gate",
+      "generation_ready",
+      "input_digest",
+      "freshness"
+    ],
+    "review_receipt_required": [
+      "input_digest",
+      "policy_version",
+      "author_id",
+      "reviewer_id",
+      "run_id",
+      "status",
+      "rule_ids",
+      "evidence"
+    ],
+    "review_verification": "Host verifier is mandatory; self-declared status or trusted flags are not evidence. No host verifier means PENDING.",
+    "gate": "PASS only with deterministic checks passed, host-verified current semantic review, and current dependency snapshot. Machine PASS is not production authorization."
   }
 }

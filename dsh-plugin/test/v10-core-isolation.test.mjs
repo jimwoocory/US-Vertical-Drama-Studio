@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmdirSync, unlinkSync, writeFileSync } from 'node:fs'
+import { chmodSync, existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmdirSync, unlinkSync, writeFileSync } from 'node:fs'
 import { basename, dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import test from 'node:test'
@@ -20,12 +20,16 @@ function git(cwd, ...args) {
   return result.stdout.trim()
 }
 
-function removeFixture(path, filesystem = { lstatSync, readdirSync, rmdirSync, unlinkSync }) {
+function removeFixture(path, filesystem = { chmodSync, lstatSync, readdirSync, rmdirSync, unlinkSync }) {
   // Do not follow links; remove only this test's uniquely created fixture.
-  if (filesystem.lstatSync(path).isDirectory()) {
+  const stat = filesystem.lstatSync(path)
+  if (stat.isDirectory()) {
     for (const name of filesystem.readdirSync(path)) removeFixture(join(path, name), filesystem)
     filesystem.rmdirSync(path)
   } else {
+    // Git objects are read-only on Windows. Node 24's unlink honors that bit.
+    // Never chmod a link: it could follow a target outside the checked fixture.
+    if (process.platform === 'win32' && stat.isFile?.()) filesystem.chmodSync?.(path, 0o600)
     filesystem.unlinkSync(path)
   }
 }

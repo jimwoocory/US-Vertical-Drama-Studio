@@ -49,3 +49,8 @@ For regression review, additionally record:
 - V9 human-review status;
 - exact V9 rule responsible for each material change;
 - generated-video review as `pending` unless the actual rendered videos have been viewed.
+
+
+## V2 review evidence
+
+Review all policy reviewed_rules against exact current input_digest; record author_id, distinct reviewer_id, run_id, rule_ids and concrete evidence. The trusted host verifies the receipt. A model cannot attest its own trust. Raw byte/slot checks cannot prove visual reference suitability or dramatic quality.

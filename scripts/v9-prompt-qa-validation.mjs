@@ -1,5 +1,6 @@
 import { inspectEpisodeDuration, isDirectorAdaptationAuthorized, validateDirectorAdaptation, validateShotLevelFields, validateTimingClosure } from './v9-director-validation.mjs'
 import { validateAdapterPackage } from './v9-seedance-adapter-validation.mjs'
+import { isProductionV2, classifyProductionDefect, assessProductionEvidence, validateProductionEnvelope, PRODUCTION_POLICY } from './v11-production-policy.mjs'
 
 export const DIALOGUE_MAX_WORDS_PER_SECOND = 3.0
 
@@ -22,16 +23,23 @@ const ADAPTER_BLOCKERS = new Set([
   'missing_prompt_field',
 ])
 
-export function runPromptQA(pkg) {
+export function runPromptQA(pkg, options = {}) {
   const raw = []
+  if (typeof pkg?.schema_version === 'string' && pkg.schema_version.startsWith('us-vertical-drama-workbench/') && !['us-vertical-drama-workbench/v1', 'us-vertical-drama-workbench/v2'].includes(pkg.schema_version)) return { gate: 'BLOCKED', machine_gate: 'BLOCKED', generation_ready: false, defects: [{ rule: 'invalid_schema', severity: 'blocker', stable_ref: 'PACKAGE' }] }
+  if (isProductionV2(pkg)) {
+    if (pkg.production_gate === 'BLOCKED' || pkg.voice_timing_evidence?.production_gate === 'BLOCKED') raw.push(defect('blocker', 'PACKAGE', 'upstream_production_blocked', 'Upstream director/voice evidence remains BLOCKED.', 'Resolve the owning upstream evidence; a contract upgrade cannot promote it.', '06'))
+    const invalid = validateProductionEnvelope(pkg)
+    if (invalid.length) return { contract_version: 2, gate: 'BLOCKED', machine_gate: 'BLOCKED', review_gate: 'PENDING', generation_ready: false, input_digest: null, freshness: { freshness: 'unknown', errors: invalid }, summary: { blocker: 1, major: 0, minor: 0, total: 1 }, defects: [{ defect_id: 'QA-PACKAGE-INVALID-CORE-TYPE', rule: 'invalid_core_type', severity: 'blocker', rule_tier: 'structural_invariant', gate_effect: 'block', stable_ref: 'PACKAGE', evidence: invalid, return_to_stage: '09' }] }
+  }
   raw.push(...checkCoreTypes(pkg))
   raw.push(...checkRequiredEvidence(pkg))
   raw.push(...mapTimingDiagnostics(validateTimingClosure(pkg)))
   const episodeDuration = inspectEpisodeDuration(pkg)
+  if (isProductionV2(pkg) && !episodeDuration.policy_active) raw.push(defect('blocker', 'PACKAGE', 'production_duration_policy_required', 'V2 needs an adopted complete-episode duration policy.', 'Provide the project duration policy and full episode timing.', '06'))
   raw.push(...episodeDuration.diagnostics.map(item => defect('blocker', item.ref ?? 'PACKAGE', item.code, JSON.stringify(item), 'Repair the complete-episode timeline and 60–120 second budget in the director revision before execution.', '06')))
   raw.push(...validateDirectorAdaptation(pkg).map(item => defect('blocker', item.ref ?? 'PACKAGE', item.code, JSON.stringify(item), 'Repair the director revision lineage and compile downstream from its revised units.', '06')))
   raw.push(...mapShotLevelDiagnostics(pkg))
-  raw.push(...mapAdapterDiagnostics(validateAdapterPackage(pkg)))
+  raw.push(...mapAdapterDiagnostics(validateAdapterPackage(pkg, options)))
   raw.push(...checkSourceCoverage(pkg))
   raw.push(...checkAssetIntegrity(pkg))
   raw.push(...checkDirectorEvidence(pkg))
@@ -39,18 +47,29 @@ export function runPromptQA(pkg) {
   raw.push(...checkModelFacingPromptLanguage(pkg))
   raw.push(...checkUnapprovedStoryFacts(pkg))
 
-  const defects = assignStableDefectIds(raw)
+  if (isProductionV2(pkg)) {
+    if (pkg.policy_version !== PRODUCTION_POLICY.version) raw.push(defect('blocker', 'PACKAGE', 'production_policy_version_mismatch', 'Expected current production policy.', 'Upgrade the explicit contract version.', '09'))
+  }
+  const defects = assignStableDefectIds(isProductionV2(pkg) ? raw.map(classifyProductionDefect) : raw)
   const blockers = defects.filter(item => item.severity === 'blocker').length
   const majors = defects.filter(item => item.severity === 'major').length
   const minors = defects.filter(item => item.severity === 'minor').length
   const gate = blockers > 0 ? 'BLOCKED' : majors > 0 ? 'REVISE' : 'PASS'
 
-  return {
+  const result = {
     gate,
     summary: { blocker: blockers, major: majors, minor: minors, total: defects.length },
     defects,
     episode_duration: episodeDuration,
   }
+  if (isProductionV2(pkg)) {
+    const evidence = assessProductionEvidence(pkg, options)
+    const machine_gate = blockers || majors ? 'BLOCKED' : 'PASS'
+    const current = evidence.freshness.input_freshness === 'current'
+    const finalGate = machine_gate !== 'PASS' || evidence.review_gate === 'BLOCKED' ? 'BLOCKED' : evidence.review_gate === 'PASS' && current ? 'PASS' : 'REVISE'
+    return { ...result, ...evidence, machine_gate, gate: finalGate, generation_ready: finalGate === 'PASS', contract_version: 2 }
+  }
+  return result
 }
 
 function mapShotLevelDiagnostics(pkg) {
@@ -170,7 +189,7 @@ function mapAdapterDiagnostics(items) {
     return defect(
       severity,
       item.ref ?? item.video_id ?? 'PACKAGE',
-      `adapter_${item.code}`,
+      item.rule ?? `adapter_${item.code}`,
       JSON.stringify(item),
       'Repair the Seedance 2.0 Mini adapter package without changing approved story/directing.',
       '08',

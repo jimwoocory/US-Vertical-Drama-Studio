@@ -171,3 +171,14 @@ Stage 07 可以精化执行方式，但不得让相邻镜头在人物位置、ey
 ## 完成条件
 
 只有所有导演指令都能追溯到具体 `VIDEO-* / SHOT-*`，所有运镜/焦点/光线/Cut 都有叙事或连续性动机，并且没有模型 Prompt 泄漏时，才输出 `STAGE 07 APPROVED`，交给 Stage 08 进行模型翻译。
+
+
+## Production contract v2
+
+For explicitly versioned `us-vertical-drama-workbench/v2` packages, apply `production-policy-v2.json`, `reference-binding-v2.schema.json`, and `artifact-dependencies-v2.schema.json` (authoritative sources in `core/usvd-v9/contracts/`; installed skill copies in `references/`). These resources supplement this stage; they do not transfer story, timing, asset, or prompt ownership.
+
+- Structural invariants block invalid execution; semantic invariants require current independently verified review. Craft defaults and taste options do not independently block. Micro-shot 0.5–3s and internal prompt-length/word-rate budgets are suggestions. Adopted complete-episode 60–120s and verified endpoint limits remain binding.
+- Every reference names its approved immutable asset version, content SHA-256, visible SHOT scope, purpose, allowed controls, forbidden controls, input slot, and order. Planned/missing media remains draft-only; never silently switch to text-to-video. Labels are Chinese in reading views; machine enums remain stable English. Image semantics still require review.
+- Preserve historical media, job IDs and review receipts. Derive current/stale/unknown status from the actual dependency graph. Changes propagate to parent VIDEO, related cuts, audio/subtitles/timing and review as appropriate. A one-call VIDEO may require whole-package regeneration; never promise independent SHOT replacement without verified support.
+- Machine PASS is not final PASS. Missing host review verification, stale input digests, unresolved references or unknown dependencies cannot produce generation-ready output. No production API, publication or deployment is authorized by this contract.
+- Legacy v1 artifacts remain readable with their original validation behavior and are not silently upgraded or relabeled v2.

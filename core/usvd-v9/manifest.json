@@ -120,5 +120,12 @@
     { "id": "deepseek-harness", "path": "dsh-plugin", "status": "generated-catalog-consumer" },
     { "id": "tabbit", "path": "tabbit/v9", "status": "generated-preview" },
     { "id": "mediago", "path": "mediago/v9", "status": "generated-source-native-mgpack-pending" }
-  ]
+  ],
+  "production_v2": {
+    "status": "local-contract-implementation-unpublished",
+    "workbench_schema": "us-vertical-drama-workbench/v2",
+    "policy_version": "usvds-production-policy/2",
+    "external_media_mcp_v2": "unverified",
+    "production_deployment": "not-performed"
+  }
 }

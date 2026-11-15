@@ -8,6 +8,12 @@
 import { createHash } from 'node:crypto'
 import { planDirectorEpisode } from './v11-director-planner.mjs'
 
+/** Dependency projection only; it does not approve or lock a director revision. */
+export function directorProductionSources(pkg) {
+  const r = pkg.director_revision
+  return structuredClone({ source_revision_id: r?.source_revision_id, revision_id: r?.revision_id, source_unit_ids: r?.source_unit_ids ?? [], units: r?.units ?? [] })
+}
+
 const REVIEW_DIMENSIONS = Object.freeze([
   'character_goal_and_strategy', 'opponent_response', 'causal_and_knowledge_order',
   'emotional_setup_and_payoff', 'cliffhanger_and_next_episode',

@@ -1,0 +1,979 @@
+TAP version 13
+# Subtest: parses a canonical skill frontmatter block
+ok 1 - parses a canonical skill frontmatter block
+  ---
+  duration_ms: 2.1395
+  type: 'test'
+  ...
+# Subtest: registers a native provider and exposes the generated V9 skill catalog
+ok 2 - registers a native provider and exposes the generated V9 skill catalog
+  ---
+  duration_ms: 13.3338
+  type: 'test'
+  ...
+# Subtest: provider catalog cannot be redirected by a forged path
+ok 3 - provider catalog cannot be redirected by a forged path
+  ---
+  duration_ms: 8.0915
+  type: 'test'
+  ...
+# Subtest: published DSH package exposes writing skills without bundling a browser workbench
+ok 4 - published DSH package exposes writing skills without bundling a browser workbench
+  ---
+  duration_ms: 3113.8278
+  type: 'test'
+  ...
+# Subtest: reports a generation-ready, traceable shot
+ok 5 - reports a generation-ready, traceable shot
+  ---
+  duration_ms: 3.2732
+  type: 'test'
+  ...
+# Subtest: blocks video work when an asset is not approved or a shot exceeds 15 seconds
+ok 6 - blocks video work when an asset is not approved or a shot exceeds 15 seconds
+  ---
+  duration_ms: 1.3289
+  type: 'test'
+  ...
+# Subtest: validates a V8-style video package made from contiguous micro-shots
+ok 7 - validates a V8-style video package made from contiguous micro-shots
+  ---
+  duration_ms: 0.961
+  type: 'test'
+  ...
+# Subtest: blocks a non-contiguous or unjustifiably long micro-shot
+ok 8 - blocks a non-contiguous or unjustifiably long micro-shot
+  ---
+  duration_ms: 0.7206
+  type: 'test'
+  ...
+# Subtest: blocks micro-shots when their VIDEO master prompt is absent
+ok 9 - blocks micro-shots when their VIDEO master prompt is absent
+  ---
+  duration_ms: 0.4768
+  type: 'test'
+  ...
+# Subtest: automatically maps readable storyboard text into video and micro-shot records
+ok 10 - automatically maps readable storyboard text into video and micro-shot records
+  ---
+  duration_ms: 5.909
+  type: 'test'
+  ...
+# Subtest: accepts the V8-style compact video and shot headings
+ok 11 - accepts the V8-style compact video and shot headings
+  ---
+  duration_ms: 2.2461
+  type: 'test'
+  ...
+# Subtest: V10 fixes stages 01-04 to the requested model contract
+ok 12 - V10 fixes stages 01-04 to the requested model contract
+  ---
+  duration_ms: 3.1791
+  type: 'test'
+  ...
+# Subtest: GLM 5.3 stages never substitute FlashX when the exact target is absent
+ok 13 - GLM 5.3 stages never substitute FlashX when the exact target is absent
+  ---
+  duration_ms: 0.6183
+  type: 'test'
+  ...
+# Subtest: old Anthropic models are not accepted as the new GLM stage targets
+ok 14 - old Anthropic models are not accepted as the new GLM stage targets
+  ---
+  duration_ms: 0.2751
+  type: 'test'
+  ...
+# Subtest: missing fixed target fails closed and never calls selectModel
+ok 15 - missing fixed target fails closed and never calls selectModel
+  ---
+  duration_ms: 3.8344
+  type: 'test'
+  ...
+# Subtest: routing uses DSH selectModel, restores global default, and reports exact selection
+ok 16 - routing uses DSH selectModel, restores global default, and reports exact selection
+  ---
+  duration_ms: 0.7765
+  type: 'test'
+  ...
+# Subtest: native skill hook arms fixed route and re-arms the prior Session route after use
+ok 17 - native skill hook arms fixed route and re-arms the prior Session route after use
+  ---
+  duration_ms: 7.958
+  type: 'test'
+  ...
+# node:internal/modules/package_json_reader:331
+#   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+#         ^
+# Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@deepseek-ai/dsh-tools' imported from C:\\Users\\Administrator\\AgentDock\\USVDS-V11-director-upgrade-20261016\\dsh-plugin\\stage09-review-tool.js
+#     at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+#     at packageResolve (node:internal/modules/esm/resolve:784:25)
+#     at moduleResolve (node:internal/modules/esm/resolve:873:18)
+#     at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+#     at \#cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+#     at \#resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+#     at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+#     at \#resolve (node:internal/modules/esm/loader:687:17)
+#     at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+#     at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+#   code: 'ERR_MODULE_NOT_FOUND'
+# }
+# Node.js v24.22.1
+# Subtest: dsh-plugin\\test\\stage09-review-executor.test.mjs
+not ok 5 - dsh-plugin\\test\\stage09-review-executor.test.mjs
+  ---
+  duration_ms: 201.0799
+  type: 'test'
+  location: 'C:\\Users\\Administrator\\AgentDock\\USVDS-V11-director-upgrade-20261016\\dsh-plugin\\test\\stage09-review-executor.test.mjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 1
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: canonical bytes preserve text and array order and ignore object key insertion order
+ok 19 - canonical bytes preserve text and array order and ignore object key insertion order
+  ---
+  duration_ms: 4.3823
+  type: 'test'
+  ...
+# Subtest: an exact signed approval is a protocol result, never proof of a human or a production gate
+ok 20 - an exact signed approval is a protocol result, never proof of a human or a production gate
+  ---
+  duration_ms: 7.7529
+  type: 'test'
+  ...
+# Subtest: forged signatures and signed-record mutations leave state untouched
+ok 21 - forged signatures and signed-record mutations leave state untouched
+  ---
+  duration_ms: 5.0782
+  type: 'test'
+  ...
+# Subtest: trusted signature alone cannot authorize the wrong project, artifact, revision, digest, or scope
+ok 22 - trusted signature alone cannot authorize the wrong project, artifact, revision, digest, or scope
+  ---
+  duration_ms: 3.7118
+  type: 'test'
+  ...
+# Subtest: records cannot select their own public key or omit required identity and binding fields
+ok 23 - records cannot select their own public key or omit required identity and binding fields
+  ---
+  duration_ms: 96.2726
+  type: 'test'
+  ...
+# Subtest: caller mutation of inputs, outputs, or key map cannot rewrite accepted state
+ok 24 - caller mutation of inputs, outputs, or key map cannot rewrite accepted state
+  ---
+  duration_ms: 1.5195
+  type: 'test'
+  ...
+# Subtest: replayed event IDs and concurrent stale expected versions cannot apply twice
+ok 25 - replayed event IDs and concurrent stale expected versions cannot apply twice
+  ---
+  duration_ms: 2.2772
+  type: 'test'
+  ...
+# Subtest: CAS expectedVersion is mandatory and signed chain predecessor must match
+ok 26 - CAS expectedVersion is mandatory and signed chain predecessor must match
+  ---
+  duration_ms: 1.8128
+  type: 'test'
+  ...
+# Subtest: signed revocation invalidates approval and does not allow unsigned clearing or replay
+ok 27 - signed revocation invalidates approval and does not allow unsigned clearing or replay
+  ---
+  duration_ms: 6.6855
+  type: 'test'
+  ...
+# Subtest: signed rejection cannot be treated as an approval
+ok 28 - signed rejection cannot be treated as an approval
+  ---
+  duration_ms: 1.6205
+  type: 'test'
+  ...
+# Subtest: SCR advances the story revision and invalidates old approval and in-flight version
+ok 29 - SCR advances the story revision and invalidates old approval and in-flight version
+  ---
+  duration_ms: 14.284
+  type: 'test'
+  ...
+# Subtest: SCR rejects missing, mismatched, cross-project, and non-increasing replacements atomically
+ok 30 - SCR rejects missing, mismatched, cross-project, and non-increasing replacements atomically
+  ---
+  duration_ms: 4.0946
+  type: 'test'
+  ...
+# Subtest: evaluation denies wrong scope and content mutation without relying on a caller status label
+ok 31 - evaluation denies wrong scope and content mutation without relying on a caller status label
+  ---
+  duration_ms: 0.876
+  type: 'test'
+  ...
+# Subtest: serialized snapshots replay verified events and preserve revocation without shipping keys
+ok 32 - serialized snapshots replay verified events and preserve revocation without shipping keys
+  ---
+  duration_ms: 3.9952
+  type: 'test'
+  ...
+# Subtest: snapshot recovery rejects tampering, truncation, wrong trusted keys, and absent external checkpoints
+ok 33 - snapshot recovery rejects tampering, truncation, wrong trusted keys, and absent external checkpoints
+  ---
+  duration_ms: 2.9273
+  type: 'test'
+  ...
+# Subtest: snapshot roundtrip after SCR requires fresh approval of the current revision
+ok 34 - snapshot roundtrip after SCR requires fresh approval of the current revision
+  ---
+  duration_ms: 3.3022
+  type: 'test'
+  ...
+# Subtest: digest fields reject JSON arrays that coerce to a valid SHA-256 string
+ok 35 - digest fields reject JSON arrays that coerce to a valid SHA-256 string
+  ---
+  duration_ms: 0.634
+  type: 'test'
+  ...
+# Subtest: snapshot recovery rejects duplicate JSON keys and injected derived approval status
+ok 36 - snapshot recovery rejects duplicate JSON keys and injected derived approval status
+  ---
+  duration_ms: 1.4016
+  type: 'test'
+  ...
+# Subtest: V10 manifest tracks authored story-stage skills separately while keeping runtime non-runnable
+not ok 37 - V10 manifest tracks authored story-stage skills separately while keeping runtime non-runnable
+  ---
+  duration_ms: 4.9451
+  type: 'test'
+  location: 'C:\\Users\\Administrator\\AgentDock\\USVDS-V11-director-upgrade-20261016\\dsh-plugin\\test\\v10-core-isolation.test.mjs:83:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + '0.10.0-preview.7'
+    - '0.10.0-preview.1'
+                      ^
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '0.10.0-preview.1'
+  actual: '0.10.0-preview.7'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Administrator/AgentDock/USVDS-V11-director-upgrade-20261016/dsh-plugin/test/v10-core-isolation.test.mjs:88:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.start (node:internal/test_runner/test:1262:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+  ...
+# Subtest: V10 GPT plugin preview is generated from the authored Core and remains limited to those skills
+not ok 38 - V10 GPT plugin preview is generated from the authored Core and remains limited to those skills
+  ---
+  duration_ms: 391.9564
+  type: 'test'
+  location: 'C:\\Users\\Administrator\\AgentDock\\USVDS-V11-director-upgrade-20261016\\dsh-plugin\\test\\v10-core-isolation.test.mjs:132:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    V10 GPT plugin is out of sync:
+    - plugin.json
+    - .codex-plugin/plugin.json
+    - README.md
+
+
+    1 !== 0
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Administrator/AgentDock/USVDS-V11-director-upgrade-20261016/dsh-plugin/test/v10-core-isolation.test.mjs:134:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: checker accepts identical protected baseline and unrelated V10 additions
+ok 39 - checker accepts identical protected baseline and unrelated V10 additions
+  ---
+  duration_ms: 982.9983
+  type: 'test'
+  ...
+# Subtest: checker rejects tracked content drift in core/usvd-v9/sample.txt
+ok 40 - checker rejects tracked content drift in core/usvd-v9/sample.txt
+  ---
+  duration_ms: 1058.0511
+  type: 'test'
+  ...
+# Subtest: checker rejects tracked content drift in plugins/us-vertical-drama-studio-v9/sample.txt
+ok 41 - checker rejects tracked content drift in plugins/us-vertical-drama-studio-v9/sample.txt
+  ---
+  duration_ms: 875.0761
+  type: 'test'
+  ...
+# Subtest: checker rejects tracked content drift in direct-upload/v9/sample.txt
+ok 42 - checker rejects tracked content drift in direct-upload/v9/sample.txt
+  ---
+  duration_ms: 879.9079
+  type: 'test'
+  ...
+# Subtest: checker rejects tracked content drift in tabbit/v9/sample.txt
+ok 43 - checker rejects tracked content drift in tabbit/v9/sample.txt
+  ---
+  duration_ms: 858.4714
+  type: 'test'
+  ...
+# Subtest: checker rejects tracked content drift in mediago/v9/sample.txt
+ok 44 - checker rejects tracked content drift in mediago/v9/sample.txt
+  ---
+  duration_ms: 832.7797
+  type: 'test'
+  ...
+# Subtest: checker rejects tracked content drift in scripts/sync-v9-distributions.mjs
+ok 45 - checker rejects tracked content drift in scripts/sync-v9-distributions.mjs
+  ---
+  duration_ms: 859.6486
+  type: 'test'
+  ...
+# Subtest: checker rejects tracked content drift in scripts/sync-dsh-v9.mjs
+ok 46 - checker rejects tracked content drift in scripts/sync-dsh-v9.mjs
+  ---
+  duration_ms: 1327.8561
+  type: 'test'
+  ...
+# Subtest: checker rejects tracked deletion
+ok 47 - checker rejects tracked deletion
+  ---
+  duration_ms: 1056.4857
+  type: 'test'
+  ...
+# Subtest: checker rejects staged content drift even after restoring baseline worktree contents
+ok 48 - checker rejects staged content drift even after restoring baseline worktree contents
+  ---
+  duration_ms: 967.3657
+  type: 'test'
+  ...
+# Subtest: checker rejects a tracked path added after baseline
+ok 49 - checker rejects a tracked path added after baseline
+  ---
+  duration_ms: 999.991
+  type: 'test'
+  ...
+# Subtest: checker rejects untracked protected file extra.txt, including ignored files
+ok 50 - checker rejects untracked protected file extra.txt, including ignored files
+  ---
+  duration_ms: 841.9886
+  type: 'test'
+  ...
+# Subtest: checker rejects untracked protected file ignored.tmp, including ignored files
+ok 51 - checker rejects untracked protected file ignored.tmp, including ignored files
+  ---
+  duration_ms: 1040.0624
+  type: 'test'
+  ...
+# Subtest: checker fails closed for an unavailable baseline
+ok 52 - checker fails closed for an unavailable baseline
+  ---
+  duration_ms: 1031.393
+  type: 'test'
+  ...
+# Subtest: explicit temporary roots preserve existing files across repeated fixtures
+    # Subtest: explicit root run 1
+    ok 1 - explicit root run 1
+      ---
+      duration_ms: 843.3847
+      type: 'test'
+      ...
+    # Subtest: explicit root run 2
+    ok 2 - explicit root run 2
+      ---
+      duration_ms: 827.2897
+      type: 'test'
+      ...
+    1..2
+ok 53 - explicit temporary roots preserve existing files across repeated fixtures
+  ---
+  duration_ms: 1809.5845
+  type: 'test'
+  ...
+# Subtest: fixture cleanup removes symbolic links without traversing their targets
+ok 54 - fixture cleanup removes symbolic links without traversing their targets
+  ---
+  duration_ms: 0.4245
+  type: 'test'
+  ...
+# Subtest: the director requires a real model adapter and will not fake autonomous authorship
+ok 55 - the director requires a real model adapter and will not fake autonomous authorship
+  ---
+  duration_ms: 1.9277
+  type: 'test'
+  ...
+# Subtest: creative model mock returns a draft from original script facts rather than preauthored input options
+ok 56 - creative model mock returns a draft from original script facts rather than preauthored input options
+  ---
+  duration_ms: 6.6026
+  type: 'test'
+  ...
+# Subtest: distinct audit adapter with matching exact content hash can document a model review, not media readiness
+ok 57 - distinct audit adapter with matching exact content hash can document a model review, not media readiness
+  ---
+  duration_ms: 3.4015
+  type: 'test'
+  ...
+# Subtest: same-model self review and fake or stale digest remain unverified
+ok 58 - same-model self review and fake or stale digest remain unverified
+  ---
+  duration_ms: 3.0688
+  type: 'test'
+  ...
+# Subtest: candidate model cannot rewrite the source ledger, disappear units or claim invented beats
+ok 59 - candidate model cannot rewrite the source ledger, disappear units or claim invented beats
+  ---
+  duration_ms: 3.624
+  type: 'test'
+  ...
+# Subtest: source extraction rejects fabricated literal excerpts and missing protected beat IDs
+ok 60 - source extraction rejects fabricated literal excerpts and missing protected beat IDs
+  ---
+  duration_ms: 0.7582
+  type: 'test'
+  ...
+# Subtest: creative request explicitly preserves character agency, payoff and performance budgets
+ok 61 - creative request explicitly preserves character agency, payoff and performance budgets
+  ---
+  duration_ms: 0.426
+  type: 'test'
+  ...
+# Subtest: chooses playable 60-120s revision from an overloaded source
+ok 62 - chooses playable 60-120s revision from an overloaded source
+  ---
+  duration_ms: 6.3479
+  type: 'test'
+  ...
+# Subtest: rejects invented or missing protected story events
+ok 63 - rejects invented or missing protected story events
+  ---
+  duration_ms: 0.9009
+  type: 'test'
+  ...
+# Subtest: protects causal order and refuses padding
+ok 64 - protects causal order and refuses padding
+  ---
+  duration_ms: 0.466
+  type: 'test'
+  ...
+# Subtest: legacy must not receive new autonomous director authority
+ok 65 - legacy must not receive new autonomous director authority
+  ---
+  duration_ms: 1.0584
+  type: 'test'
+  ...
+# Subtest: V11 standing authority needs no per-episode manual authorization; legacy is unchanged
+ok 66 - V11 standing authority needs no per-episode manual authorization; legacy is unchanged
+  ---
+  duration_ms: 6.3103
+  type: 'test'
+  ...
+# Subtest: complete-episode gate enforces 45 seconds (inclusive 60–120)
+ok 67 - complete-episode gate enforces 45 seconds (inclusive 60–120)
+  ---
+  duration_ms: 3.0854
+  type: 'test'
+  ...
+# Subtest: complete-episode gate enforces 60 seconds (inclusive 60–120)
+ok 68 - complete-episode gate enforces 60 seconds (inclusive 60–120)
+  ---
+  duration_ms: 0.7003
+  type: 'test'
+  ...
+# Subtest: complete-episode gate enforces 105 seconds (inclusive 60–120)
+ok 69 - complete-episode gate enforces 105 seconds (inclusive 60–120)
+  ---
+  duration_ms: 0.7932
+  type: 'test'
+  ...
+# Subtest: complete-episode gate enforces 120 seconds (inclusive 60–120)
+ok 70 - complete-episode gate enforces 120 seconds (inclusive 60–120)
+  ---
+  duration_ms: 0.6341
+  type: 'test'
+  ...
+# Subtest: complete-episode gate enforces 135 seconds (inclusive 60–120)
+ok 71 - complete-episode gate enforces 135 seconds (inclusive 60–120)
+  ---
+  duration_ms: 0.7344
+  type: 'test'
+  ...
+# Subtest: opening, ending and audio tail contribute once on absolute overlapping timeline
+ok 72 - opening, ending and audio tail contribute once on absolute overlapping timeline
+  ---
+  duration_ms: 2.216
+  type: 'test'
+  ...
+# Subtest: unknown time, gaps, model overlap, and missing VIDEO references block completeness
+ok 73 - unknown time, gaps, model overlap, and missing VIDEO references block completeness
+  ---
+  duration_ms: 0.6066
+  type: 'test'
+  ...
+# Subtest: invalid or ambiguous policy cannot silently grant standing revision rights
+ok 74 - invalid or ambiguous policy cannot silently grant standing revision rights
+  ---
+  duration_ms: 0.9535
+  type: 'test'
+  ...
+# Subtest: director revision must trace every source through retained, revised, merged or cut units
+ok 75 - director revision must trace every source through retained, revised, merged or cut units
+  ---
+  duration_ms: 0.709
+  type: 'test'
+  ...
+# Subtest: stale downstream VIDEO/SHOT/dialogue and unreviewed story guards block release
+ok 76 - stale downstream VIDEO/SHOT/dialogue and unreviewed story guards block release
+  ---
+  duration_ms: 4.8783
+  type: 'test'
+  ...
+# Subtest: V11 overloaded dialogue QA returns a director-side correction, not routine human review
+ok 77 - V11 overloaded dialogue QA returns a director-side correction, not routine human review
+  ---
+  duration_ms: 1.3225
+  type: 'test'
+  ...
+# Subtest: project brief schema remains backward-compatible with structured V11 policy
+ok 78 - project brief schema remains backward-compatible with structured V11 policy
+  ---
+  duration_ms: 1.4427
+  type: 'test'
+  ...
+# Subtest: v2 passes all deterministic checks with host-verified synthetic review and real fixture bytes
+ok 79 - v2 passes all deterministic checks with host-verified synthetic review and real fixture bytes
+  ---
+  duration_ms: 81.6658
+  type: 'test'
+  ...
+# Subtest: v2 short inserts are advisory; invalid timing and missing assets still block
+ok 80 - v2 short inserts are advisory; invalid timing and missing assets still block
+  ---
+  duration_ms: 88.801
+  type: 'test'
+  ...
+# Subtest: heuristics and style tokens are advisory in v2 while unknown rules fail closed
+ok 81 - heuristics and style tokens are advisory in v2 while unknown rules fail closed
+  ---
+  duration_ms: 48.8351
+  type: 'test'
+  ...
+# Subtest: machine pass never authorizes absent, forged, stale or self-authored review
+ok 82 - machine pass never authorizes absent, forged, stale or self-authored review
+  ---
+  duration_ms: 63.9362
+  type: 'test'
+  ...
+# Subtest: v2 controlled review recomputes machine checks and binds the exact input digest
+ok 83 - v2 controlled review recomputes machine checks and binds the exact input digest
+  ---
+  duration_ms: 53.9588
+  type: 'test'
+  ...
+# Subtest: reference scopes, real media, versions, pending plans and modes are enforced
+ok 84 - reference scopes, real media, versions, pending plans and modes are enforced
+  ---
+  duration_ms: 97.729
+  type: 'test'
+  ...
+# Subtest: same image first/last is explicit, incompatible mixed modes and order collisions fail
+ok 85 - same image first/last is explicit, incompatible mixed modes and order collisions fail
+  ---
+  duration_ms: 55.8085
+  type: 'test'
+  ...
+# Subtest: local camera changes invalidate parent VIDEO and adjoining cut review, not unrelated VIDEO
+ok 86 - local camera changes invalidate parent VIDEO and adjoining cut review, not unrelated VIDEO
+  ---
+  duration_ms: 8.9821
+  type: 'test'
+  ...
+# Subtest: state changes propagate beyond neighbours; shared asset updates reach every reference
+ok 87 - state changes propagate beyond neighbours; shared asset updates reach every reference
+  ---
+  duration_ms: 16.0032
+  type: 'test'
+  ...
+# Subtest: dialogue edits invalidate audio/subtitles/timing, display names do not; reference order matters
+ok 88 - dialogue edits invalidate audio/subtitles/timing, display names do not; reference order matters
+  ---
+  duration_ms: 16.9713
+  type: 'test'
+  ...
+# Subtest: missing snapshots, malformed graphs and cycles cannot claim freshness
+ok 89 - missing snapshots, malformed graphs and cycles cannot claim freshness
+  ---
+  duration_ms: 8.599
+  type: 'test'
+  ...
+# Subtest: v2 quote binding rechecks bytes, current review, request identity and transport support
+ok 90 - v2 quote binding rechecks bytes, current review, request identity and transport support
+  ---
+  duration_ms: 77.4971
+  type: 'test'
+  ...
+# Subtest: changed execution uses a new key; old in-flight results remain traceable and stale
+ok 91 - changed execution uses a new key; old in-flight results remain traceable and stale
+  ---
+  duration_ms: 48.9682
+  type: 'test'
+  ...
+# Subtest: v1 remains readable and original QA/adapter behavior is preserved
+ok 92 - v1 remains readable and original QA/adapter behavior is preserved
+  ---
+  duration_ms: 1.8347
+  type: 'test'
+  ...
+# Subtest: director-unit edits remain local while original whole-package review becomes stale
+ok 93 - director-unit edits remain local while original whole-package review becomes stale
+  ---
+  duration_ms: 7.1306
+  type: 'test'
+  ...
+# Subtest: timeline aliases hash identically and conflicting forms cannot bypass workbench checks
+ok 94 - timeline aliases hash identically and conflicting forms cannot bypass workbench checks
+  ---
+  duration_ms: 27.9566
+  type: 'test'
+  ...
+# Subtest: malformed v2 envelopes and unknown schema attributes do not throw or become ready
+ok 95 - malformed v2 envelopes and unknown schema attributes do not throw or become ready
+  ---
+  duration_ms: 31.2752
+  type: 'test'
+  ...
+# Subtest: v2 reviewer returns scoped digest evidence and never promotes a focused review to full approval
+ok 96 - v2 reviewer returns scoped digest evidence and never promotes a focused review to full approval
+  ---
+  duration_ms: 44.8211
+  type: 'test'
+  ...
+# Subtest: receipt replay preserves terminal history and collection of older jobs cannot overwrite active jobs
+ok 97 - receipt replay preserves terminal history and collection of older jobs cannot overwrite active jobs
+  ---
+  duration_ms: 24.2475
+  type: 'test'
+  ...
+# Subtest: voice proxy BLOCKED and adopted episode limits cannot be cleared by a new contract
+ok 98 - voice proxy BLOCKED and adopted episode limits cannot be cleared by a new contract
+  ---
+  duration_ms: 36.4901
+  type: 'test'
+  ...
+# Subtest: reference order changes request identity; relocating identical bytes preserves dependency identity
+ok 99 - reference order changes request identity; relocating identical bytes preserves dependency identity
+  ---
+  duration_ms: 60.9149
+  type: 'test'
+  ...
+# Subtest: all three contract resources ship with each affected skill and schemas match executable enums
+ok 100 - all three contract resources ship with each affected skill and schemas match executable enums
+  ---
+  duration_ms: 19.514
+  type: 'test'
+  ...
+# Subtest: standalone v2 adapter checks references and tags advisory budgets before QA
+ok 101 - standalone v2 adapter checks references and tags advisory budgets before QA
+  ---
+  duration_ms: 27.6346
+  type: 'test'
+  ...
+# Subtest: a fresh compilation snapshot cannot relabel old media current or prevent an authorized regeneration
+ok 102 - a fresh compilation snapshot cannot relabel old media current or prevent an authorized regeneration
+  ---
+  duration_ms: 40.5266
+  type: 'test'
+  ...
+# Subtest: paraphrased user EP01 produces a traceable playable candidate without claiming approval
+ok 103 - paraphrased user EP01 produces a traceable playable candidate without claiming approval
+  ---
+  duration_ms: 26.9267
+  type: 'test'
+  ...
+# Subtest: source-protected chronology and knowledge facts block fabricated director alternatives
+ok 104 - source-protected chronology and knowledge facts block fabricated director alternatives
+  ---
+  duration_ms: 2.1208
+  type: 'test'
+  ...
+# Subtest: program time includes transitions and allows multiple ordered beats within one source unit
+ok 105 - program time includes transitions and allows multiple ordered beats within one source unit
+  ---
+  duration_ms: 3.3698
+  type: 'test'
+  ...
+# Subtest: v2 tool resolves only a host package reference and returns the exact scoped digest
+ok 106 - v2 tool resolves only a host package reference and returns the exact scoped digest
+  ---
+  duration_ms: 132.5895
+  type: 'test'
+  ...
+# Subtest: WAV parser returns actual PCM frame duration
+ok 107 - WAV parser returns actual PCM frame duration
+  ---
+  duration_ms: 1.7296
+  type: 'test'
+  ...
+# Subtest: voice timing bridge verifies hashes and audio, does not add concurrent action twice
+ok 108 - voice timing bridge verifies hashes and audio, does not add concurrent action twice
+  ---
+  duration_ms: 19.5728
+  type: 'test'
+  ...
+# Subtest: measured audio duration above parallel action expands the actual programme
+ok 109 - measured audio duration above parallel action expands the actual programme
+  ---
+  duration_ms: 16.0777
+  type: 'test'
+  ...
+# Subtest: stale text, missing bindings, and corrupt hashes fail closed
+ok 110 - stale text, missing bindings, and corrupt hashes fail closed
+  ---
+  duration_ms: 28.2703
+  type: 'test'
+  ...
+# Subtest: immutable audio-text snapshot detects stale versions rather than trusting current transcript metadata
+ok 111 - immutable audio-text snapshot detects stale versions rather than trusting current transcript metadata
+  ---
+  duration_ms: 10.694
+  type: 'test'
+  ...
+# Subtest: unsupported mock or fraudulent Google audio cannot pass local audio validation
+ok 112 - unsupported mock or fraudulent Google audio cannot pass local audio validation
+  ---
+  duration_ms: 8.1601
+  type: 'test'
+  ...
+# Subtest: V9 Stage 06 timing closure accepts contiguous SHOT coverage
+ok 113 - V9 Stage 06 timing closure accepts contiguous SHOT coverage
+  ---
+  duration_ms: 1.8374
+  type: 'test'
+  ...
+# Subtest: V9 Stage 06 timing closure detects gaps and incomplete coverage
+ok 114 - V9 Stage 06 timing closure detects gaps and incomplete coverage
+  ---
+  duration_ms: 0.4092
+  type: 'test'
+  ...
+# Subtest: V9 Stage 06 timing closure detects overlaps
+ok 115 - V9 Stage 06 timing closure detects overlaps
+  ---
+  duration_ms: 1.7545
+  type: 'test'
+  ...
+# Subtest: V9 Stage 06/07 reject model prompt fields
+ok 116 - V9 Stage 06/07 reject model prompt fields
+  ---
+  duration_ms: 2.866
+  type: 'test'
+  ...
+# Subtest: V9 Stage 06 contract encodes VIDEO/SHOT closure and Stage 08 prompt ownership
+ok 117 - V9 Stage 06 contract encodes VIDEO/SHOT closure and Stage 08 prompt ownership
+  ---
+  duration_ms: 0.8083
+  type: 'test'
+  ...
+# Subtest: V9 Stage 07 contract requires motivated direction and preserves Stage 06 timing
+ok 118 - V9 Stage 07 contract requires motivated direction and preserves Stage 06 timing
+  ---
+  duration_ms: 0.5655
+  type: 'test'
+  ...
+# Subtest: V9 Stage 06/07 skill text is production-directing focused, not model prompt output
+ok 119 - V9 Stage 06/07 skill text is production-directing focused, not model prompt output
+  ---
+  duration_ms: 1.1344
+  type: 'test'
+  ...
+# Subtest: V9 generated distributions are byte-synchronized with canonical Core
+ok 120 - V9 generated distributions are byte-synchronized with canonical Core
+  ---
+  duration_ms: 277.5172
+  type: 'test'
+  ...
+# Subtest: generated ChatGPT/Codex V9 plugin mirrors all canonical Skill files
+ok 121 - generated ChatGPT/Codex V9 plugin mirrors all canonical Skill files
+  ---
+  duration_ms: 11.3079
+  type: 'test'
+  ...
+# Subtest: DSH enumerates the generated manifest instead of a hard-coded catalog
+ok 122 - DSH enumerates the generated manifest instead of a hard-coded catalog
+  ---
+  duration_ms: 5.062
+  type: 'test'
+  ...
+# Subtest: Tabbit and direct-upload V9 surfaces contain ten generated skills and deterministic ZIP bundles
+ok 123 - Tabbit and direct-upload V9 surfaces contain ten generated skills and deterministic ZIP bundles
+  ---
+  duration_ms: 1.4307
+  type: 'test'
+  ...
+# Subtest: stable V1/V2 distribution surfaces remain present while V9 is preview-only
+ok 124 - stable V1/V2 distribution surfaces remain present while V9 is preview-only
+  ---
+  duration_ms: 1.4661
+  type: 'test'
+  ...
+# Subtest: MediaGo V9 source is generated without fabricating an unverified MGPK container
+ok 125 - MediaGo V9 source is generated without fabricating an unverified MGPK container
+  ---
+  duration_ms: 0.9692
+  type: 'test'
+  ...
+# Subtest: Golden Case 01: legacy archive-key baseline is blocked and V9 passes
+ok 126 - Golden Case 01: legacy archive-key baseline is blocked and V9 passes
+  ---
+  duration_ms: 9.499
+  type: 'test'
+  ...
+# Subtest: Golden Case 02: legacy auction reaction package requires Stage 07 revision and V9 passes
+ok 127 - Golden Case 02: legacy auction reaction package requires Stage 07 revision and V9 passes
+  ---
+  duration_ms: 1.8526
+  type: 'test'
+  ...
+# Subtest: Prompt QA detects asset drift and returns a stable defect reference
+ok 128 - Prompt QA detects asset drift and returns a stable defect reference
+  ---
+  duration_ms: 0.8138
+  type: 'test'
+  ...
+# Subtest: Prompt QA detects continuity and camera contradictions
+ok 129 - Prompt QA detects continuity and camera contradictions
+  ---
+  duration_ms: 0.5104
+  type: 'test'
+  ...
+# Subtest: Prompt QA detects dialogue that exceeds the internal timing heuristic
+ok 130 - Prompt QA detects dialogue that exceeds the internal timing heuristic
+  ---
+  duration_ms: 0.551
+  type: 'test'
+  ...
+# Subtest: Prompt QA propagates Seedance capability and prompt-overload defects
+ok 131 - Prompt QA propagates Seedance capability and prompt-overload defects
+  ---
+  duration_ms: 0.9795
+  type: 'test'
+  ...
+# Subtest: Prompt QA blocks unresolved shot events when execution coverage is missing or incomplete
+ok 132 - Prompt QA blocks unresolved shot events when execution coverage is missing or incomplete
+  ---
+  duration_ms: 1.4282
+  type: 'test'
+  ...
+# Subtest: Prompt QA blocks invalid core structure types
+ok 133 - Prompt QA blocks invalid core structure types
+  ---
+  duration_ms: 0.494
+  type: 'test'
+  ...
+# Subtest: Prompt QA requires English model-facing prompts while preserving approved dialogue
+ok 134 - Prompt QA requires English model-facing prompts while preserving approved dialogue
+  ---
+  duration_ms: 0.6346
+  type: 'test'
+  ...
+# Subtest: V9.1 enforces shot-level audio fields, explicit camera, and the 15-second ceiling
+ok 135 - V9.1 enforces shot-level audio fields, explicit camera, and the 15-second ceiling
+  ---
+  duration_ms: 1.9541
+  type: 'test'
+  ...
+# Subtest: Stage 09 contract and checklist expose the machine/human QA boundary
+ok 136 - Stage 09 contract and checklist expose the machine/human QA boundary
+  ---
+  duration_ms: 1.1576
+  type: 'test'
+  ...
+# Subtest: Stage 09 controlled-review POC is opt-in, bounded, and read-only
+ok 137 - Stage 09 controlled-review POC is opt-in, bounded, and read-only
+  ---
+  duration_ms: 2.4487
+  type: 'test'
+  ...
+# Subtest: V9 Stage 08 accepts a traceable Seedance 2.0 Mini package
+ok 138 - V9 Stage 08 accepts a traceable Seedance 2.0 Mini package
+  ---
+  duration_ms: 4.187
+  type: 'test'
+  ...
+# Subtest: V9 Stage 08 rejects other target models
+ok 139 - V9 Stage 08 rejects other target models
+  ---
+  duration_ms: 0.5643
+  type: 'test'
+  ...
+# Subtest: V9 Stage 08 rejects unsupported or unknown features claimed as native
+ok 140 - V9 Stage 08 rejects unsupported or unknown features claimed as native
+  ---
+  duration_ms: 0.4621
+  type: 'test'
+  ...
+# Subtest: V9 Stage 08 requires external execution ownership
+ok 141 - V9 Stage 08 requires external execution ownership
+  ---
+  duration_ms: 0.3259
+  type: 'test'
+  ...
+# Subtest: V9 Stage 08 enforces internal prompt budgets
+ok 142 - V9 Stage 08 enforces internal prompt budgets
+  ---
+  duration_ms: 0.6509
+  type: 'test'
+  ...
+# Subtest: V9 Stage 08 rejects quality-token padding and copied master prompts
+ok 143 - V9 Stage 08 rejects quality-token padding and copied master prompts
+  ---
+  duration_ms: 0.4319
+  type: 'test'
+  ...
+# Subtest: V9 Stage 08 contract fixes model, budget, capability and traceability boundaries
+ok 144 - V9 Stage 08 contract fixes model, budget, capability and traceability boundaries
+  ---
+  duration_ms: 0.616
+  type: 'test'
+  ...
+# Subtest: maps approved CHAR/PROP and ready VIDEO into Media MCP quote calls
+ok 145 - maps approved CHAR/PROP and ready VIDEO into Media MCP quote calls
+  ---
+  duration_ms: 3.1674
+  type: 'test'
+  ...
+# Subtest: binds a confirmed quote into generate_image/video without changing the frozen request
+ok 146 - binds a confirmed quote into generate_image/video without changing the frozen request
+  ---
+  duration_ms: 0.5922
+  type: 'test'
+  ...
+# Subtest: keeps approval state separate from generation state for visual assets
+ok 147 - keeps approval state separate from generation state for visual assets
+  ---
+  duration_ms: 0.7014
+  type: 'test'
+  ...
+# Subtest: moves VIDEO through generating to review_required from Media MCP Job state
+ok 148 - moves VIDEO through generating to review_required from Media MCP Job state
+  ---
+  duration_ms: 0.2768
+  type: 'test'
+  ...
+1..148
+# tests 150
+# suites 0
+# pass 147
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16033.6658

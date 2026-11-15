@@ -24,5 +24,14 @@
   "handoff": {
     "gate": "STAGE 07 APPROVED",
     "next_stage": "08-seedance-2-mini-adapter"
+  },
+  "production_v2": {
+    "workbench_schema": "us-vertical-drama-workbench/v2",
+    "policy": "production-policy-v2.json",
+    "reference_binding_schema": "reference-binding-v2.schema.json",
+    "dependency_schema": "artifact-dependencies-v2.schema.json",
+    "legacy": "v1 behavior remains unchanged; absent metadata is unknown, never an inferred PASS",
+    "required_policy_version": "usvds-production-policy/2",
+    "responsibility": "Review reference control boundaries and continuity; preserve Stage 06 source and timing ownership."
   }
 }

@@ -5,6 +5,8 @@
  * never starts an agent itself: the host runtime must opt in and enforce the
  * returned execution envelope before native delegation can happen.
  */
+import { runPromptQA } from '../scripts/v9-prompt-qa-validation.mjs'
+import { isProductionV2 } from '../scripts/v11-production-policy.mjs'
 export const CONTROLLED_REVIEW_POLICY = Object.freeze({
   stage: '09-prompt-qa',
   defaultEnabled: false,
@@ -43,8 +45,16 @@ export function prepareControlledStage09Review({
   reviewQuestion,
   stableRefs,
   requiredEvidence,
+  productionPackage,
+  mediaRoot,
 } = {}) {
-  if (qaResult?.gate !== CONTROLLED_REVIEW_POLICY.machineQaGateRequired) {
+  let machine = qaResult
+  if (productionPackage !== undefined) {
+    if (!isProductionV2(productionPackage)) return rejected('production_contract_v2_required')
+    machine = runPromptQA(productionPackage, { mediaRoot })
+    if (qaResult?.input_digest !== machine.input_digest) return rejected('machine_qa_input_digest_mismatch')
+  } else if (qaResult?.contract_version === 2 || qaResult?.machine_gate !== undefined) return rejected('production_package_required')
+  if ((productionPackage ? machine.machine_gate : qaResult?.gate) !== CONTROLLED_REVIEW_POLICY.machineQaGateRequired) {
     return rejected('machine_qa_must_pass_before_review');
   }
   if (!CONTROLLED_REVIEW_POLICY.permittedTriggers.includes(trigger)) {
@@ -56,8 +66,9 @@ export function prepareControlledStage09Review({
 
   const contextPacket = {
     stage: CONTROLLED_REVIEW_POLICY.stage,
-    current_gate_summary: `Stage 09 machine QA gate: ${qaResult.gate}`,
-    machine_qa_summary: qaResult.summary ?? null,
+    current_gate_summary: `Stage 09 machine QA gate: ${productionPackage ? machine.machine_gate : qaResult.gate}`,
+    machine_qa_summary: machine.summary ?? null,
+    ...(productionPackage ? { input_digest: machine.input_digest, policy_version: productionPackage.policy_version } : {}),
     unresolved_subjective_questions: [question],
     stable_refs: asUniqueStrings(stableRefs),
     required_video_shot_asset_evidence: asUniqueStrings(requiredEvidence),

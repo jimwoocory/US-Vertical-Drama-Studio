@@ -9,8 +9,12 @@
  */
 
 import { inspectEpisodeDuration, validateDirectorAdaptation, validateTimingClosure } from '../scripts/v9-director-validation.mjs'
+import { runPromptQA } from '../scripts/v9-prompt-qa-validation.mjs'
+import { WORKBENCH_V2 } from '../scripts/v11-artifact-freshness.mjs'
+import { classifyProductionDefect, validateProductionEnvelope } from '../scripts/v11-production-policy.mjs'
 
 export const PRODUCTION_WORKBENCH_SCHEMA = 'us-vertical-drama-workbench/v1'
+export const PRODUCTION_WORKBENCH_SCHEMA_V2 = WORKBENCH_V2
 
 const assetKinds = new Set(['character', 'look', 'set', 'prop'])
 const assetStatuses = new Set(['draft', 'pending_approval', 'approved', 'blocked'])
@@ -19,14 +23,19 @@ const taskStatuses = new Set(['todo', 'in_progress', 'blocked', 'review', 'done'
 const timelineTolerance = 0.05
 
 /** Validate a manifest and produce the UI-ready production snapshot. */
-export function buildProductionSnapshot(manifest) {
+export function buildProductionSnapshot(manifest, options = {}) {
+  const v2 = manifest?.schema_version === WORKBENCH_V2
+  if (v2 && validateProductionEnvelope(manifest).length) {
+    const qa = runPromptQA(manifest, options)
+    return { schema_version: WORKBENCH_V2, episode_id: manifest.episode_id ?? null, assets: [], videos: [], shots: [], tasks: [], production_qa: qa, generation_ready: false, freshness: qa.freshness, diagnostics: qa.defects.map(d => ({ ...d, code: d.rule, severity: 'error' })), summary: { episode_ready: false, ready_to_generate: 0, errors: 1, warnings: 0 } }
+  }
   const diagnostics = []
   const assets = Array.isArray(manifest?.assets) ? manifest.assets : []
   const shots = Array.isArray(manifest?.shots) ? manifest.shots : []
   const tasks = Array.isArray(manifest?.tasks) ? manifest.tasks : []
   const suppliedVideos = Array.isArray(manifest?.videos) ? manifest.videos : []
 
-  if (manifest?.schema_version !== PRODUCTION_WORKBENCH_SCHEMA) diagnostics.push(issue('error', 'invalid_schema', '清单版本必须为 us-vertical-drama-workbench/v1'))
+  if (![PRODUCTION_WORKBENCH_SCHEMA, WORKBENCH_V2].includes(manifest?.schema_version)) diagnostics.push(issue('error', 'invalid_schema', '不支持的生产清单版本'))
   if (!string(manifest?.episode_id)) diagnostics.push(issue('error', 'missing_episode_id', '缺少集编号'))
 
   const assetById = uniqueById(assets, 'asset', diagnostics)
@@ -43,7 +52,7 @@ export function buildProductionSnapshot(manifest) {
   const videos = normalizeVideos(suppliedVideos, normalizedShots, diagnostics)
   const videoById = new Map(videos.map(video => [video.video_id, video]))
   applyVideoBlocks(normalizedShots, videoById, diagnostics)
-  validateMicroShotTimelines(normalizedShots, videoById, diagnostics, suppliedVideos.length > 0)
+  validateMicroShotTimelines(normalizedShots, videoById, diagnostics, suppliedVideos.length > 0, v2)
   applyTimelineBlocks(normalizedShots, diagnostics)
   for (const task of tasks) validateTask(task, assetById, shotById, taskById, videoById, diagnostics)
 
@@ -61,9 +70,22 @@ export function buildProductionSnapshot(manifest) {
   }
   const modelVideoSeconds = videos.reduce((sum, video) => sum + (video.duration_seconds ?? 0), 0)
   const totalSeconds = episodeDuration.policy_active ? episodeDuration.total_seconds : modelVideoSeconds
+  const qa = v2 ? runPromptQA({ ...manifest, shots: shots.map(shot => ({ ...shot, time_in: shot.time_in ?? shot.timeline_in_seconds, time_out: shot.time_out ?? shot.timeline_out_seconds })) }, options) : null
+  if (v2) {
+    for (const d of diagnostics) {
+      const policy = classifyProductionDefect(d)
+      Object.assign(d, { rule_tier: policy.rule_tier, gate_effect: policy.gate_effect })
+      if (policy.policy_error) { d.severity = 'error'; d.policy_error = policy.policy_error }
+    }
+    for (const d of qa.defects) diagnostics.push({ ...d, code: d.rule, severity: d.severity === 'minor' ? 'warning' : 'error', target_id: d.stable_ref })
+    if (!qa.generation_ready || diagnostics.some(d => d.severity === 'error')) {
+      for (const record of [...videos, ...normalizedShots]) if (record.status === 'ready_to_generate') { record.blocked = true; record.status = 'blocked' }
+    }
+  }
   const states = countStates(normalizedShots)
   return {
-    schema_version: PRODUCTION_WORKBENCH_SCHEMA,
+    schema_version: manifest?.schema_version ?? PRODUCTION_WORKBENCH_SCHEMA,
+    ...(v2 ? { production_qa: qa, generation_ready: qa.generation_ready && !diagnostics.some(d => d.severity === 'error'), freshness: qa.freshness } : { freshness: { freshness: 'unknown', reason: 'legacy_unverified' } }),
     episode_id: manifest?.episode_id ?? null,
     episode_display_name_zh: manifest?.episode_display_name_zh ?? null,
     assets,
@@ -231,7 +253,7 @@ function applyVideoBlocks(shots, videoById, diagnostics) {
   }
 }
 
-function validateMicroShotTimelines(shots, videoById, diagnostics, requireTimelines) {
+function validateMicroShotTimelines(shots, videoById, diagnostics, requireTimelines, v2 = false) {
   for (const shot of shots) {
     if (!hasTimeline(shot)) {
       if (requireTimelines) markBlocked(shot, diagnostics, 'missing_micro_shot_timeline', `${shot.shot_id ?? 'shot'} 缺少包内起止时间`, shot.shot_id)
@@ -246,8 +268,12 @@ function validateMicroShotTimelines(shots, videoById, diagnostics, requireTimeli
     if (Math.abs((outTime - inTime) - shot.duration_seconds) > timelineTolerance) markBlocked(shot, diagnostics, 'micro_shot_duration_mismatch', `${shot.shot_id ?? 'shot'} 的时长与包内时间不一致`, shot.shot_id)
     const video = videoById.get(shot.video_id)
     if (video?.duration_seconds !== undefined && outTime > video.duration_seconds + timelineTolerance) markBlocked(shot, diagnostics, 'micro_shot_outside_video', `${shot.shot_id ?? 'shot'} 超出父视频包时长`, shot.shot_id)
-    if (shot.duration_seconds > 3 && !string(shot.duration_exception_reason_zh)) markBlocked(shot, diagnostics, 'long_micro_shot_without_reason', `${shot.shot_id ?? 'shot'} 超过 3 秒，必须填写中文例外原因`, shot.shot_id)
-    if (shot.duration_seconds < 0.5 && !string(shot.short_duration_reason_zh)) markBlocked(shot, diagnostics, 'short_micro_shot_without_reason', `${shot.shot_id ?? 'shot'} 少于 0.5 秒，必须填写中文例外原因`, shot.shot_id)
+    for (const [condition, code] of [[shot.duration_seconds > 3 && !string(shot.duration_exception_reason_zh), 'long_micro_shot_without_reason'], [shot.duration_seconds < 0.5 && !string(shot.short_duration_reason_zh), 'short_micro_shot_without_reason']]) {
+      if (condition) {
+        if (v2) diagnostics.push(issue('warning', code, '请复核本镜节奏；时长建议不单独阻断。', shot.shot_id))
+        else markBlocked(shot, diagnostics, code, '镜头时长超出旧版建议区间，需填写例外原因。', shot.shot_id)
+      }
+    }
   }
   for (const [videoId, items] of groupBy(shots.filter(hasTimeline), shot => shot.video_id)) {
     let cursor = 0

@@ -1,3 +1,6 @@
+import { isProductionV2, classifyProductionDefect, validateProductionEnvelope } from './v11-production-policy.mjs'
+import { validateReferenceBindings } from './v11-reference-bindings.mjs'
+
 export const TARGET_MODEL = 'Seedance 2.0 Mini'
 export const FEATURE_KEYS = ['audio', 'lip_sync', 'seed', 'start_frame', 'end_frame', 'reference_images']
 export const CAPABILITY_STATES = new Set(['supported', 'unsupported', 'unknown'])
@@ -21,8 +24,9 @@ export function assessPromptBudget(text, kind) {
   return { status: 'OVER_BUDGET', chars, ...budget }
 }
 
-export function validateAdapterPackage(pkg) {
+export function validateAdapterPackage(pkg, options = {}) {
   const diagnostics = []
+  if (isProductionV2(pkg) && validateProductionEnvelope(pkg).length) return [{ code: 'invalid_core_type', ref: 'PACKAGE', rule: 'invalid_core_type', rule_tier: 'structural_invariant', gate_effect: 'block', severity: 'blocker' }]
   if (pkg?.target_model !== TARGET_MODEL) {
     diagnostics.push({ code: 'wrong_target_model', expected: TARGET_MODEL, actual: pkg?.target_model })
   }
@@ -69,6 +73,11 @@ export function validateAdapterPackage(pkg) {
     }
   }
 
+  if (isProductionV2(pkg)) {
+    try { diagnostics.push(...validateReferenceBindings(pkg, { ...options, verifyMedia: true })) }
+    catch { diagnostics.push({ code: 'reference_validation_failed', ref: 'PACKAGE' }) }
+    return diagnostics.map(d => ({ ...d, ...classifyProductionDefect({ rule: d.code.startsWith('reference_') ? d.code : `adapter_${d.code}`, severity: 'blocker' }) }))
+  }
   return diagnostics
 }
 

@@ -17,6 +17,7 @@ const managedRoots = [
 ]
 
 const resourceMap = {
+  '05-asset-lock': ['contracts/production-policy-v2.json', 'contracts/reference-binding-v2.schema.json', 'contracts/artifact-dependencies-v2.schema.json'],
   '01-adaptation': ['skills/01-adaptation/references/us-writing-contract.md'],
   '02-story-architecture': ['skills/02-story-architecture/references/us-writing-contract.md'],
   '03-screenwriter': ['skills/03-screenwriter/references/us-writing-review.md'],
@@ -28,6 +29,9 @@ const resourceMap = {
     'contracts/stage-09-prompt-qa.json',
     'references/prompt-qa-human-checklist.md',
   ],
+}
+for (const id of ['06-storyboard', '07-performance-cinematography', '08-seedance-2-mini-adapter', '09-prompt-qa']) {
+  resourceMap[id].push('contracts/production-policy-v2.json', 'contracts/reference-binding-v2.schema.json', 'contracts/artifact-dependencies-v2.schema.json')
 }
 
 const displayNames = {
