@@ -13,3 +13,14 @@
 - Push status: PREPARED; actual remote result will be verified and recorded after pushing.
 
 Prepared: 2026-11-15T23:26:12+08:00
+
+## Verified source push
+
+- Verified at: 2026-11-15T23:28:01+08:00 (Asia/Shanghai).
+- Source commit: `b42dfed37979c07e8298e2e11b6ac3d64810179b`.
+- Ordinary push created the target branch successfully. `git ls-remote` returned the exact source commit above.
+- Main and v11 were not push targets. No pull request, merge, release or deployment was performed.
+- Commit identity: command-local `Codex <codex@local.invalid>` because this checkout had no configured author; no global/repository identity setting was written.
+- Staging check normalized five whitespace-only TAP lines; test results were not changed.
+- Working tree after the source commit contained only the four preserved pre-existing untracked notes.
+- This verification record is a follow-up documentation commit; its final branch tip is checked independently after push.
